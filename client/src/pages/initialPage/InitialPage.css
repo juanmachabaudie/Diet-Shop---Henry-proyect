@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Squada+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+/* li
+{
+    list-style: none;
+}
+li:hover
+{
+    color: #fff;
+} */
+
+
+.containerInitial
+{
+    font-family: 'Montserrat', sans-serif;
+    scroll-behavior: smooth;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template: "navbar" 30%
+                   "contentInitial" 100%
+                   "footer" 30%;
+    background-color:#FF6CAB ;
+    overflow-x:hidden ;
+    position: relative;
+}
+
+/* NAVBAR DE LA HOME */
+.menúResponsiveInitial
+{
+    display: none;
+}
+.navBarInitial
+{
+    grid-area: navbar;
+    background-color: #16FFBD;
+    clip-path: polygon(50% 0%, 100% 0, 100% 35%, 100% 55%, 80% 80%, 64% 100%, 0 100%, 0% 70%, 0% 35%, 0 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+.listInitial
+{
+    width: 80%;
+    margin-right: 9%;
+}
+.listInitialOne
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 35px;
+}
+/* .listInitialTwo
+{
+    position:  absolute;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ff6cacc4;
+} */
+
+
+/* CONTENIDO DE LA HOME */
+.contentInitial
+{
+    grid-area: contentInitial;
+    background-color: #FF6CAB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/*  PIE DE PÁGINA DE LA HOME */
+.footerInitialPage
+{
+    grid-area: footer;
+    background-color:#16FFBD ;
+    clip-path: polygon(43% 0, 100% 0, 100% 35%, 100% 100%, 76% 100%, 44% 100%, 0 100%, 0% 70%, 0% 35%, 22% 18%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.textFoterInitialPage
+{
+    width: 40%;
+    font-size: 30px;
+}
+
+.LINK
+{
+    text-decoration: none;
+    color: black;
+}
+.LINK:hover
+{
+    color: #fff;
+}
+.numerique
+{
+    font-family: 'Squada One', cursive;
+    font-size: 80px;
+}
+
+.linkNavBar
+    {
+        list-style:none;
+    } 
+
+/* PUNTOS DE QUIEBRE DE LA NAV */
+@media (max-width: 576px) {
+    .linkNavBar
+    {
+        display: none;
+    }
+    .listInitialOne
+    {
+        font-size:100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .navBarInitial
+    {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 79%);
+    }
+    .contentInitial
+    {
+        width: 100vw;
+    }
+    .footerInitialPage
+    {
+        clip-path: polygon(50% 11%, 100% 3%, 100% 60%, 100% 100%, 0 100%, 0% 60%, 0 20%);
+    }
+    .textFoterInitialPage
+    {
+        display: inline-block;
+        margin:0;
+        width: 50%;
+        font-size: 25px;
+
+    }
+    .containerInitial
+    {
+        grid-template: "navbar" 30%
+        "contentInitial" 100%
+        "footer" 60%;
+    }
+    .menúResponsiveInitial
+    {
+        display: inline-block;
+        position: absolute;
+        top: 1%;
+        left: 3%;
+        width: 40px;
+        cursor: pointer;
+    }
+}
+@media (max-width: 768px) {
+    
+}
+@media (max-width: 992px) {
+    
+}
+@media (max-width: 1200px) {
+    
+}

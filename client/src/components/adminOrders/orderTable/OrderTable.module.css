@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+.ordersWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 95vw;
+}
+
+.loading{
+    height: 120px;
+    width: 120px;
+    margin: auto auto;
+    border: 15px solid #16ffbd;
+    border-top: 15px solid #f070a1;
+    border-right: 15px solid #f070a1;
+    border-radius: 50%;
+    animation: spin 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% {transform: rotate(45deg);}
+    100% {transform: rotate(405deg);}
+}
+
+.notFound{
+    margin: auto auto;
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+}

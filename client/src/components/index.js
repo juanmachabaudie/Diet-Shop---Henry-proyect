@@ -1,0 +1,14 @@
+export { default as NavBar } from "./navBar/NavBar";
+export { default as Filter } from "./filter/Filter";
+export { default as Cart } from "./cart/Cart";
+export { default as Menu } from "./menu/Menu";
+export { default as ProductDetails } from "./productDetails/ProductDetails";
+export { default as Products } from "./products/Products";
+export { default as FormRegister } from "./formRegister/formRegister";
+export { default as Login } from "./login/Login";
+export { default as HomeNav } from "./homeNav/HomeNav";
+export { default as Footer } from "./footer/Footer";
+export { default as OrderTable } from "./orderTable/OrderTable";
+export { default as CartCard } from "./cart/cartCard/CartCard";
+export { default as AdminOrders } from "./adminOrders/AdminOrders";
+export { default as AdminPromoter } from './AdminPromoter/AdminPromoter';
