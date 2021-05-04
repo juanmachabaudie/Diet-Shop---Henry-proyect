@@ -46,11 +46,6 @@ const { } = sequelize.models;
 
 
 
-<<<<<<< HEAD
-User.hasOne(Cart);
-Cart.belongsTo(User); 
-=======
->>>>>>> aaafc77de5c07c17f3a9d5537ac2e04e4d72b9bf
 
 
 
