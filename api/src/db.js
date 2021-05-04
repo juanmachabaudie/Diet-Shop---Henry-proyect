@@ -51,7 +51,7 @@ Product.belongsToMany(Cart, { through: "orderLine" });
 Cart.belongsToMany(Product, { through: "orderLine" });
 
 User.hasOne(Cart);
-Cart.belongsTo(User);
+Cart.belongsTo(User); 
 
 Product.hasMany(Review);
 Review.belongsTo(Product);
