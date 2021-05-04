@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import './index.css';
-import Animate from './Animate.js';
+import './App'
+
+
 import { Provider } from 'react-redux';
 import {store} from './redux/store/index';
 import {BrowserRouter} from 'react-router-dom';
@@ -9,7 +10,7 @@ import {BrowserRouter} from 'react-router-dom';
 ReactDom.render(    
     <Provider store={store}>        
         <BrowserRouter> 
-            <Animate />
+            <App/>
         </BrowserRouter>    
     </Provider>, 
 document.getElementById("root"));

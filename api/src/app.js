@@ -47,14 +47,3 @@ server.use((err, req, res, next) => {
 
 module.exports = server;
 
-// Hola Victoria! Como va todo?
-
-// Vi un post tuyo en LinkedIn sobre la búsqueda de un React Dev FrontEnd Jr. y me gustaría postularme.
-
-// Estudié en el Bootcamp Henry y creé una aplicación que va a buscar datos a la API pública de Mercado Libre utilizando NodeJs+Express para el BackEnd y React para el FrontEnd (video:
-// https://bit.ly/3twqawk
-//  ).
-
-// Además estoy participando activamente de Reactivistas, una propuesta de FrontEnd Café para profundizar sobre las bases de React. Siempre es bueno seguir trabajando sobre las bases de la librería.
-
-// Actualmente estoy con algunas propuestas freelance pero estoy en búsqueda de un trabajo formal donde pueda crecer siendo parte de un equipo. Si tuviera la posibilidad de ingresar a una empresa, tengo decidido comenzar a estudiar analista de sistemas el próximo semestre para darle comienzo a un largo camino de desarrollo dentro del área.
