@@ -1,5 +1,5 @@
 import {createStore, applyMiddleware, compose} from 'redux'
-import rootReducer from '../reducer/index' //el reducer
+import rootReducer from '../reducers/reducer' //el reducer
 import thunk from 'redux-thunk' //nos ayuda a trabajar con promesas con redux
 //import {composeWithDevTools} from 'redux-devtools-extension' //nos ayuda a ver los state de la herramienta
 
