@@ -7,7 +7,6 @@ const { Op } = require("sequelize");
 async function getAllCategories(req, res, next) {
   try {
     const categories = await Category.findAll();
-    console.log(categories);
     return await res.send(categories);
   } catch (error) {
     next(error);
@@ -19,12 +18,10 @@ async function createCategory(req, res, next) {
     req.body.id = uuid();
 
     const { name, id } = req.body;
-    //console.log("atts: ", id, name);
     const category = await Category.create({
       id: id,
       name: name,
     });
-    console.log(category);
     return await res.send(category);
   } catch (error) {
     next(error);
@@ -40,7 +37,6 @@ async function deleteCategory(req, res, next) {
       },
     });
     const categories = await Category.findAll();
-    console.log(categories);
     return await res.send(categories);
   } catch (error) {
     next(error);
@@ -58,8 +54,6 @@ async function updateCategory(req, res, next) {
         },
       }
     );
-
-    console.log(category);
     return await res.send(category);
   } catch (error) {
     next(error);
