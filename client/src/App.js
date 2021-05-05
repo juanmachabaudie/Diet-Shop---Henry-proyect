@@ -1,14 +1,19 @@
 import React from 'react';
 import NewCategory from './components/NewCategory';
+import SearchBar from './components/SearchBar';
 
 const App = () => {
 
 
     return (
-        <>
-            <h1>APP</h1>
+        
+        <React.Fragment>
             <NewCategory />
-        </>
+            <SearchBar/>
+
+        </React.Fragment>
+            
+        
     )
 }
 
