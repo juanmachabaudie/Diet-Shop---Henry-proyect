@@ -3,9 +3,11 @@ const { Router } = require("express");
 // Ejemplo: const authRouter = require('./auth.js');
 const router = Router();
 const productsRoute = require ('./product.js');
+const categoryRoutes = require("./category");
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 router.use("/products", productsRoute);
+router.use("/category", categoryRoutes);
 
 module.exports = router; 
