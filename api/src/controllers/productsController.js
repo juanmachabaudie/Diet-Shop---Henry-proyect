@@ -22,6 +22,20 @@ const productsController = {
       next(error);
     }
   },
+  deleteProduct: async (req, res, next) => {
+    try {
+      const { id } = req.body;
+
+      Product.destroy({
+        where: {
+          id,
+        },
+      });
+      res.status(200).send("Producto eliminado");
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = productsController;
