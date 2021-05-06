@@ -1,6 +1,9 @@
 import React from 'react';
-import NewCategory from './components/NewCategory';
+import Catalog from './components/Catalog';
+//import NewCategory from './components/NewCategory';
 import SearchBar from './components/SearchBar';
+import {Route} from 'react-router-dom'
+import ProductCard from './components/ProductCard';
 
 const App = () => {
 
@@ -8,9 +11,10 @@ const App = () => {
     return (
         
         <React.Fragment>
-            <NewCategory />
-            <SearchBar/>
-
+            
+            <Route exact path='/' component={SearchBar}/>
+            <Route path='/catalog' component={Catalog}/>
+           <Route path='/' component={ProductCard} />
         </React.Fragment>
             
         
