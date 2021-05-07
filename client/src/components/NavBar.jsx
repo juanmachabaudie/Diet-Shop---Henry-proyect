@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar.jsx';
 
 const NavBar = () => {
-    const classes = useStyles()
+    //const classes = useStyles()
     return (
         <nav className='navbar navbar-expand-lg navbar-mainbg'>
            <Link className='navbar-brand navbar-logo' to="/">
