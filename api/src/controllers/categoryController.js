@@ -45,16 +45,13 @@ async function deleteCategory(req, res, next) {
     if (checkUuid(id)) {
       const category = await Category.destroy({
         where: {
-          id: id,
+          id,
         },
       });
-      if (category === 0) {
-        return res.status(404).send("Id not found");
-      } else {
-        const categories = await Category.findAll();
-        console.log(categories);
+      if (category) {
         return await res.send({ name: name, id: id });
       }
+      return res.status(404).send("Id not found");
     } else {
       return res.status(400).send("Invalid");
     }
@@ -68,10 +65,10 @@ async function updateCategory(req, res, next) {
   try {
     const { id, name } = req.body; //BODY
     const category = await Category.update(
-      { name: name },
+      { name },
       {
         where: {
-          id: id,
+          id,
         },
       }
     );
