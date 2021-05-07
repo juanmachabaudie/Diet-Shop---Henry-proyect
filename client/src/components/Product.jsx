@@ -1,26 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import ProductCard from "./ProductCard"
 
 export const Product = () => {
     return (
         <div>
             Hello from Product
+            <ProductCard/>
         </div>
     )
 }
-
-const mapStateToProps = (state) => {
-    return {
-        state: state,        
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addProduct: (name) => dispatch(addProduct(name))
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
-

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { customAlert } from "../helpers/utils";
 
@@ -90,8 +90,8 @@ const NewCategory = ({ addCetegory, deleteErrors, errors }) => {
 
 const mapStateToProps = (state) => {
   return {
-    state: state,
-    errors: state.categoryReducer.errors,
+    // state: state,
+    // errors: state.categoryReducer.errors,
   };
 };
 

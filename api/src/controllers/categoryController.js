@@ -1,12 +1,10 @@
-const { uuid } = require("uuidv4");
 const { Category } = require("../db");
-const { Op } = require("sequelize");
 const { checkUuid } = require("../helpers/utils");
 
 async function getCategories(_req, res, next) {
   try {
     const categories = await Category.findAll();
-    return await res.send(categories);
+    return res.send(categories);
   } catch (error) {
     next(error);
   }
@@ -14,21 +12,20 @@ async function getCategories(_req, res, next) {
 
 //create a category
 async function createCategory(req, res, next) {
+  const { name } = req.body;
   try {
-    const { name } = req.body;
     const find = await Category.findOne({
       where: {
-        name,
-      },
+        name
+      }
     });
     if (find) {
-      return res.status().send("Category Already Exists");
+      return res.status(400).send("Category Already Exists");
     }
     const category = await Category.create({
-      id: uuid(),
       name,
     });
-    return await res.send(category);
+    return res.send(category);
   } catch (error) {
     next(error);
   }
@@ -36,20 +33,27 @@ async function createCategory(req, res, next) {
 
 //delete a category
 async function deleteCategory(req, res, next) {
+  const { id } = req.body; //BODY
   try {
-    const { id, name } = req.body; //BODY
+    console.log(id)
     if (checkUuid(id)) {
-      const category = await Category.destroy({
+      const toDestroy = await Category.findOne({
         where: {
-          id,
-        },
+          uuid: id,
+        }
       });
-      if (category) {
-        return await res.send({ name: name, id: id });
+      if (toDestroy) {
+        Category.destroy({
+          where: {
+            uuid: id,
+          }
+        })
+        res.status(200).send('categoria eliminada');
+      } else {
+       res.status(404).send("Category not found");
       }
-      return res.status(404).send("Id not found");
     } else {
-      return res.status(400).send("Invalid");
+       res.status(404).send("Invalid");
     }
   } catch (error) {
     next(error);
@@ -57,26 +61,26 @@ async function deleteCategory(req, res, next) {
 }
 
 //update or modify a category
-async function updateCategory(req, res, next) {
-  try {
-    const { id, name } = req.body; //BODY
-    const category = await Category.update(
-      { name },
-      {
-        where: {
-          id,
-        },
-      }
-    );
-    return await res.send(category);
-  } catch (error) {
-    next(error);
-  }
-}
+// async function updateCategory(req, res, next) {
+//   try {
+//     const { id, name } = req.body; //BODY
+//     const category = await Category.update(
+//       { name },
+//       {
+//         where: {
+//           id,
+//         },
+//       }
+//     );
+//     return await res.send(category);
+//   } catch (error) {
+//     next(error);
+//   }
+// }
 
 module.exports = {
   getCategories,
   createCategory,
   deleteCategory,
-  updateCategory,
+  // updateCategory,
 };

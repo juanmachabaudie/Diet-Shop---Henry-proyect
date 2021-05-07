@@ -69,8 +69,9 @@ const productsController = {
   },
   deleteProduct: async (req, res, next) => {
     //Borramos producto llamandolo por su id
+    const { id } = req.body;
     try {
-      const { id } = req.body;
+      console.log(id)
       if (checkUuid(id)) {
         const toDestroy = await Product.findOne({
           where: {

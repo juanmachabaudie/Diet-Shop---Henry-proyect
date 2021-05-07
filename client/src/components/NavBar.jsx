@@ -1,8 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom';
-
-
-
+import SearchBar from './SearchBar.jsx';
 
  const NavBar = () => {
     return (
@@ -10,17 +8,7 @@ import {NavLink} from 'react-router-dom';
            <NavLink className='navbar-brand navbar-logo' to="/">
                 Nav Bar
            </NavLink>
-           <button
-           className="navbar-toggler"
-           type='button'
-           data-toggle='collapse'
-           data-target='#navbarSupportedContent'
-           aria-controls='navbarSupportedContent'
-           aria-expanded='false'
-           aria-label='Toggle navigation'>
-               <i className='fas fa-bars text-white'></i>
-            </button>
-
+           <SearchBar/>
             <div
             className='collapse navbar-collapse'
             id='navbarSupportedContent'>
