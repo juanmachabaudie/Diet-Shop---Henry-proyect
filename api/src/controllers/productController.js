@@ -47,34 +47,35 @@ const productsController = {
     //Borramos producto llamandolo por su id
     try {
       const { id } = req.body;
-      if (checkUuid(id)){
-      const toDestroy = await Product.findOne({
-        where: {
-          uuid: id,
-        },
-      });
-      if (toDestroy) {
-        Product.destroy({
+      if (checkUuid(id)) {
+        const toDestroy = await Product.findOne({
           where: {
             uuid: id,
-          }
+          },
         });
-        res.status(200).send("Producto eliminado");
+        if (toDestroy) {
+          Product.destroy({
+            where: {
+              uuid: id,
+            },
+          });
+          res.status(200).send("Producto eliminado");
+        } else {
+          res.status(404).send("no se encuentra el producto a eliminar");
+        }
       } else {
-        res.status(404).send("no se encuentra el producto a eliminar");
+        res.status(404).send("id invalido");
       }
-    } else {
-      res.status(404).send("id invalido")
-    }
     } catch (error) {
       next(error);
     }
   },
-  getDetail: async (req, res, next) => { //Traemos el detalle del producto llamandolo por su id
+  getDetail: async (req, res, next) => {
+    //Traemos el detalle del producto llamandolo por su id
     try {
       const { productId } = req.params;
       // ↓↓↓ Validación ↓↓↓↓
-      
+
       if (checkUuid(productId)) {
         const product = await Product.findOne({
           where: {
@@ -97,7 +98,7 @@ const productsController = {
 
 const checkUuid = (uuid) => {
   const uuidSplit = uuid.split("-");
-  return uuid.length === 36 && uuidSplit.length === 5
-}
+  return uuid.length === 36 && uuidSplit.length === 5;
+};
 
 module.exports = productsController;
