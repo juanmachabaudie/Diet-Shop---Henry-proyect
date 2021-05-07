@@ -1,8 +1,9 @@
 import React from 'react';
 // import {Route} from 'react-router-dom'
-import SearchBar from './components/SearchBar';
-import NavBar from './components/NavBar'
-
+// import SearchBar from './components/SearchBar'
+import NavBar from './components/NavBar';
+import {ThemeProvider} from '@material-ui/core/styles';
+import theme from './themesConfig';
 // import NewCategory from './components/NewCategory';
 // import NewCategory from './components/NewCategory';
 // import Catalog from './components/Catalog';
@@ -13,16 +14,16 @@ const App = () => {
 
     return (
         
-        <React.Fragment>
+        <ThemeProvider theme={theme}>
             <NavBar />
-            <SearchBar/>
+            {/* <SearchBar/> */}
             {/* <Route exact path='/'/> */}
             {/* <NewCategory /> */}
             {/* <Route path='/catalog' component={Catalog}/> */}
            {/* <Route path='/' component={ProductCard} /> */}
 
 
-        </React.Fragment>
+        </ThemeProvider>
             
         
     )

@@ -1,67 +1,55 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom';
+// import {NavLink} from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles, Button, IconButton, MenuItem } from '@material-ui/core'
+import SearchBar from './SearchBar'
+
+
+const useStyles = makeStyles(theme => ({
+offset : theme.mixins.toolbar,
+tittle: {
+    flexGrow: 1
+}
+}))
 
 
 
-
- const NavBar = () => {
+const NavBar = () => {
+    const classes = useStyles()
     return (
-        <nav className='navbar navbar-expand-lg navbar-mainbg'>
-           <NavLink className='navbar-brand navbar-logo' to="/">
-                Diet Shop
-           </NavLink>
-           <button
-           className="navbar-toggler"
-           type='button'
-           data-toggle='collapse'
-           data-target='#navbarSupportedContent'
-           aria-controls='navbarSupportedContent'
-           aria-expanded='false'
-           aria-label='Toggle navigation'
-           >
-               <i className='fas fa-bars text-white'></i>
-            </button>
-
-            <div
-            className='collapse navbar-collapse'
-            id='navbarSupportedContent'>
-                <ul className='navbar-nav ml-auto'>
-                    <div className='hori-selector'>
-                       <div className='left'></div>
-                       <div className='right'></div>
-                    </div>
-                    <li className='nav-item active'>
-                        <NavLink classname='nav-link' to='/' exact>
-                            <i className='fasfa-tachometer-alt'>Home</i>
-                        </NavLink>
-                    </li>
-
-                    <li className='nav-item active'>
-                        <NavLink classname='nav-link' to='/AboutUs' exact>
-                            <i className='fasfa-tachometer-alt'>About Us</i>
-                        </NavLink>
-                    </li>
-
-                    <li className='nav-item active'>
-                        <NavLink classname='nav-link' to='/Catalogue' exact>
-                            <i className='fasfa-tachometer-alt'>Catalogue</i>
-                        </NavLink>
-                    </li>
-
-                    <li className='nav-item active'>
-                        <NavLink classname='nav-link' to='/Contact' exact>
-                            <i className='fasfa-tachometer-alt'>Contact</i>
-                        </NavLink>
-                    </li>
-                    <li className='nav-item active'>
-                        <NavLink classname='nav-link' to='/Contact' exact>
-                            <i className='fasfa-tachometer-alt'>Log In</i>
-                        </NavLink>
-                    </li>
-                </ul>
-                
-            </div>
-        </nav>
+<div>
+    <AppBar position="fixed" color="primary">
+      <Toolbar>
+          <IconButton aria-label="" className={classes.menuButton} color='inherit'>
+           <MenuItem > Menu </MenuItem>
+          </IconButton>
+        <Typography variant="h6" className={classes.tittle}>
+          Diet Shop 
+        </Typography>
+        <Button variant="text" color="default">
+          <SearchBar/>
+        </Button>
+        <Button variant="h6" color="default">
+          Log In
+        </Button>
+        <Button variant="h6" color="default">
+          Sig In
+        </Button>
+        <Button variant="h6" color="default">
+          Contact
+        </Button>
+        <Button variant="h6" color="default">
+          Catalogue
+        </Button>
+        <Button variant="h6" color="default">
+          About Us
+        </Button>
+      </Toolbar>
+    </AppBar>
+    <div className={classes.offset}></div>
+</div>
     )
 }
 
