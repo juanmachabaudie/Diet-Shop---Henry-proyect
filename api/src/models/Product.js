@@ -16,10 +16,10 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         image: {
-            type: DataTypes.STRING
+            type: DataTypes.ARRAY(DataTypes.STRING),
         },
         thumbnail: {
-            type: DataTypes.STRING
+            type: DataTypes.ARRAY(DataTypes.STRING),
         },
         price: {
             type: DataTypes.INTEGER,

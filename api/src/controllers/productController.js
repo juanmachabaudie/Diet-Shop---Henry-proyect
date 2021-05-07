@@ -2,10 +2,14 @@ const { Product, Category } = require("../db");
 const { checkUuid, productCategory } = require("../helpers/utils");
 
 const productsController = {
+  //Traemos todos los productos con todas sus props.
   getProducts: async (req, res, next) => {
-    //Traemos todos los productos con todas sus props.
-    const dbProducts = await Product.findAll();
-    res.json(dbProducts);
+    try {
+      const dbProducts = await Product.findAll();
+      res.json(dbProducts);
+    } catch (error) {
+      next(error);
+    }
   },
 
   createProduct: async (req, res, next) => {
@@ -24,7 +28,7 @@ const productsController = {
     try {
       const exist = await Product.findOne({ where: { name } });
       if (exist) {
-       return res.status(400).send("Producto ya existente");
+        return res.status(400).send("Producto ya existente");
       }
       const newProduct = await Product.create({
         name,
@@ -37,7 +41,7 @@ const productsController = {
 
       //en category me pusheo el nombre de la categoria que hay en el array CATEGORIES
       for (eachCategory of categories) {
-        const categoryToAdd = await Category.findOne({
+        const categoryToAdd = await Category.findOne({ //Recibir arreglos de uuid y armarlo con eso 
           where: { name: eachCategory },
         });
         newProduct.addCategory(categoryToAdd);
@@ -47,7 +51,7 @@ const productsController = {
       next(error);
     }
   },
-  
+
   editProduct: async (req, res, next) => {
     // Editamos el producto aún teniendo el mismo id
     try {
@@ -57,7 +61,7 @@ const productsController = {
           uuid: id,
         },
       });
-      toEditProduct.update(req.body);
+      toEditProduct.update(req.body);  //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
       if (toEditProduct) {
         res.status(200).send("Producto Actualizado");
       } else {
@@ -71,7 +75,6 @@ const productsController = {
     //Borramos producto llamandolo por su id
     const { id } = req.body;
     try {
-      console.log(id)
       if (checkUuid(id)) {
         const toDestroy = await Product.findOne({
           where: {
