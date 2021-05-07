@@ -7,17 +7,27 @@ const [product, setProduct] = useState('')
 function handleChange(e) {
     setProduct(e.target.value)
 }
+
+function handleSubmit(e){
+    e.preventDefault()
+}
     return (
-    <div>
-        <form >
-            <input 
-            type='text'
-            placeholder= 'search product'
-            value={product}
-            onChange={(e) =>handleChange(e)}
-            /> 
-        </form>
-    </div>
+        <div>
+
+        <form onSubmit={handleSubmit}>
+          <nav>
+               
+                 <input
+                   type="text"
+                   placeholder='Search'
+                   autoComplete="on"
+                   value={product}
+                  onChange={(event) => handleChange(event)}
+                 />
+                 <button className='boton' type="submit">send</button>
+               </nav>
+         </form>
+     </div>
     
     )
 }
