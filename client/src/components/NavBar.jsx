@@ -8,7 +8,7 @@ import {NavLink} from 'react-router-dom';
     return (
         <nav className='navbar navbar-expand-lg navbar-mainbg'>
            <NavLink className='navbar-brand navbar-logo' to="/">
-                Nav Bar
+                Diet Shop
            </NavLink>
            <button
            className="navbar-toggler"
@@ -17,7 +17,8 @@ import {NavLink} from 'react-router-dom';
            data-target='#navbarSupportedContent'
            aria-controls='navbarSupportedContent'
            aria-expanded='false'
-           aria-label='Toggle navigation'>
+           aria-label='Toggle navigation'
+           >
                <i className='fas fa-bars text-white'></i>
             </button>
 
@@ -50,6 +51,11 @@ import {NavLink} from 'react-router-dom';
                     <li className='nav-item active'>
                         <NavLink classname='nav-link' to='/Contact' exact>
                             <i className='fasfa-tachometer-alt'>Contact</i>
+                        </NavLink>
+                    </li>
+                    <li className='nav-item active'>
+                        <NavLink classname='nav-link' to='/Contact' exact>
+                            <i className='fasfa-tachometer-alt'>Log In</i>
                         </NavLink>
                     </li>
                 </ul>
