@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import {Link} from 'react-router-dom'
 
 export default function SearchBar(){
 
@@ -17,13 +18,20 @@ function handleSubmit(e){
         <form onSubmit={handleSubmit}>
           <nav>
                  <input
+                  class="form-control mr-sm-2"
+                  aria-label="Search"
                    type="text"
                    placeholder='Search'
                    autoComplete="on"
                    value={product}
                   onChange={(event) => handleChange(event)}
                  />
-                 <button className='boton' type="submit">send</button>
+                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                     <Link to={'/detail/' + product}>
+                     Search
+                     </Link>
+                     
+                </button>
                </nav>
          </form>
      </div>
