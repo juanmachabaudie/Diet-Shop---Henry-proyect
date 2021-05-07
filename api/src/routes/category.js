@@ -8,8 +8,11 @@ const {
 const router = Router();
 
 router.get("/", getCategories);
+
 router.post("/create", createCategory);
+
 router.delete("/delete", deleteCategory);
+
 // router.post("/update", updateCategory);
 
 module.exports = router;
