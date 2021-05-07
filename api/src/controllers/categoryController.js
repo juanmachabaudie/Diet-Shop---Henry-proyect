@@ -1,5 +1,3 @@
-const axios = require("axios");
-const fetch = require("node-fetch");
 const { uuid } = require("uuidv4");
 const { Category } = require("../db");
 const { Op } = require("sequelize");
@@ -26,12 +24,10 @@ async function createCategory(req, res, next) {
     if (find) {
       return res.status().send("Category Already Exists");
     }
-    //console.log("atts: ", id, name);
     const category = await Category.create({
       id: uuid(),
       name,
     });
-    console.log(category);
     return await res.send(category);
   } catch (error) {
     next(error);
@@ -72,8 +68,6 @@ async function updateCategory(req, res, next) {
         },
       }
     );
-
-    console.log(category);
     return await res.send(category);
   } catch (error) {
     next(error);

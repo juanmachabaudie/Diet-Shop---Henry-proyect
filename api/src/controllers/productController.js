@@ -1,4 +1,5 @@
-const { Product } = require("../db");
+const { Product, Category } = require("../db");
+const { checkUuid, productCategory } = require("../helpers/utils");
 
 const productsController = {
   getProducts: async (req, res, next) => {
@@ -9,8 +10,22 @@ const productsController = {
 
   createProduct: async (req, res, next) => {
     //Creamos el producto con las prop name/description/image/thumbnail/price/stock.
-    const { name, description, image, thumbnail, price, stock } = req.body;
+    //categories es un array que llega desde el front. >>> MANDARLO COMO ARRAY <<<
+    const {
+      name,
+      description,
+      image,
+      thumbnail,
+      price,
+      stock,
+      categories,
+    } = req.body;
+
     try {
+      const exist = await Product.findOne({ where: { name } });
+      if (exist) {
+       return res.status(400).send("Producto ya existente");
+      }
       const newProduct = await Product.create({
         name,
         description,
@@ -19,11 +34,20 @@ const productsController = {
         price,
         stock,
       });
-      res.json(newProduct);
+
+      //en category me pusheo el nombre de la categoria que hay en el array CATEGORIES
+      for (eachCategory of categories) {
+        const categoryToAdd = await Category.findOne({
+          where: { name: eachCategory },
+        });
+        newProduct.addCategory(categoryToAdd);
+      }
+      res.status(200).send(name + " agregado");
     } catch (error) {
       next(error);
     }
   },
+  
   editProduct: async (req, res, next) => {
     // Editamos el producto aún teniendo el mismo id
     try {
@@ -70,7 +94,7 @@ const productsController = {
       next(error);
     }
   },
-  getDetail: async (req, res, next) => {
+  getProductDetail: async (req, res, next) => {
     //Traemos el detalle del producto llamandolo por su id
     try {
       const { productId } = req.params;
@@ -94,11 +118,6 @@ const productsController = {
       next(error);
     }
   },
-};
-
-const checkUuid = (uuid) => {
-  const uuidSplit = uuid.split("-");
-  return uuid.length === 36 && uuidSplit.length === 5;
 };
 
 module.exports = productsController;
