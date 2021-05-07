@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import {useState} from 'react'
 
 export default function SearchBar(){
 
@@ -10,13 +10,12 @@ function handleChange(e) {
 
 function handleSubmit(e){
     e.preventDefault()
+    setProduct('');
 }
     return (
         <div>
-
         <form onSubmit={handleSubmit}>
           <nav>
-               
                  <input
                    type="text"
                    placeholder='Search'
@@ -28,6 +27,5 @@ function handleSubmit(e){
                </nav>
          </form>
      </div>
-    
     )
 }

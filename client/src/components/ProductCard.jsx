@@ -1,9 +1,6 @@
-import React from 'react'
-
-function ProductCard() {
+export default function ProductCard() {
 
     return (
-        
     <div>
     <div>
           <h5 >BANANA</h5>
@@ -29,6 +26,4 @@ function ProductCard() {
     )
 }
 
-export default ProductCard
- 
 //{image,name, description,price,stock}
