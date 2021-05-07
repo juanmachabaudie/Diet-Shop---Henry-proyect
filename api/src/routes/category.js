@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const {
-  getAllCategories,
+  getCategories,
   createCategory,
   deleteCategory,
   updateCategory,
-} = require("../controllers/category");
+} = require("../controllers/categoryController");
 const router = Router();
 
-router.get("/", getAllCategories);
+router.get("/", getCategories);
 router.post("/create", createCategory);
 router.post("/delete", deleteCategory);
 router.post("/update", updateCategory);
