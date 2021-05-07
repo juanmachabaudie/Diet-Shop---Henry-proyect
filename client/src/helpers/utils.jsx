@@ -5,11 +5,11 @@
  */
 export const customAlert = () => {
   //Priority
-  var vis = 1000;
+  let vis = 1000;
 
   // Here, I overwrite the alert method of window object
   window.alert = function (message) {
-    var box = document.createElement("div");
+    let box = document.createElement("div");
 
     // Css styles
     box.style.cssText =
