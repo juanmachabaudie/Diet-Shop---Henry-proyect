@@ -18,7 +18,7 @@ function handleSubmit(e){
         <form onSubmit={handleSubmit}>
           <nav>
                  <input
-                  class="form-control mr-sm-2"
+                  className="form-control mr-sm-2"
                   aria-label="Search"
                    type="text"
                    placeholder='Search'
@@ -26,8 +26,8 @@ function handleSubmit(e){
                    value={product}
                   onChange={(event) => handleChange(event)}
                  />
-                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                     <Link to={'/detail/' + product}>
+                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+                     <Link to={'/' + product}>
                      Search
                      </Link>
                      
