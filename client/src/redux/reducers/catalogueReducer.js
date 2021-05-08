@@ -1,15 +1,28 @@
 import {GET_CATALOGUE} from '../actions/catalogueAction'
 
 const initialState= {
-    catalogue: []
+    products: [],
+    loading: false
 }
 
 export default function catalogueReducer(state = initialState, action){
     switch(action.type){
     case GET_CATALOGUE:
+        
         return {
             ...state,
-            catalogue: action.payload
+            products: action.payload
+            
+        }
+    case 'LOADING':
+        return {
+            ...state,
+            loading: true
+        }
+    case 'LOADED':
+        return {
+            ...state,
+            loading: false
         }
         default:
             return state 
