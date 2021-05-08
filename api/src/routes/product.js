@@ -5,6 +5,8 @@ const {
   deleteProduct,
   editProduct,
   getProductDetail,
+  getProductsByCategory,
+  searchProduct
 } = require("../controllers/productController");
 
 const router = Router();
@@ -18,5 +20,9 @@ router.put("/edit", editProduct);
 router.delete("/delete", deleteProduct);
 
 router.get("/detail/:productId", getProductDetail);
+
+router.get("/filterByCategory", getProductsByCategory);
+
+router.get('/search', searchProduct);
 
 module.exports = router;

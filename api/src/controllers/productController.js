@@ -1,5 +1,6 @@
 const { Product, Category } = require("../db");
 const { checkUuid, productCategory } = require("../helpers/utils");
+const Sequelize = require("sequelize");
 
 const productsController = {
   //Traemos todos los productos con todas sus props.
@@ -21,10 +22,9 @@ const productsController = {
             categories: arrCategories,
           };
           arrProducts.push(objProduct);
-          
         }
       } else {
-       return res.send("base de datos vacia");
+        return res.send("base de datos vacia");
       }
       res.json(arrProducts);
     } catch (error) {
@@ -149,6 +149,65 @@ const productsController = {
       } else {
         res.status(500).send("id invalido");
       }
+    } catch (error) {
+      next(error);
+    }
+  },
+  //>>>>>>>>>♂>>>>>♥♪>>>>>>>>>>> SE PUEDE HACER UN REQUEST AL BACK DESDE EL BACK? <<<<<<♂<<<<<♥<<<<♪<<<<<<<<<<♂
+  getProductsByCategory: async (req, res, next) => {
+    try {
+      const { reqCategories } = req.body; //categories es un array, mandarlo desde el front como ARRAY!!!!
+      const filteredProducts = await Product.findAll();
+      const arrProducts = [];
+      if (filteredProducts.length) {
+        for (element of filteredProducts) {
+          const values = element.dataValues;
+          let arrCategories = await productCategory(values.uuid);
+          const objProduct = {
+            name: values.name,
+            description: values.description,
+            image: values.image,
+            thumbnail: values.thumbnail,
+            price: values.price,
+            stock: values.stock,
+            categories: arrCategories,
+          };
+          arrProducts.push(objProduct);
+        }
+        let a = [];
+        for (element of arrProducts) {
+          for (each of element.categories) {
+            for (cate of reqCategories) {
+              if (each === cate) {
+                a.push(element);
+              }
+            }
+          }
+        }
+        if (a) {
+          res.status(200).send(a);
+        } else {
+          res.status(200).send("No hay productos con esas categorias");
+        }
+      } else {
+        return res.send("base de datos vacia");
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  searchProduct: async (req, res, next) => {
+    const { name } = req.query;
+    try {
+      const all = await Product.findAll({
+        where: {
+          name: {
+            [Sequelize.Op.like]: `%${name}%`,
+          },
+        },
+      });
+      res.send(all);
     } catch (error) {
       next(error);
     }
