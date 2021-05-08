@@ -6,7 +6,27 @@ const productsController = {
   getProducts: async (req, res, next) => {
     try {
       const dbProducts = await Product.findAll();
-      res.json(dbProducts);
+      const arrProducts = [];
+      if (dbProducts.length) {
+        for (element of dbProducts) {
+          const values = element.dataValues;
+          let arrCategories = await productCategory(values.uuid);
+          const objProduct = {
+            name: values.name,
+            description: values.description,
+            image: values.image,
+            thumbnail: values.thumbnail,
+            price: values.price,
+            stock: values.stock,
+            categories: arrCategories,
+          };
+          arrProducts.push(objProduct);
+          
+        }
+      } else {
+       return res.send("base de datos vacia");
+      }
+      res.json(arrProducts);
     } catch (error) {
       next(error);
     }
@@ -24,7 +44,6 @@ const productsController = {
       stock,
       categories,
     } = req.body;
-
     try {
       const exist = await Product.findOne({ where: { name } });
       if (exist) {
@@ -38,10 +57,10 @@ const productsController = {
         price,
         stock,
       });
-
       //en category me pusheo el nombre de la categoria que hay en el array CATEGORIES
       for (eachCategory of categories) {
-        const categoryToAdd = await Category.findOne({ //Recibir arreglos de uuid y armarlo con eso 
+        const categoryToAdd = await Category.findOne({
+          //Recibir arreglos de uuid y armarlo con eso
           where: { name: eachCategory },
         });
         newProduct.addCategory(categoryToAdd);
@@ -61,8 +80,8 @@ const productsController = {
           uuid: id,
         },
       });
-      toEditProduct.update(req.body);  //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
       if (toEditProduct) {
+        toEditProduct.update(req.body); //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
         res.status(200).send("Producto Actualizado");
       } else {
         res.status(400).send("Producto no encontrado");
@@ -71,6 +90,7 @@ const productsController = {
       next(error);
     }
   },
+
   deleteProduct: async (req, res, next) => {
     //Borramos producto llamandolo por su id
     const { id } = req.body;
@@ -98,12 +118,12 @@ const productsController = {
       next(error);
     }
   },
+
   getProductDetail: async (req, res, next) => {
     //Traemos el detalle del producto llamandolo por su id
     try {
       const { productId } = req.params;
       // ↓↓↓ Validación ↓↓↓↓
-
       if (checkUuid(productId)) {
         const product = await Product.findOne({
           where: {
@@ -111,7 +131,18 @@ const productsController = {
           },
         });
         if (product) {
-          res.status(200).json(product);
+          const values = product.dataValues;
+          let arrCategories = await productCategory(values.uuid);
+          const objProduct = {
+            name: values.name,
+            description: values.description,
+            image: values.image,
+            thumbnail: values.thumbnail,
+            price: values.price,
+            stock: values.stock,
+            categories: arrCategories,
+          };
+          res.status(200).json(objProduct);
         } else {
           res.status(404).send("no encontrado");
         }
