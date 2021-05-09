@@ -11,8 +11,9 @@ const NavBar = () => {
     <Link className="navbar-brand" to='/aboutUs'>sobre nosotros</Link>
     <Link className="navbar-brand" to ='/contact'>contacto</Link>
     <SearchBar/>
+    </nav>
 </nav>
-  );
-};
+  )
+}
 
 export default NavBar;
