@@ -6,6 +6,10 @@ import Catalog from "./components/Catalog";
 import NavBar from "./components/NavBar";
 import NewCategory from "./components/NewCategory";
 import AddProduct from './components/AddProduct'
+import Catalog from './components/Catalog';
+import NavBar from './components/NavBar';
+import NewCategory from './components/NewCategory';
+import SearchProducts from './components/SearchProducts';
 
 const App = () => {
   return (
