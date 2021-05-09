@@ -16,23 +16,24 @@ function handleSubmit(e){
     return (
         <div>
         <form onSubmit={handleSubmit}>
-          <nav>
+            <nav> 
+          
                  <input
                   className="form-control mr-sm-2"
                   aria-label="Search"
                    type="text"
-                   placeholder='Search'
+                   placeholder='que estas buscando?'
                    autoComplete="on"
                    value={product}
                   onChange={(event) => handleChange(event)}
                  />
-                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-                     <Link to={'/' + product}>
-                     Search
+                 <button type="submit">
+                     <Link to={'/search/' + product}>
+                     buscar
                      </Link>
                      
                 </button>
-               </nav>
+            </nav> 
          </form>
      </div>
     )

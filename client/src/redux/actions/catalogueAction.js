@@ -13,10 +13,10 @@ export function getCatalogue() {
     }
 }
 
-export function searchProduct(name) {
+export function searchProducts(name) {
     
     return function(dispatch) {
-        return fetch(`http://localhost:3001/products/?name=${name}`)
+        return fetch(`http://localhost:3001/products/search?name=${name}`)
         .then(res => res.json())
         .then(data => 
         dispatch({type: SEARCH_PRODUCTS, payload: data}))

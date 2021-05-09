@@ -9,8 +9,7 @@ const NavBar = () => {
     <Link className="navbar-brand" to='/catalogue'>productos</Link>
     <Link className="navbar-brand" to='/aboutUs'>sobre nosotros</Link>
     <Link className="navbar-brand" to ='/contact'>contacto</Link>
-    <form className="form-inline"></form>
-      <SearchBar/>
+    <SearchBar/>
     
   </nav>
 </nav>

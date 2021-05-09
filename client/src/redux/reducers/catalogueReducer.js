@@ -1,8 +1,9 @@
-import {GET_CATALOGUE} from '../actions/catalogueAction'
+import {GET_CATALOGUE, SEARCH_PRODUCTS} from '../actions/catalogueAction'
 
 const initialState= {
     products: [],
-    loading: false
+    loading: false,
+    searchProducts: []
 }
 
 export default function catalogueReducer(state = initialState, action){
@@ -19,6 +20,11 @@ export default function catalogueReducer(state = initialState, action){
             ...state,
             loading: true
         }
+    case SEARCH_PRODUCTS: 
+    return {
+    ...state,
+    searchProducts: action.payload
+    }
     case 'LOADED':
         return {
             ...state,
