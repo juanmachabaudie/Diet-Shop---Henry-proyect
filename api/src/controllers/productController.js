@@ -47,7 +47,7 @@ const productsController = {
     try {
       const exist = await Product.findOne({ where: { name } });
       if (exist) {
-        return res.status(400).send("Producto ya existente");
+        return res.status(400).json({message: "Producto ya existente"});
       }
       const newProduct = await Product.create({
         name,
@@ -65,7 +65,7 @@ const productsController = {
         });
         newProduct.addCategory(categoryToAdd);
       }
-      res.status(200).send(name + " agregado");
+      res.status(200).json({message:'Producto Agregado!'});
     } catch (error) {
       next(error);
     }

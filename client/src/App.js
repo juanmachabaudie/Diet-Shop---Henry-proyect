@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import Catalog from "./components/Catalog";
 import NavBar from "./components/NavBar";
 import NewCategory from "./components/NewCategory";
-import ProductCard from "./components/ProductCard";
+import AddProduct from './components/AddProduct'
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
       <Route exact path="/" component={Home} />
       <Route exact path="/catalogue" component={Catalog} />
       <Route exact path="/addCategory" component={NewCategory} />
-      <Route exact path="/catalogue" component={ProductCard} />
+    <Route exact path='/addProduct' component={AddProduct}/>
     </React.Fragment>
   );
 };

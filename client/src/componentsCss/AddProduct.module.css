@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section {
+  background-color: rgb(175, 175, 175);
+  margin: 1%;
+  padding: 1%;
+  border-radius:15px;
+}
