@@ -1,5 +1,3 @@
-//const axios = require('axios')
-
 export const GET_CATALOGUE = 'GET_CATALOGUE'
 
 export function getCatalogue() {
@@ -12,4 +10,8 @@ export function getCatalogue() {
         })
         
     }
+}
+
+export const postProduct = (product) => {
+    console.log(product)
 }
