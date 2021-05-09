@@ -1,6 +1,7 @@
 //const axios = require('axios')
 
 export const GET_CATALOGUE = 'GET_CATALOGUE'
+export const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS'
 
 export function getCatalogue() {
     return function(dispatch) {
@@ -13,3 +14,14 @@ export function getCatalogue() {
         
     }
 }
+
+export function searchProduct(name) {
+    
+    return function(dispatch) {
+        return fetch(`http://localhost:3001/products/?name=${name}`)
+        .then(res => res.json())
+        .then(data => 
+        dispatch({type: SEARCH_PRODUCTS, payload: data}))
+          
+    }
+  }
