@@ -25,6 +25,7 @@ dispatch(getCatalogue())
         <div>
            {products.map(e => 
            <ProductCard 
+           id ={e.uuid}
            name ={e.name}
            description ={e.description} 
            image ={e.image} 

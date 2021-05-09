@@ -14,6 +14,7 @@ const App = () => {
             <Route exact path='/catalogue' component={Catalog} />
             <Route exact path='/addCategory' component={NewCategory} />
             <Route exact path='/addProduct' component={AddProduct}/>
+
         </React.Fragment>
     )
 }
