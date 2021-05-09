@@ -11,7 +11,7 @@ async function getCategories(_req, res, next) {
 }
 //create a category
 async function createCategory(req, res, next) {
-  const { name } = req.body;
+  const { name, image } = req.body;
   try {
     const find = await Category.findOne({
       where: {
@@ -23,6 +23,7 @@ async function createCategory(req, res, next) {
     }
     const category = await Category.create({
       name,
+      image
     });
     return res.send(category);
   } catch (error) {
@@ -78,9 +79,36 @@ async function deleteCategory(req, res, next) {
   }
 }
 
+async function getCategoryByName(req, res, next) {
+  try {
+    const { name } = req.query;
+    console.log('NAME: ', name);
+    const categoryByName = await Category.findAll({
+      attributes: [
+        "uuid",
+        "name",
+        "image"
+      ],
+      where: {
+        name: {
+          [Op.iLike]: `%${name}%`,
+        },
+      },
+    });
+
+    categoryByName.length > 0
+      ? res.send(categoryByName)
+      : res.status(404).send({error: 'Category not found.'});
+
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getCategories,
   createCategory,
   deleteCategory,
   updateCategory,
+  getCategoryByName,
 };
