@@ -11,8 +11,7 @@ const NavBar = () => {
     <Link className="navbar-brand" to ='/contact'>contacto</Link>
     <form className="form-inline"></form>
       <SearchBar/>
-    
-  </nav>
+      </nav>
 </nav>
   );
 };

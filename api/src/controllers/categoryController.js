@@ -1,4 +1,4 @@
-const { Category } = require("../db");
+const { Category, Product } = require("../db");
 const { checkUuid } = require("../helpers/utils");
 
 async function getCategories(_req, res, next) {
@@ -9,7 +9,6 @@ async function getCategories(_req, res, next) {
     next(error);
   }
 }
-
 //create a category
 async function createCategory(req, res, next) {
   const { name } = req.body;
@@ -40,12 +39,12 @@ async function updateCategory(req, res, next) {
         uuid: id,
       },
     });
-    if(toEditCategory){
-    const category = await toEditCategory.update(req.body);
-    return res.send("Categoria actualizada");
-  } else {
-    return res.send('no existe la categoria')
-  }
+    if (toEditCategory) {
+      const category = await toEditCategory.update(req.body);
+      return res.send("Categoria actualizada");
+    } else {
+      return res.send("no existe la categoria");
+    }
   } catch (error) {
     next(error);
   }
@@ -79,9 +78,33 @@ async function deleteCategory(req, res, next) {
   }
 }
 
+//byCategory
+async function byCategory(req, res, next) {
+  const { name } = req.query;
+  try {
+    const products = await Product.findAll({
+      include: {
+        model: Category,
+        //as: 'Instruments'
+        where: {
+          name,
+        },
+      },
+    });
+    if (products.length > 0) {
+      return res.send(products);
+    } else {
+      return res.send("No Products Found in That Category");
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getCategories,
   createCategory,
   deleteCategory,
   updateCategory,
+  byCategory,
 };
