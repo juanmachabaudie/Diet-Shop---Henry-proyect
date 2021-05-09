@@ -1,5 +1,3 @@
-//const axios = require('axios')
-
 export const GET_CATALOGUE = 'GET_CATALOGUE'
 export const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS'
 
@@ -25,3 +23,4 @@ export function searchProduct(name) {
           
     }
   }
+
