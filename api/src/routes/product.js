@@ -21,7 +21,7 @@ router.delete("/delete", deleteProduct);
 
 router.get("/detail/:productId", getProductDetail);
 
-router.get("/filterByCategory", getProductsByCategory);
+router.get("/filterByCategory?", getProductsByCategory);
 
 router.get('/search', searchProduct);
 
