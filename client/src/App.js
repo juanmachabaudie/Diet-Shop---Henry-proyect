@@ -12,7 +12,7 @@ const App = () => {
             <Route path='/' component={NavBar} />
             <Route exact path='/catalogue' component={Catalog} />
             <Route exact path='/addCategory' component={NewCategory} />
-            {/* <Route exact path='/catalogue' component={ProductCard}/> */}
+          
         </React.Fragment>
     )
 }
