@@ -1,4 +1,6 @@
+
 import {GET_CATALOGUE, SEARCH_PRODUCTS} from '../actions/catalogueAction'
+
 
 const initialState= {
     products: [],
@@ -6,9 +8,11 @@ const initialState= {
     searchProducts: []
 }
 
-export default function catalogueReducer(state = initialState, action){
-    switch(action.type){
+
+export default function catalogueReducer(state = initialState, action) {
+  switch (action.type) {
     case GET_CATALOGUE:
+
         
         return {
             ...state,
@@ -34,3 +38,4 @@ export default function catalogueReducer(state = initialState, action){
             return state 
     }
 }
+
