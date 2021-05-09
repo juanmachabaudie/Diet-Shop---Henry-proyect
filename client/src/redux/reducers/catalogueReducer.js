@@ -1,11 +1,12 @@
 
-import {GET_CATALOGUE, SEARCH_PRODUCTS} from '../actions/catalogueAction'
+import {GET_CATALOGUE, SEARCH_PRODUCTS, FILTER_BY_CATEGORY} from '../actions/catalogueAction'
 
 
 const initialState= {
-    products: [],
-    loading: false,
-    searchProducts: []
+    products: [],  //aca van los productos
+    loading: false, 
+    searchProducts: [], //aca van los productos que buscamos por el searchBar
+    filterByCategory: [] //filtrado de productos por categories 
 }
 
 
@@ -33,6 +34,11 @@ export default function catalogueReducer(state = initialState, action) {
         return {
             ...state,
             loading: false
+        }
+    case FILTER_BY_CATEGORY:
+        return {
+            ...state,
+            filterByCategory: action.payload
         }
         default:
             return state 
