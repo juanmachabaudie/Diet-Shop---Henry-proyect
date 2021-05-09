@@ -155,8 +155,9 @@ const productsController = {
   },
   //>>>>>>>>>♂>>>>>♥♪>>>>>>>>>>> SE PUEDE HACER UN REQUEST AL BACK DESDE EL BACK? <<<<<<♂<<<<<♥<<<<♪<<<<<<<<<<♂
   getProductsByCategory: async (req, res, next) => {
+    console.log(req.query);
     try {
-      const { reqCategories } = req.body; //categories es un array, mandarlo desde el front como ARRAY!!!!
+      const { reqCategories } = req.query; //categories es un array, mandarlo desde el front como ARRAY!!!!
       const filteredProducts = await Product.findAll();
       const arrProducts = [];
       if (filteredProducts.length) {

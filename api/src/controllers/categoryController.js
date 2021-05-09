@@ -78,33 +78,9 @@ async function deleteCategory(req, res, next) {
   }
 }
 
-//byCategory
-async function byCategory(req, res, next) {
-  const { name } = req.query;
-  try {
-    const products = await Product.findAll({
-      include: {
-        model: Category,
-        //as: 'Instruments'
-        where: {
-          name,
-        },
-      },
-    });
-    if (products.length > 0) {
-      return res.send(products);
-    } else {
-      return res.send("No Products Found in That Category");
-    }
-  } catch (error) {
-    next(error);
-  }
-}
-
 module.exports = {
   getCategories,
   createCategory,
   deleteCategory,
   updateCategory,
-  byCategory,
 };
