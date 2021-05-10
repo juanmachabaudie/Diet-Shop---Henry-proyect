@@ -4,11 +4,7 @@ import ByCategory from "./ByCategory";
 
 const NavBar = () => {
   return (
-<<<<<<< Updated upstream
-    <nav>
-=======
     <div>
->>>>>>> Stashed changes
       <nav className="navbar navbar-dark bg-dark justify-content-between">
         <Link className="navbar-brand" to="/">
           DIET SHOP
@@ -22,18 +18,10 @@ const NavBar = () => {
         <Link className="navbar-brand" to="/contact">
           Contacto
         </Link>
-<<<<<<< Updated upstream
-        <form className="form-inline"></form>
-        <SearchBar />
-        <ByCategory />
-      </nav>
-    </nav>
-=======
         <SearchBar />
         <ByCategory />
       </nav>
     </div>
->>>>>>> Stashed changes
   );
 };
 
