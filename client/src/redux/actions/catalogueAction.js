@@ -3,16 +3,15 @@ export const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS'
 export const FILTER_BY_CATEGORY = 'FILTER_BY_CATEGORY'
 
 export function getCatalogue() {
-    return function(dispatch) {
-       return fetch('http://localhost:3001/products')
-        .then(res => res.json())
-        .then(data => {
-            
-            dispatch({type: GET_CATALOGUE, payload: data})
-        })
-        
-    }
+  return function (dispatch) {
+    return fetch("http://localhost:3001/products")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_CATALOGUE, payload: data });
+      });
+  };
 }
+
 
 export function searchProducts(name) {
     

@@ -6,18 +6,14 @@ import {getCatalogue} from '../redux/actions/catalogueAction'
 import './Catalog.css'
 
 export default function Catalog() {
- 
-const dispatch = useDispatch()
-const products = useSelector(store => store.catalogue.products)
+  const dispatch = useDispatch();
+  const products = useSelector((store) => store.catalogue.products);
 
+  useEffect(() => {
+    dispatch(getCatalogue());
+  }, [dispatch]);
 
-useEffect(() => {
-dispatch(getCatalogue())
-},[dispatch] )
-
-//const product= products.map(e => e.name) 
-
-
+  //const product= products.map(e => e.name
 //aca tengo que iterar, y mandale a product card por props la data y desde product card 
 // al hacer click al nombre, mandar el /detail para ver en detalle mas la informacion
 // del producto
@@ -40,3 +36,4 @@ dispatch(getCatalogue())
      )
    
 }
+

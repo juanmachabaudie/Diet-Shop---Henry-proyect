@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
+import ByCategory from "./ByCategory";
 
 const NavBar = () => {
   return (
@@ -11,9 +12,9 @@ const NavBar = () => {
     <Link className="navbar-brand" to='/aboutUs'>nosotros</Link>
     <Link className="navbar-brand" to ='/contact'>contacto</Link>
     <SearchBar/>
+
     </nav>
-</nav>
-  )
-}
+  );
+};
 
 export default NavBar;

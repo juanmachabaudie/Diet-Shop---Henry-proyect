@@ -6,7 +6,7 @@ const {
   editProduct,
   getProductDetail,
   getProductsByCategory,
-  searchProduct
+  searchProduct,
 } = require("../controllers/productController");
 
 const router = Router();
@@ -23,6 +23,6 @@ router.get("/detail/:productId", getProductDetail);
 
 router.get("/filterByCategory?", getProductsByCategory);
 
-router.get('/search', searchProduct);
+router.get("/search", searchProduct);
 
 module.exports = router;

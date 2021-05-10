@@ -23,7 +23,7 @@ async function createCategory(req, res, next) {
     }
     const category = await Category.create({
       name,
-      image
+      image,
     });
     return res.send(category);
   } catch (error) {
