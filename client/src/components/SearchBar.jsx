@@ -1,33 +1,40 @@
-import React,{useState} from 'react'
+import { useState } from "react";
+import { Link , useHistory} from "react-router-dom";
 
-export default function SearchBar(){
+export default function SearchBar() {
+  const [product, setProduct] = useState("");
 
-const [product, setProduct] = useState('')
+  function handleChange(e) {
+    setProduct(e.target.value);
+  }
 
-function handleChange(e) {
-    setProduct(e.target.value)
-}
-
-function handleSubmit(e){
-    e.preventDefault()
-}
-    return (
-        <div>
-
-        <form onSubmit={handleSubmit}>
-          <nav>
-               
-                 <input
-                   type="text"
-                   placeholder='Search'
-                   autoComplete="on"
-                   value={product}
-                  onChange={(event) => handleChange(event)}
-                 />
-                 <button className='boton' type="submit">send</button>
-               </nav>
-         </form>
-     </div>
+  function handleSubmit(e) {
+    e.preventDefault();
     
-    )
+    setProduct("");
+  }
+
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+          <input
+            className="form-control mr-sm-2"
+            aria-label="Search"
+            type="text"
+            placeholder="Search"
+            autoComplete="on"
+            value={product}
+            onChange={(event) => handleChange(event)}
+          />
+          <Link to={'/search/' + product}>
+            <button 
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit">
+                 Search
+            </button>
+          </Link>
+      </form>
+    </div>
+  );
 }
