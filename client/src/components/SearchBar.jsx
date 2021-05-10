@@ -28,7 +28,7 @@ function handleSubmit(e){
                   onChange={(event) => handleChange(event)}
                  />
                  <button type="submit">
-                     <Link to={'/search/' + product}>
+                     <Link to={'/search?name=' + product}>
                      buscar
                      </Link>
                      

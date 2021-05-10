@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import ProductCard from './ProductCard'
 import {Link} from 'react-router-dom'
 import {getCatalogue} from '../redux/actions/catalogueAction'
+import './Catalog.css'
 
 export default function Catalog() {
  
@@ -22,7 +23,7 @@ dispatch(getCatalogue())
 // del producto
 
     return (
-        <div>
+        <div className='catalog'>
            {products.map(e => 
            <ProductCard 
            id ={e.uuid}
