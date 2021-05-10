@@ -11,7 +11,7 @@ async function getCategories(_req, res, next) {
 }
 //create a category
 async function createCategory(req, res, next) {
-  const { name } = req.body;
+  const { name, image } = req.body;
   try {
     const find = await Category.findOne({
       where: {
@@ -23,6 +23,7 @@ async function createCategory(req, res, next) {
     }
     const category = await Category.create({
       name,
+      image,
     });
     return res.send(category);
   } catch (error) {

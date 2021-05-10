@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { byCategory, getCategories } from "../redux/actions/categoryAction";
+import { useHistory, Link } from "react-router-dom";
 import { getCatalogue } from "../redux/actions/catalogueAction";
 import "../../node_modules/bootstrap/dist/css/bootstrap.css";
 
 function ByCategory() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getCategories());
@@ -29,8 +31,12 @@ function ByCategory() {
     console.log(e.target.value);
     if (e.target.value === "All") {
       dispatch(getCatalogue());
+      history.push("/catalogue");
+      window.scrollTo(0, 0);
     } else {
       dispatch(byCategory(e.target.value));
+      history.push("/catalogue/category");
+      window.scrollTo(0, 0);
     }
   }
 
@@ -41,10 +47,10 @@ function ByCategory() {
         aria-label="Default select example"
         id="temperaments"
         onChange={handleChange}
-        defaultValue="Filter By Category"
+        defaultValue="categorias"
       >
-        <option selected disabled>
-          Filter By Category
+        <option defaultValue disabled>
+          Categorias
         </option>
         <option value="All">All</option>
         {options}

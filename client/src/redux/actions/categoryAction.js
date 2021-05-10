@@ -16,7 +16,7 @@ export function byCategory(name) {
     return axios
       .get(" http://localhost:3001/category/search?name=" + name)
       .then((data) => {
-        dispatch({ type: BY_CATEGORY, payload: data.dataº });
+        dispatch({ type: BY_CATEGORY, payload: data.data });
       });
   };
 }
