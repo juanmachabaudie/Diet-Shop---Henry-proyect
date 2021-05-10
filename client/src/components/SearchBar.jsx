@@ -52,8 +52,6 @@ export default function SearchBar() {
     </div>
   );
 }
-<<<<<<< Updated upstream
-=======
 
 /* function handleSubmit(e){
     e.preventDefault()
@@ -84,4 +82,3 @@ export default function SearchBar() {
      </div>
     )
 } */
->>>>>>> Stashed changes
