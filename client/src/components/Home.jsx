@@ -7,7 +7,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const categories = useSelector((store) => store.categories.categories);
-  console.log("cts: ", categories);
+  // console.log("cts: ", categories);
 
   let images = [];
   if (categories) {

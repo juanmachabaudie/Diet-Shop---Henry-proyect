@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link , useHistory} from "react-router-dom";
 
 export default function SearchBar() {
   const [product, setProduct] = useState("");
@@ -10,8 +10,11 @@ export default function SearchBar() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    
     setProduct("");
   }
+
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -24,7 +27,7 @@ export default function SearchBar() {
             value={product}
             onChange={(event) => handleChange(event)}
           />
-          <Link to={"/" + product}>
+          <Link to={'/search/' + product}>
             <button 
               className="btn btn-outline-success my-2 my-sm-0"
               type="submit">
@@ -35,34 +38,3 @@ export default function SearchBar() {
     </div>
   );
 }
-
-function handleSubmit(e){
-    e.preventDefault()
-    setProduct('');
-}
-    return (
-        <div>
-        <form onSubmit={handleSubmit}>
-            <nav> 
-          
-                 <input
-                  className="form-control mr-sm-2"
-                  aria-label="Search"
-                   type="text"
-                   placeholder='que estas buscando?'
-                   autoComplete="on"
-                   value={product}
-                  onChange={(event) => handleChange(event)}
-                 />
-                 <button type="submit">
-                     <Link to={'/search?name=' + product}>
-                     buscar
-                     </Link>
-                     
-                </button>
-            </nav> 
-         </form>
-     </div>
-    )
-}
-

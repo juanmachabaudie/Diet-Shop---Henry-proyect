@@ -15,18 +15,17 @@ export function getCatalogue() {
 
 export function searchProducts(name) {
     
-    return function(dispatch) {
-        return fetch(`http://localhost:3001/products/search?name=${name}`)
-        .then(res => res.json())
-        .then(data => 
-        dispatch({type: SEARCH_PRODUCTS, payload: data}))
+    return async function(dispatch) {
+        const res = await fetch(`http://localhost:3001/products/search?name=${name}`);
+        const data = await res.json();
+        return dispatch({ type: SEARCH_PRODUCTS, payload: data });
           
     }
   }
 
   export function filterByCategory(category) {
     return function(dispatch) {
-      return fetch('http://localhost:3001/products/filterByCategory')
+      return fetch(`http://localhost:3001/products/filterByCategory?name=${category}`)
       .then(res => res.json())
       .then(products => {
         let categories = products.filter(product=> product.categories.includes(category))

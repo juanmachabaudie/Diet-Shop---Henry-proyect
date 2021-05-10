@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import ProductCard from './ProductCard'
-import {Link} from 'react-router-dom'
 import {getCatalogue} from '../redux/actions/catalogueAction'
 import './Catalog.css'
 
@@ -22,18 +21,15 @@ export default function Catalog() {
         <div className='catalog'>
            {products.map(e => 
            <ProductCard 
-           id ={e.uuid}
+           productId ={e.id}
            name ={e.name}
            description ={e.description} 
            image ={e.image} 
            price ={e.price} 
            stock ={e.stock} 
            />
-           
             )}
- 
          </div>
      )
    
 }
-

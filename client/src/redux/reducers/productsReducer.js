@@ -1,5 +1,6 @@
 const initialState = {
   products: [],
+  productDetail: {},
   categories: [],
   loading: false,
   message: {},
@@ -25,6 +26,12 @@ export default function productReducer(state = initialState, action) {
         ...state,
         message: action.payload,
       };
+
+    case "GET_PRODUCT_DETAIL":
+      return {
+        ...state,
+        productDetail: action.payload
+      }
 
     default:
       return state;

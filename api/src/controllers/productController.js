@@ -13,6 +13,7 @@ const productsController = {
           const values = element.dataValues;
           let arrCategories = await productCategory(values.uuid);
           const objProduct = {
+            id: values.uuid,
             name: values.name,
             description: values.description,
             image: values.image,
@@ -155,9 +156,8 @@ const productsController = {
   },
   //>>>>>>>>>♂>>>>>♥♪>>>>>>>>>>> SE PUEDE HACER UN REQUEST AL BACK DESDE EL BACK? <<<<<<♂<<<<<♥<<<<♪<<<<<<<<<<♂
   getProductsByCategory: async (req, res, next) => {
-    console.log(req.query);
     try {
-      const { reqCategories } = req.query; //categories es un array, mandarlo desde el front como ARRAY!!!!
+      const { name } = req.query; //categories es un array, mandarlo desde el front como ARRAY!!!!
       const filteredProducts = await Product.findAll();
       const arrProducts = [];
       if (filteredProducts.length) {
@@ -165,6 +165,7 @@ const productsController = {
           const values = element.dataValues;
           let arrCategories = await productCategory(values.uuid);
           const objProduct = {
+            id:values.uuid,
             name: values.name,
             description: values.description,
             image: values.image,
@@ -176,15 +177,27 @@ const productsController = {
           arrProducts.push(objProduct);
         }
         let a = [];
+        if (typeof(name)==='string'){
+          for (product of arrProducts){
+            console.log(product)
+            for (category of product.categories){
+              if(category.toUpperCase() === name.toUpperCase()){
+                a.push(product)
+              }
+            }
+          }
+        } else {
         for (element of arrProducts) {
           for (each of element.categories) {
-            for (cate of reqCategories) {
-              if (each === cate) {
+            for (cate of name) {
+              if (name === cate) {
+                console.log('si')
                 a.push(element);
               }
             }
           }
         }
+      }
         if (a) {
           res.status(200).send(a);
         } else {
@@ -199,7 +212,7 @@ const productsController = {
   },
 
   searchProduct: async (req, res, next) => {
-    const { name } = req.query;
+    const { name } = req.query
     try {
       const all = await Product.findAll({
         where: {

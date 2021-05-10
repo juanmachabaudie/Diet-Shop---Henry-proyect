@@ -31,3 +31,13 @@ export const postProduct = (datos) => {
         console.log(resJson)
     }
 }
+
+export function getProductDetail(productId) {
+return async function(dispatch) {
+   return await fetch(`http://localhost:3001/products/detail/${productId}`)
+    .then(res => res.json())
+    .then(detail => {
+        dispatch({type: 'GET_PRODUCT_DETAIL', payload: detail})
+    });
+};
+}

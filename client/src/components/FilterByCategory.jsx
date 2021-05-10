@@ -1,6 +1,7 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux';
 import {filterByCategory} from '../redux/actions/catalogueAction'
+import ProductCard from './ProductCard.jsx';
 
 const FilterByCategory = () => {
 const dispatch = useDispatch()
@@ -11,17 +12,19 @@ function handleChange(e) {
     }
     
     return (
-        <div>
- <select onChange={e => {handleChange(e)}} class="form-select" aria-label="Default select example">
-  <option selected>FILTRAR PRODUCTOS</option>
-  {filter.map(e => {
-                return (
-  <option value={e.name}>{e.name}</option>
-  )
-    })
-  }
-</select>
-        </div>
+          <div>
+           {filter?.map(e => 
+           <ProductCard 
+           key={e.uuid}
+           id ={e.uuid}
+           name ={e.name}
+           description ={e.description} 
+           image ={e.image} 
+           price ={e.price} 
+           stock ={e.stock} 
+           />
+           )}
+         </div>
     )
 }
 

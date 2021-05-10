@@ -4,6 +4,7 @@ import { byCategory, getCategories } from "../redux/actions/categoryAction";
 import { useHistory, Link } from "react-router-dom";
 import { getCatalogue } from "../redux/actions/catalogueAction";
 import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+import { filterByCategory } from '../redux/actions/catalogueAction.js';
 
 function ByCategory() {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ function ByCategory() {
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
-
+  
   const categories = useSelector((store) => store.categories.categories);
 
   let options = [];
@@ -34,8 +35,8 @@ function ByCategory() {
       history.push("/catalogue");
       window.scrollTo(0, 0);
     } else {
-      dispatch(byCategory(e.target.value));
-      history.push("/catalogue/category");
+      dispatch(filterByCategory(e.target.value));
+      history.push(`/catalogue/category/${e.target.value}`);
       window.scrollTo(0, 0);
     }
   }

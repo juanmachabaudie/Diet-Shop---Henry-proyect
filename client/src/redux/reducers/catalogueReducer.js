@@ -6,7 +6,8 @@ const initialState= {
     products: [],  //aca van los productos
     loading: false, 
     searchProducts: [], //aca van los productos que buscamos por el searchBar
-    filterByCategory: [] //filtrado de productos por categories 
+    filterByCategory: [], //filtrado de productos por categories 
+
 }
 
 
@@ -40,6 +41,7 @@ export default function catalogueReducer(state = initialState, action) {
             ...state,
             filterByCategory: action.payload
         }
+        
         default:
             return state 
     }

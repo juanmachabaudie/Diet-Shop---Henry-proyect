@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getCategories, getCategoryByName, addCategory, deleteSuccess, deleteError } from "../redux/actions/categoryAction";
-import { sweetAlert } from '../helpers/utils';
+import {
+  getCategories,
+  getCategoryByName,
+  addCategory,
+  deleteSuccess,
+  deleteError,
+} from "../redux/actions/categoryAction";
+import { sweetAlert } from "../helpers/utils";
 import "./NewCategory.css";
 
 const initialState = {
@@ -19,9 +25,11 @@ const NewCategory = ({
   error,
   deleteError,
 }) => {
-
   const [formState, setFormState] = useState(initialState);
- 
+  const [currentSelectedState, setCurrentSelectedState] = useState({
+    name: "",
+  });
+
   useEffect(() => {
     getCategories();
   }, [getCategories]);
@@ -40,6 +48,13 @@ const NewCategory = ({
         "success",
         "OK"
       );
+
+      // Select new current category on select box
+      setCurrentSelectedState({ value: success.uuid });
+      const categoryImageTag = document.getElementById('categoryImage');
+      categoryImageTag.setAttribute("src", success.image);
+
+
       deleteSuccess();
       resetState();
     }
@@ -57,7 +72,7 @@ const NewCategory = ({
     if (!formState.name || formState.name.length < 3) {
       sweetAlert(
         "Atención",
-        "El nombre de la categoria es requerido y debe tener almenos 3 caracteres",
+        "El nombre de la categoria es requerido y debe tener al menos 3 caracteres",
         "warning",
         "OK",
         5000
@@ -68,7 +83,7 @@ const NewCategory = ({
     if (!formState.image || formState.image.length < 3) {
       sweetAlert(
         "Atención",
-        "La imagen es requerida y debe tener almenos 3 caracteres",
+        "La imagen es requerida y debe tener al menos 3 caracteres",
         "warning",
         "OK",
         5000
@@ -93,17 +108,42 @@ const NewCategory = ({
   };
 
   const handleOnChangeCategory = (event) => {
-    const urlImage = event.target.options[event.target.selectedIndex].getAttribute("data-img");
+    const urlImage = event.target.options[
+      event.target.selectedIndex
+    ].getAttribute("data-img");
     const categoryImage = document.getElementById("categoryImage");
 
     categoryImage.setAttribute("src", urlImage);
+
+    // Select current category on select box
+    const value = event.target.options[event.target.selectedIndex].getAttribute(
+      "value"
+    );
+    setCurrentSelectedState({ value: value });
   };
+
+  const sortByCategoryNameAZ = (categoryA, categoryB) => {
+    if (categoryA.name < categoryB.name) {
+      return -1;
+    } else if (categoryA.name > categoryB.name) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
+  // const capitalizeFirstLetter = (word) => {
+  //   if (typeof word !== "string") return "";
+  //   return word.charAt(0).toUpperCase() + word.slice(1);
+  // };
 
   return (
     <>
       <h3 className="mt-4 mb-4 text-center"> Crear Categoría </h3>
-      <section id="new-category-section" className="container border border-secondary rounded">
-
+      <section
+        id="new-category-section"
+        className="container border border-secondary rounded"
+      >
         <div className="row mt-5">
           <div className="mb-4 col-12 col-sm-6">
             <label htmlFor="categoryName" className="form-label">
@@ -132,7 +172,7 @@ const NewCategory = ({
               className="form-control"
               id="categoryUrlImage"
               aria-describedby="categoryHelp"
-              placeholder="Escribir el url de la imagen."
+              placeholder="Escribir el url de la imagen..."
               value={formState.image}
               onChange={handleOnChange}
             />
@@ -146,8 +186,9 @@ const NewCategory = ({
               size="15"
               aria-label="size 3 select example"
               onChange={handleOnChangeCategory}
+              value={currentSelectedState.value}
             >
-              {categories?.map((category) => (
+              {categories?.sort(sortByCategoryNameAZ).map((category) => (
                 <option
                   key={category.uuid}
                   value={category.uuid}
@@ -192,7 +233,6 @@ const NewCategory = ({
     </>
   );
 };
-
 
 const mapStateToProps = (state) => {
   return {
