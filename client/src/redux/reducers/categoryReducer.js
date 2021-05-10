@@ -9,6 +9,7 @@ export const BY_CATEGORY = "BY_CATEGORY";
 
 const initialState = {
   categories: [],
+  productsByCategory: [],
   success: {},
   error: "",
 };
@@ -55,6 +56,11 @@ const reducerCategory = (state = initialState, action) => {
       return {
         ...state,
         error: "",
+      };
+    case BY_CATEGORY:
+      return {
+        ...state,
+        productsByCategory: action.payload,
       };
 
     default:

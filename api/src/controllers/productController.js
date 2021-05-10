@@ -1,6 +1,7 @@
 const { Product, Category } = require("../db");
 const { checkUuid, productCategory } = require("../helpers/utils");
 const Sequelize = require("sequelize");
+const { updateCategory } = require("./categoryController");
 
 const productsController = {
   //Traemos todos los productos con todas sus props.
@@ -13,6 +14,7 @@ const productsController = {
           const values = element.dataValues;
           let arrCategories = await productCategory(values.uuid);
           const objProduct = {
+            id: values.uuid,
             name: values.name,
             description: values.description,
             image: values.image,
@@ -47,7 +49,7 @@ const productsController = {
     try {
       const exist = await Product.findOne({ where: { name } });
       if (exist) {
-        return res.status(400).json({message: "Producto ya existente"});
+        return res.status(400).json({ message: "Producto ya existente" });
       }
       const newProduct = await Product.create({
         name,
@@ -65,7 +67,7 @@ const productsController = {
         });
         newProduct.addCategory(categoryToAdd);
       }
-      res.status(200).json({message:'Producto Agregado!'});
+      res.status(200).json({ message: "Producto Agregado!" });
     } catch (error) {
       next(error);
     }
@@ -122,18 +124,19 @@ const productsController = {
   getProductDetail: async (req, res, next) => {
     //Traemos el detalle del producto llamandolo por su id
     try {
-      const { productId } = req.params;
+      const { uuid } = req.query;
       // ↓↓↓ Validación ↓↓↓↓
-      if (checkUuid(productId)) {
+      if (checkUuid(uuid)) {
         const product = await Product.findOne({
           where: {
-            uuid: productId,
+            uuid: uuid,
           },
         });
         if (product) {
           const values = product.dataValues;
           let arrCategories = await productCategory(values.uuid);
           const objProduct = {
+            id: values.uuid,
             name: values.name,
             description: values.description,
             image: values.image,
@@ -142,6 +145,7 @@ const productsController = {
             stock: values.stock,
             categories: arrCategories,
           };
+          console.log("Values: ", objProduct);
           res.status(200).json(objProduct);
         } else {
           res.status(404).send("no encontrado");

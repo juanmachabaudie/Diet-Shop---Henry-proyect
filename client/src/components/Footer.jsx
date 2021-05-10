@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { byCategory, getCategories } from "../redux/actions/categoryAction";
-import { Carousel } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "../../node_modules/bootstrap/dist/css/bootstrap.css";
-import foods from "../img/foods.jpg";
-import "./footer.css";
 
 const Footer = () => {
   return (
@@ -44,6 +40,9 @@ const Footer = () => {
                   aria-disabled="true"
                 ></a>
               </div>
+              <Link className="navbar-brand" to="/addCategory">
+                Agregar Categorias
+              </Link>
             </div>
           </div>
         </nav>

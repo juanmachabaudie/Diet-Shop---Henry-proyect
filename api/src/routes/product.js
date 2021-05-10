@@ -19,7 +19,7 @@ router.put("/edit", editProduct);
 
 router.delete("/delete", deleteProduct);
 
-router.get("/detail/:productId", getProductDetail);
+router.get("/detail", getProductDetail);
 
 router.get("/filterByCategory?", getProductsByCategory);
 

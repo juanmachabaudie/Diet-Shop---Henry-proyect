@@ -1,6 +1,14 @@
-import { BY_CATEGORY, ADD_CATEGORY, GET_CATEGORIES, GET_CATEGORY_BY_NAME, ERROR, DELETE_ERROR, SUCCESS, DELETE_SUCCESS } from "../reducers/categoryReducer";
+import {
+  BY_CATEGORY,
+  ADD_CATEGORY,
+  GET_CATEGORIES,
+  GET_CATEGORY_BY_NAME,
+  ERROR,
+  DELETE_ERROR,
+  SUCCESS,
+  DELETE_SUCCESS,
+} from "../reducers/categoryReducer";
 const axios = require("axios");
-
 
 // export const GET_CATEGORIES = "GET_CATEGORIES";
 // export const BY_CATEGORY = "BY_CATEGORY";
@@ -22,7 +30,6 @@ export function byCategory(name) {
       });
   };
 }
-
 
 export const deleteError = () => {
   return async (dispatch) => {
@@ -97,7 +104,7 @@ export const getCategoryByName = (name) => {
   };
 };
 
-export const addCategory = (category) => { 
+export const addCategory = (category) => {
   return async (dispatch) => {
     let json;
     try {
@@ -107,7 +114,7 @@ export const addCategory = (category) => {
         mode: "cors",
         headers: { "Content-type": "application/json" },
       });
-   
+
       json = await result.json();
 
       if (json.error) {
@@ -133,4 +140,3 @@ export const addCategory = (category) => {
     }
   };
 };
-
