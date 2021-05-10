@@ -4,24 +4,15 @@ import ByCategory from "./ByCategory";
 
 const NavBar = () => {
   return (
-    <nav>
-      <nav className="navbar navbar-dark bg-dark justify-content-between">
-        <Link className="navbar-brand" to="/">
-          DIET SHOP
-        </Link>
-        <Link className="navbar-brand" to="/catalogue">
-          Productos
-        </Link>
-        <Link className="navbar-brand" to="/aboutUs">
-          Nosotros
-        </Link>
-        <Link className="navbar-brand" to="/contact">
-          Contacto
-        </Link>
-        <form className="form-inline"></form>
-        <SearchBar />
-        <ByCategory />
-      </nav>
+<nav> 
+    <nav className="navbar navbar-dark bg-dark justify-content-between">
+    <Link className="navbar-brand" to='/'>DETETICA</Link>
+    <Link className="navbar-brand" to='/catalogue'>productos</Link>
+    <Link className="navbar-brand" to='/addCategory'>agregar categorias</Link>
+    <Link className="navbar-brand" to='/aboutUs'>nosotros</Link>
+    <Link className="navbar-brand" to ='/contact'>contacto</Link>
+    <SearchBar/>
+
     </nav>
   );
 };

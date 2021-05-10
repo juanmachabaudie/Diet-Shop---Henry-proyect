@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import ProductCard from "./ProductCard";
-import { Link } from "react-router-dom";
-import { getCatalogue } from "../redux/actions/catalogueAction";
+import React,{useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import ProductCard from './ProductCard'
+import {Link} from 'react-router-dom'
+import {getCatalogue} from '../redux/actions/catalogueAction'
+import './Catalog.css'
 
 export default function Catalog() {
   const dispatch = useDispatch();
@@ -12,24 +13,27 @@ export default function Catalog() {
     dispatch(getCatalogue());
   }, [dispatch]);
 
-  //const product= products.map(e => e.name)
+  //const product= products.map(e => e.name
+//aca tengo que iterar, y mandale a product card por props la data y desde product card 
+// al hacer click al nombre, mandar el /detail para ver en detalle mas la informacion
+// del producto
 
-  //aca tengo que iterar, y mandale a product card por props la data y desde product card
-  // al hacer click al nombre, mandar el /detail para ver en detalle mas la informacion
-  // del producto
-
-  return (
-    <div>
-      {products.map((e) => (
-        <ProductCard
-          id={e.uuid}
-          name={e.name}
-          description={e.description}
-          image={e.image}
-          price={e.price}
-          stock={e.stock}
-        />
-      ))}
-    </div>
-  );
+    return (
+        <div className='catalog'>
+           {products.map(e => 
+           <ProductCard 
+           id ={e.uuid}
+           name ={e.name}
+           description ={e.description} 
+           image ={e.image} 
+           price ={e.price} 
+           stock ={e.stock} 
+           />
+           
+            )}
+ 
+         </div>
+     )
+   
 }
+
