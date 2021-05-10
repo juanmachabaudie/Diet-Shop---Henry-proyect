@@ -15,7 +15,6 @@ export default function SearchBar() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <nav>
           <input
             className="form-control mr-sm-2"
             aria-label="Search"
@@ -25,13 +24,13 @@ export default function SearchBar() {
             value={product}
             onChange={(event) => handleChange(event)}
           />
-          <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-          >
-            <Link to={"/" + product}>Search</Link>
-          </button>
-        </nav>
+          <Link to={"/" + product}>
+            <button 
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit">
+                 Search
+            </button>
+          </Link>
       </form>
     </div>
   );

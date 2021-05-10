@@ -7,11 +7,13 @@ import Catalog from "./components/Catalog";
 import NavBar from "./components/NavBar";
 import NewCategory from "./components/NewCategory";
 import AddProduct from "./components/AddProduct";
+import SearchProducts from './components/SearchProducts';
 
 const App = () => {
   return (
     <React.Fragment>
       <Route path="/" component={NavBar} />
+      <Route path='/search/:name' component={SearchProducts}/>
       <Route exact path="/" component={Home} />
       <Route exact path="/catalogue" component={Catalog} />
       <Route exact path="/addCategory" component={NewCategory} />

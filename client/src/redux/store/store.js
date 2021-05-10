@@ -17,6 +17,7 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
 });
 
+
 export const store = createStore(
   rootReducer, // --->>  persistedReducer
   composeEnhancers(applyMiddleware(thunk))

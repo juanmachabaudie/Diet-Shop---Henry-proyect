@@ -79,24 +79,27 @@ async function deleteCategory(req, res, next) {
   }
 }
 
-//byCategory
-async function byCategory(req, res, next) {
-  const { name } = req.query;
+async function getCategoryByName(req, res, next) {
   try {
-    const products = await Product.findAll({
-      include: {
-        model: Category,
-        //as: 'Instruments'
-        where: {
-          name,
+    const { name } = req.query;
+    console.log('NAME: ', name);
+    const categoryByName = await Category.findAll({
+      attributes: [
+        "uuid",
+        "name",
+        "image"
+      ],
+      where: {
+        name: {
+          [Op.iLike]: `%${name}%`,
         },
       },
     });
-    if (products.length > 0) {
-      return res.send(products);
-    } else {
-      return res.send("No Products Found in That Category");
-    }
+
+    categoryByName.length > 0
+      ? res.send(categoryByName)
+      : res.status(404).send({error: 'Category not found.'});
+
   } catch (error) {
     next(error);
   }
@@ -107,5 +110,5 @@ module.exports = {
   createCategory,
   deleteCategory,
   updateCategory,
-  byCategory,
+  getCategoryByName,
 };

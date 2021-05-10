@@ -32,6 +32,6 @@ const Home = () => {
       {images}
     </Carousel>
   );
-};
+}
 
 export default Home;
