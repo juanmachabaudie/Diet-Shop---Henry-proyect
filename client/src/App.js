@@ -4,14 +4,16 @@ import AddCategory from "./components/AddCategory";
 import NavBar from "./components/NavBar";
 import ProductDetail from "./components/ProductDetail";
 import Products from "./components/Products";
+import AddProduct from "./components/AddProduct.jsx"
 
 const App = () => {
   return (
     <React.Fragment>
       <Route path="/" component={NavBar} />
       <Route exact path="/products" component={Products} />
-      <Route path="/products/detail" component={ProductDetail} />
+      <Route path="/product/detail" component={ProductDetail} />
       <Route exact path="/category/add" component={AddCategory} />
+      <Route exact path="/product/add" component={AddProduct}/> 
     </React.Fragment>
   );
 };

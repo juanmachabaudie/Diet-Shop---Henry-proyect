@@ -10,6 +10,9 @@ const NavBar = () => {
         <Link to="/products">Productos</Link>
         <Link to="/aboutUs">Nosotros</Link>
         <Link to="/contact">Contacto</Link>
+        {/*---------------porvicionales--------------*/}
+        <Link to='/product/add'>new prod</Link>
+        <Link to='/category/add'>new cat</Link>
         <SearchBar />
         <ProductsByCategory />
       </nav>

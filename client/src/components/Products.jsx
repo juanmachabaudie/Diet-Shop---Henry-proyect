@@ -20,7 +20,6 @@ export default function Products() {
     renderProducts = <h1>No se encontraron Productos en esta Categoria</h1>;
   } else {
     renderProducts = products.map((e) => {
-      console.log(e.uuid);
       return (
         <ProductCard
           uuid={e.uuid}
