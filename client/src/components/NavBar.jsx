@@ -1,31 +1,19 @@
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
-import ByCategory from "./ByCategory";
+import ProductsByCategory from "./ProductsByCategory";
 
 const NavBar = () => {
   return (
-<nav>
-      <nav className="navbar navbar-dark bg-dark justify-content-between">
-        <Link className="navbar-brand" to="/">
-          DIET SHOP
-        </Link>
-        <Link className="navbar-brand" to="/products">
-          Productos
-        </Link>
-        <Link className="navbar-brand" to='/addCategory'>
-          Agregar Categoría
-        </Link>
-        <Link className="navbar-brand" to="/aboutUs">
-          Nosotros
-        </Link>
-        <Link className="navbar-brand" to="/contact">
-          Contacto
-        </Link>
-        <form className="form-inline"></form>
+    <div>
+      <nav>
+        <Link to="/">DIET SHOP</Link>
+        <Link to="/products">Productos</Link>
+        <Link to="/aboutUs">Nosotros</Link>
+        <Link to="/contact">Contacto</Link>
         <SearchBar />
-        <ByCategory />
+        <ProductsByCategory />
       </nav>
-    </nav>
+    </div>
   );
 };
 

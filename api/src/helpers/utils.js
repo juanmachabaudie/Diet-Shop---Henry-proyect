@@ -1,4 +1,4 @@
-const { Category } = require("../db");
+const { Category, product_category, Product } = require("../db");
 
 const checkUuid = (uuid) => {
   const uuidSplit = uuid.split("-");
@@ -6,15 +6,15 @@ const checkUuid = (uuid) => {
 };
 
 // ↓ funcion para traer la relacion ↓
-const productCategory = async (data) => {
-  const { product_category } = require("../db");
-  let relacion = await product_category.findAll({
+const productCategory = async (idProduct) => {
+  console.log(idProduct);
+  let relation = await product_category.findAll({
     where: {
-      productUuid: data,
+      productUuid: idProduct,
     },
   });
   const categoryArray = [];
-  for (element of relacion) {
+  for (element of relation) {
     let category = await Category.findOne({
       where: {
         uuid: element.dataValues.categoryUuid,
