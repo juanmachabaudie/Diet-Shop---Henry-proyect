@@ -8,7 +8,7 @@ export default function ProductDetail() {
   const detail = useSelector((store) => store.products.product);
 
   return (
-    <div id="product">
+    <div id="product"> 
       <img src={detail.image || defaultImg} alt="Sin Imagen" />
       <div>
         <h1>{detail.name}</h1>
