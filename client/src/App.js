@@ -1,28 +1,19 @@
 import React from "react";
 import { Route } from "react-router-dom";
-
-import Home from "./components/Home";
-import Footer from "./components/Footer";
-import Catalog from "./components/Catalog";
+import AddCategory from "./components/AddCategory";
 import NavBar from "./components/NavBar";
-import NewCategory from "./components/NewCategory";
-import AddProduct from "./components/AddProduct";
-import SearchProducts from './components/SearchProducts';
-import FilterByCategory from './components/FilterByCategory'
-import Product from "./components/Product";
+import ProductDetail from "./components/ProductDetail";
+import Products from "./components/Products";
+import AddProduct from "./components/AddProduct.jsx"
 
 const App = () => {
   return (
     <React.Fragment>
       <Route path="/" component={NavBar} />
-      <Route path='/search/:name' component={SearchProducts}/>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/products" component={Catalog} />
-      <Route exact path="/detail/:productId" component={Product} />
-      <Route exact path="/addCategory" component={NewCategory} />
-      <Route path="/" component={Footer} />
-      <Route exact path='/addProduct' component={AddProduct}/>
-      <Route path='/catalogue/category' component={FilterByCategory}/>
+      <Route exact path="/products" component={Products} />
+      <Route path="/product/detail" component={ProductDetail} />
+      <Route exact path="/category/add" component={AddCategory} />
+      <Route exact path="/product/add" component={AddProduct}/> 
     </React.Fragment>
   );
 };

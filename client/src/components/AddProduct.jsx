@@ -1,16 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  getCategories,
-  postProduct,
-} from "../redux/actions/productsActions.js";
-import Style from "../componentsCss/AddProduct.module.css";
+import { createProduct } from "../redux/actions/productActions.js";
+import { getCategories } from '../redux/actions/categoryActions';
 
 export default function AddProduct() {
   const dispatch = useDispatch();
   const store = useSelector((store) => store);
 
-  const categories = store.products.categories;
+  const categories = store.categories.categories;
   const loading = store.products.loading;
   const agregado = store.products.message;
 
@@ -18,7 +15,7 @@ export default function AddProduct() {
     dispatch(getCategories());
   }, []);
 
-  const [cate, setc] = useState([]);
+  
   const [datos, setDatos] = useState({
     name: "",
     description: "",
@@ -51,7 +48,7 @@ export default function AddProduct() {
 
   const enviarDatos = (event) => {
     event.preventDefault();
-    dispatch(postProduct(datos));
+    dispatch(createProduct(datos));
   };
 
   if (loading) {
@@ -64,8 +61,8 @@ export default function AddProduct() {
     return (
       <div>
         <form onSubmit={enviarDatos}>
-          <div className={Style.container}>
-            <section className={Style.section}>
+          <div>
+            <section>
               <input
                 type="text"
                 placeholder="Nombre"
@@ -73,7 +70,7 @@ export default function AddProduct() {
                 onChange={handleInputChange}
               />
             </section>
-            <section className={Style.section}>
+            <section>
               <input
                 type="text"
                 placeholder="Descripción"
@@ -81,7 +78,7 @@ export default function AddProduct() {
                 onChange={handleInputChange}
               />
             </section>
-            <section className={Style.section}>
+            <section>
               $
               <input
                 type="number"
@@ -90,7 +87,7 @@ export default function AddProduct() {
                 onChange={handleInputChange}
               />
             </section>
-            <section className={Style.section}>
+            <section>
               <input
                 type="number"
                 placeholder="Stock"
