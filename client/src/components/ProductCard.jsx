@@ -2,8 +2,6 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
-<<<<<<< Updated upstream
-=======
 import { makeStyles } from '@material-ui/core/styles';
 
 import Card from '@material-ui/core/Card';
@@ -19,15 +17,9 @@ import { green } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {Button} from '@material-ui/core'
->>>>>>> Stashed changes
 
 
-
-
-<<<<<<< Updated upstream
-=======
-
-  const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     
     root: {
       
@@ -60,7 +52,6 @@ import {Button} from '@material-ui/core'
 
 
 
->>>>>>> Stashed changes
 export default function ProductCard({ uuid, name, description, image, price }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -71,20 +62,8 @@ export default function ProductCard({ uuid, name, description, image, price }) {
     history.push("/product/detail/" + uuid);
     window.scrollTo(0, 0);
   }
-
+  const classes = useStyles();
   return (
-<<<<<<< Updated upstream
-    <div id="product">
-      <img src={image || defaultImg} alt="Sin Imagen" />
-      <div>
-        <button value={uuid} onClick={handleClick}>
-          {name}
-        </button>
-        <p>{description}</p>
-        <p>{price}</p>
-      </div>
-    </div>
-=======
    
     <Card onClick={handleClick} className={classes.root}>
       <CardHeader
@@ -115,13 +94,13 @@ export default function ProductCard({ uuid, name, description, image, price }) {
         </IconButton>
        <Button color='primary' variant='outlined'> COMPRAR </Button>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={classes.expand} timeout="auto" unmountOnExit>
         <CardContent>
         </CardContent>
       </Collapse>
     </Card>
     
->>>>>>> Stashed changes
+
   );
 }
           
