@@ -30,7 +30,7 @@ export default function AddCategory() {
   const success = useSelector((store) => store.categories.success);
   const error = useSelector((store) => store.categories.error);
 
-  useEffect(() => {}, [categories]); //redenrizar de vuelta
+  //  useEffect(() => {}, [categories]); //redenrizar de vuelta
 
   useEffect(() => {
     if (error?.error && error?.error.length > 0) {
