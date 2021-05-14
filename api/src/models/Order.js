@@ -3,7 +3,11 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
 
     sequelize.define('order', {
-
+        uuid: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+        },
         orderState: {
             type: DataTypes.ENUM({
                 values: ['cart', 'created', 'processing', 'cancelled', 'completed'],

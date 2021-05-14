@@ -114,7 +114,6 @@ async function updateUser(req, res, next) {
     }
 }
 
-
 module.exports = {
     createUser,
     getUsers,
