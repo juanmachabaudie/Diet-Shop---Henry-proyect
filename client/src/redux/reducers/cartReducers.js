@@ -35,7 +35,7 @@ export default function cartReducers(state = initialState, action) {
     case CART_RESET:
       return {
         ...state,
-        cartItems: [],
+        cartItems: action.payload,
       };
     default:
       return state;
