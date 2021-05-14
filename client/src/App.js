@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar";
 import ProductDetail from "./components/ProductDetail";
 import Products from "./components/Products";
 import AddProduct from "./components/AddProduct.jsx"
-import Cart from "./components/cart/Cart";
+import Cart from "./components/Cart";
 
 const App = () => {
   return (
