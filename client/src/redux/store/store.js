@@ -3,22 +3,15 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk"; //nos ayuda a trabajar con promesas con redux
 //import {composeWithDevTools} from 'redux-devtools-extension' //nos ayuda a ver los state de la herramienta
 
-import catalogueReducer from "../reducers/catalogueReducer";
-import productReducer from "../reducers/productsReducer.js";
-import categoriesReducer from "../reducers/categoriesReducer";
-import categoryReducer from '../reducers/categoryReducer.js';
+import productReducers from "../reducers/productReducers";
+import categoryReducers from "../reducers/categoryReducers";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  //aca va el objeto con los nombres de los reducers ej:
-  // miReducer: reducer_1  (obiamente con la respectiva importacion del reducer_1)
-  catalogue: catalogueReducer,
-  products: productReducer,
-  category: categoryReducer,
-  categories: categoriesReducer,
+  products: productReducers,
+  categories: categoryReducers,
 });
-
 
 export const store = createStore(
   rootReducer, // --->>  persistedReducer
