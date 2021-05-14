@@ -4,7 +4,7 @@ const { checkUuid } = require("../helpers/utils");
 
 // CART = [ {}, {} ]
 
-export async function createOrUpdateCart(req, res, next) {
+async function createOrUpdateCart(req, res, next) {
   try {
     const { uuid, items } = req.body; // [{}, {}, {qty}]
     if (uuid && checkUuid(uuid)) {
@@ -13,11 +13,11 @@ export async function createOrUpdateCart(req, res, next) {
         const newCart = await cart.update(req.body);
         return res.send(newCart);
       }
-      const cart = await Cart.create({
+      const newCart = await Cart.create({
         uuid: uuid(),
         items,
       });
-      return res.send(cart);
+      return res.send(newCart);
     } else {
       return res.status(404).send({ error: "El Carrito No Existe" });
     }
@@ -25,3 +25,7 @@ export async function createOrUpdateCart(req, res, next) {
     next(error);
   }
 }
+
+module.exports = {
+  createOrUpdateCart,
+};
