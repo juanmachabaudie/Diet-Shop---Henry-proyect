@@ -30,7 +30,7 @@ export default function cartReducers(state = initialState, action) {
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cartItems: cartItems.filter((e) => e.uuid !== action.payload),
+        cartItems: state.cartItems.filter((e) => e.uuid !== action.payload),
       };
     case CART_RESET:
       return {
