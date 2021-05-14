@@ -7,14 +7,18 @@ const { checkUuid } = require("../helpers/utils");
 async function createOrUpdateCart(req, res, next) {
   try {
     const { uuid, items } = req.body; // [{}, {}, {qty}]
+
+    let modItems = JSON.stringify(items);
+    console.log("TypeOF : ", typeof modItems);
     if (uuid && checkUuid(uuid)) {
       const cart = await Cart.findOne({ where: { uuid } });
       if (cart) {
         const newCart = await cart.update(req.body);
         return res.send(newCart);
       }
+    } else if (items) {
       const newCart = await Cart.create({
-        uuid: uuid(),
+        uuid,
         items,
       });
       return res.send(newCart);
