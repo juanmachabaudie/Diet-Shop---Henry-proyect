@@ -1,28 +1,41 @@
-import { Link } from "react-router-dom";
 
-const CartItem = ({ item, qtyChangeHandler, removeHandler }) => {
-  return (
-    <div>
-      <div>
-        <img src={item.imageUrl} alt={item.name} />
-      </div>
-      <Link to={`product/detail/${item.uuid}`}>
-        <p>{item.name}</p>
-      </Link>
-      <p>${item.price}</p>
-      <select
-        value={item.qty}
-        onChange={(e) => qtyChangeHandler(item.uuid, e.target.value)}
-      >
-        {[...Array(item.stock).keys()].map((x) => (
-          <option key={x + 1} value={x + 1}>
-            {x + 1}
-          </option>
-        ))}
-      </select>
-      <button onClick={() => removeHandler(item.product)}>borrar</button>
-    </div>
-  );
-};
+import React from 'react'
+import { Button, Container, IconButton, TextField, Typography } from '@material-ui/core'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import './itemCart.css'
+import {makeStyles} from '@material-ui/core/styles'
 
-export default CartItem;
+
+const useStyle = makeStyles({
+    item: {
+      marginLeft: '150px' ,
+      display:'flex',
+      justifyContent: 'space-between' ,
+      marginTop: '20px',
+      alignItems: 'center'
+
+    }
+})   
+const CartItem = ({product}) => {
+    const classes = useStyle()
+
+    return (
+        <Container className={classes.item}>
+            <img src={product.img} alt={product.name} />
+            <Typography variant='span'>{product.name}</Typography>
+            <Typography variant='span'>${product.price}</Typography>
+            <TextField
+            type='number'
+            value={product.quantity}
+            />
+            <Button variant='contained' >
+                <IconButton>
+                    <DeleteForeverIcon/> 
+                </IconButton>
+            </Button>
+
+        </Container>
+    )
+}
+
+export default CartItem

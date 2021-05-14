@@ -1,73 +1,61 @@
-import "./CartScreen.css";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 
-// Components
-import CartItem from "./CartItem";
+import React,{useEffect} from 'react'
 
-// Actions
-import { addToCart, removeFromCart } from "../redux/actions/cartActions";
+import {Container} from '@material-ui/core'
+import {useDispatch, useSelector} from 'react-redux'
+import CartItem from './CartItem'
+import {Button} from '@material-ui/core'
+import CartTotal from './CartTotal'
+//import {getAllProductsInCart} from '../../redux/actions/cartActions'
+import {makeStyles} from '@material-ui/core/styles'
+
+const useStyle = makeStyles({
+    cart: {
+     marginLeft: '0px'
+
+    }
+})
+
 
 const Cart = () => {
-  const dispatch = useDispatch();
+    const dispatch= useDispatch()
+    
+    let products= [
+       { img: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/860/030/products/dale-coco-leche-de-coco1-b4cb1c8d1424b2978115936240124870-1024-1024.png',
+        name: 'leche de soja',
+        price: 333,
+        quantity: 0 },
+        {
+            img:'https://d3ugyf2ht6aenh.cloudfront.net/stores/860/030/products/dale-coco-leche-de-coco1-b4cb1c8d1424b2978115936240124870-1024-1024.png',
+            name: 'leche de almendra',
+            price : 455,
+            quantity: 0
+        }
+    ]
 
-  const cartInLocalStorage = useSelector((state) => state.cartInLocalStorage);
 
-  useEffect(() => {}, []);
+const classes = useStyle()
 
-  const qtyChangeHandler = (uuid, qty) => {
-    dispatch(addToCart(uuid, qty));
-  };
+// useEffect(() => {
+//     dispatch(getAllProductsInCart());     //esto va a mostrar todos los productos que tiene un usuario en su carrito
+// }, [ dispatch])                            //y mostraremos los items cart y el total cart 
+    return (
+    
+        <Container className={classes.cart}>
+            <h4>mis productos</h4> <hr/>
+            <Container>
+                <Container>
+                   {products.map(product =><CartItem product={product} /> )} 
+                    </Container>
+                 
+            </Container> 
+            <hr/>
+            <Button variant='contained'>Eliminar Carrito</Button>
+                    <Container>
+                        <CartTotal />
+                    </Container>
+        </Container>
+    )
+}
 
-  const removeFromCartHandler = (uuid) => {
-    dispatch(removeFromCart(uuid));
-  };
-
-  const getCartCount = () => {
-    return cartInLocalStorage.reduce((qty, item) => Number(item.qty) + qty, 0);
-  };
-
-  const getCartSubTotal = () => {
-    return cartInLocalStorage
-      .reduce((price, item) => price + item.price * item.qty, 0)
-      .toFixed(2);
-  };
-
-  return (
-    <>
-      <div>
-        <div>
-          <h2>Shopping Cart</h2>
-
-          {cartInLocalStorage.length === 0 ? (
-            <div>
-              Your Cart Is Empty <Link to="/">Go Back</Link>
-            </div>
-          ) : (
-            cartInLocalStorage.map((item) => (
-              <CartItem
-                key={item.uuid}
-                item={item}
-                qtyChangeHandler={qtyChangeHandler}
-                removeHandler={removeFromCartHandler}
-              />
-            ))
-          )}
-        </div>
-
-        <div className="cartscreen__right">
-          <div className="cartscreen__info">
-            <p>Subtotal ({getCartCount()}) items</p>
-            <p>${getCartSubTotal()}</p>
-          </div>
-          <div>
-            <button>Proceed To Checkout</button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default Cart;
+export default Cart
