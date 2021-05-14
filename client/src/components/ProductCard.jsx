@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: 345,
       boxShadow: '0 0 50px rgb(234, 232, 300)',
       marginTop: '20px',
+      display: 'flex',
+      flexDirection:'column',
+      
       },
     media: {
       height: 0,

@@ -5,12 +5,14 @@ import thunk from "redux-thunk"; //nos ayuda a trabajar con promesas con redux
 
 import productReducers from "../reducers/productReducers";
 import categoryReducers from "../reducers/categoryReducers";
+import cartReducers from '../reducers/cartReducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   products: productReducers,
   categories: categoryReducers,
+  cart: cartReducers
 });
 
 export const store = createStore(
