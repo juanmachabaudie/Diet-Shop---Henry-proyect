@@ -16,7 +16,7 @@ const App = () => {
       <Route path="/product/detail" component={ProductDetail} />
       <Route exact path="/category/add" component={AddCategory} />
       <Route exact path="/product/add" component={AddProduct}/> 
-      <Route path="/product/search" component={SearchProduct}/>
+      <Route path="/products/search" component={SearchProduct}/>
       <Route exact path="/user/add" component={AddUser} />
     </React.Fragment>
   );

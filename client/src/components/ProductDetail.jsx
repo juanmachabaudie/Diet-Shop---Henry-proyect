@@ -1,12 +1,10 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import defaultImg from '../imgs/default.svg'
 
 export default function ProductDetail() {
-  const defaultImg =
-    "https://lh3.googleusercontent.com/proxy/lDX77oEN-GsT0mLlLb6s3Y0sf3-EG9S3dqBV7cOsOrSSJ9_mlEtMb9I-nIj469riZT-Q3EA2N4nP6gzt-iwoSuOR_Fihd8cC";
-  //const dispatch = useDispatch()
-  const detail = useSelector((store) => store.products.product);
 
+  const detail = useSelector((store) => store.products.product);
+  
   return (
     <div id="product">
       <img src={detail.image || defaultImg} alt="Sin Imagen" />

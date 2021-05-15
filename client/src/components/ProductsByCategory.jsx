@@ -10,6 +10,7 @@ function ProductsByCategory() {
 
   useEffect(() => {
     dispatch(getCategories());
+    dispatch(getProducts());
   }, [dispatch]);
 
   const categories = useSelector((store) => store.categories.categories);

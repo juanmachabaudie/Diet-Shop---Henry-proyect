@@ -35,7 +35,7 @@ export default function SearchBar() {
       return;
     }
     dispatch(searchProducts(product));
-    history.push(`/product/search?name=${product}`);
+    history.push(`/products/search?name=${product}`);
     setProduct("");
   }
 
@@ -46,7 +46,7 @@ export default function SearchBar() {
         onChange={(event) => handleChange(event)}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton >
+            <IconButton type = 'submit'>
               <FontAwesomeIcon icon={faSearch} color="#404040" />
             </IconButton>
           </InputAdornment>

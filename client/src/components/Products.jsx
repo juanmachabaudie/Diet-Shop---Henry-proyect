@@ -2,13 +2,16 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "./ProductCard";
 import { getProducts } from "../redux/actions/productActions";
+import ProductsByCategory from "./ProductsByCategory";
 
 export default function Products() {
   const dispatch = useDispatch();
   const products = useSelector((store) => store.products.products);
 
   useEffect(() => {
+    if(!products.length){
     dispatch(getProducts());
+  }
   }, [dispatch]);
 
   //const product= products.map(e => e.name
@@ -36,6 +39,7 @@ export default function Products() {
   return (
     <div>
       <h1>Products</h1>
+     <ProductsByCategory/>
       {renderProducts}
     </div>
   );
