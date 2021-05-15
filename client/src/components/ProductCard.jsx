@@ -2,10 +2,58 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
+import { makeStyles } from '@material-ui/core/styles';
 
-const defaultImg =
-  "https://lh3.googleusercontent.com/proxy/lDX77oEN-GsT0mLlLb6s3Y0sf3-EG9S3dqBV7cOsOrSSJ9_mlEtMb9I-nIj469riZT-Q3EA2N4nP6gzt-iwoSuOR_Fihd8cC";
-  // PONER UNA IMG QUE ANDE
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { green } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import {Button} from '@material-ui/core'
+
+
+const useStyles = makeStyles((theme) => ({
+    
+    root: {
+      
+      maxWidth: 345,
+      boxShadow: '0 0 50px rgb(234, 232, 300)',
+      marginTop: '20px',
+      display: 'flex',
+      flexDirection:'column',
+      
+      },
+    media: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+      }),
+    },
+    expandOpen: {
+      transform: 'rotate(180deg)',
+    },
+    avatar: {
+      backgroundColor: green[500],
+      
+    },
+    
+  }));
+
+
+
+
 
 export default function ProductCard({ uuid, name, description, image, price }) {
   const dispatch = useDispatch();
@@ -17,17 +65,49 @@ export default function ProductCard({ uuid, name, description, image, price }) {
     history.push("/product/detail/" + uuid);
     window.scrollTo(0, 0);
   }
-
+  const classes = useStyles();
   return (
-    <div id="product">
-      <img src={image || defaultImg} alt="Sin Imagen" />
-      <div>
-        <button value={uuid} onClick={handleClick}>
-          {name}
-        </button>
-        <p>{description}</p>
-        <p>{price}</p>
-      </div>
-    </div>
+   
+    <Card onClick={handleClick} className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar} >
+            diet
+          </Avatar>
+        }
+       title={name}
+      />
+      <CardMedia
+        className={classes.media}
+        image={image}
+        title={name}
+      />
+      <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+          {description} <hr/>
+          ${price}
+          </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="agregar" >
+        <AddShoppingCartIcon />
+        </IconButton>
+       <Button color='primary' variant='outlined'> COMPRAR </Button>
+      </CardActions>
+      <Collapse in={classes.expand} timeout="auto" unmountOnExit>
+        <CardContent>
+        </CardContent>
+      </Collapse>
+    </Card>
+    
+
   );
 }
+          
+          
+         
+          
+          
