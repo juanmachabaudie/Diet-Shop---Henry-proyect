@@ -141,14 +141,6 @@ const NavBar = () => {
             <IconButton color="inherit">
               <FontAwesomeIcon icon={faUser} />
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            ></IconButton>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
