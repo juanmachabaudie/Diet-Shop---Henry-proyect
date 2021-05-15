@@ -5,9 +5,17 @@ import {
   getCategoryByName,
   addCategory,
   deleteSuccess,
-  deleteError,
 } from "../redux/actions/categoryActions";
+import {
+  Grid,
+  Container,
+  Typography,
+  Button,
+  Box,
+  TextField,
+} from "@material-ui/core";
 import { sweetAlert } from "../helpers/utils";
+import makeStyles from "./AddCategorySytles";
 
 const initialState = {
   name: "",
@@ -15,6 +23,7 @@ const initialState = {
 };
 
 export default function AddCategory() {
+  const classes = makeStyles();
   const [formState, setFormState] = useState(initialState);
   const [currentSelectedState, setCurrentSelectedState] = useState({
     name: "",
@@ -28,31 +37,20 @@ export default function AddCategory() {
 
   const categories = useSelector((store) => store.categories.categories);
   const success = useSelector((store) => store.categories.success);
-  const error = useSelector((store) => store.categories.error);
 
   useEffect(() => {}, [categories]); //redenrizar de vuelta
 
   useEffect(() => {
-    if (error?.error && error?.error.length > 0) {
-      sweetAlert(error?.error);
-      deleteError();
-    }
-    if (success?.name) {
-      sweetAlert(
-        "Info",
-        `Categoría ${success.name} creada correctamente`,
-        "success",
-        "OK"
-      );
+    if (success?.category) {
       // Select new current category on select box
-      setCurrentSelectedState({ value: success.uuid });
+      setCurrentSelectedState({ value: success.category.uuid });
       const categoryImageTag = document.getElementById("categoryImage");
-      categoryImageTag.setAttribute("src", success.image);
+      categoryImageTag.setAttribute("src", success.category.image);
       dispatch(deleteSuccess());
-      dispatch(resetState());
+      resetState();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, success]);
+  }, [success]);
 
   const handleOnChange = (event) => {
     setFormState({
@@ -96,19 +94,16 @@ export default function AddCategory() {
   const handleOnKeyPress = (event) => {
     if (!categories || categories.length === 0) return;
     const name = event.target.value;
-    getCategoryByName(name);
+    dispatch(getCategoryByName(name));
   };
 
   const handleOnChangeCategory = (event) => {
-    const urlImage = event.target.options[
-      event.target.selectedIndex
-    ].getAttribute("data-img");
+    const urlImage =
+      event.target.options[event.target.selectedIndex].getAttribute("data-img");
     const categoryImage = document.getElementById("categoryImage");
     categoryImage.setAttribute("src", urlImage);
     // Select current category on select box
-    const value = event.target.options[event.target.selectedIndex].getAttribute(
-      "value"
-    );
+    const value = event.target.options[event.target.selectedIndex].getAttribute("value");
     setCurrentSelectedState({ value: value });
   };
 
@@ -122,79 +117,103 @@ export default function AddCategory() {
     }
   };
 
-  // const capitalizeFirstLetter = (word) => {
-  //   if (typeof word !== "string") return "";
-  //   return word.charAt(0).toUpperCase() + word.slice(1);
-  // };
-
   return (
     <>
-      <h3> Crear Categoría </h3>
-      <section id="new-category-section">
-        <div>
-          <div>
-            <label htmlFor="categoryName">Categoría</label>
-            <input
-              name="name"
-              type="text"
-              id="categoryName"
-              aria-describedby="categoryHelp"
-              placeholder="Escribir una categoria..."
-              value={formState.name}
-              onChange={handleOnChange}
-              onKeyPress={handleOnKeyPress}
-            />
-          </div>
+      <Container container className={classes.container} maxWidth="md">
+        <Typography align="center" variant="h4">
+          Crear Categoría
+        </Typography>
+        <Box
+          id="new-category-section"
+          border={1}
+          borderRadius={16}
+          borderColor="grey.500"
+        >
+          <Box p={3}>
+            <Grid container id="inputsContainer" spacing={4}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="Categoría"
+                  placeholder="Escribir una categoria..."
+                  name="name"
+                  id="categoryName"
+                  value={formState.name}
+                  onChange={handleOnChange}
+                  onKeyPress={handleOnKeyPress}
+                />
+              </Grid>
 
-          <div>
-            <label htmlFor="categoryUrlImage">Url de la Imagen</label>
-            <input
-              name="image"
-              type="text"
-              id="categoryUrlImage"
-              aria-describedby="categoryHelp"
-              placeholder="Escribir el url de la imagen..."
-              value={formState.image}
-              onChange={handleOnChange}
-            />
-          </div>
-        </div>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="Url de la imagen"
+                  name="image"
+                  type="text"
+                  id="categoryUrlImage"
+                  placeholder="Escribir el url de la imagen..."
+                  value={formState.image}
+                  onChange={handleOnChange}
+                />
+              </Grid>
+            </Grid>
+          </Box>
 
-        <div id="selectImageContainer">
-          <div>
-            <select
-              size="15"
-              onChange={handleOnChangeCategory}
-              value={currentSelectedState.value}
-            >
-              {categories?.sort(sortByCategoryNameAZ).map((category) => (
-                <option
-                  key={category.uuid}
-                  value={category.uuid}
-                  data-img={category.image}
+          <Box p={3}>
+            <Grid container spacing={4} id="selectImageContainer">
+              <Grid item xs={12} sm={6}>
+                <select
+                  className={classes.select}
+                  size="15"
+                  onChange={handleOnChangeCategory}
+                  value={currentSelectedState.value}
                 >
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
+                  {categories?.sort(sortByCategoryNameAZ).map((category) => (
+                    <option
+                      key={category.uuid}
+                      value={category.uuid}
+                      data-img={category.image}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </Grid>
 
-          <div>
-            <img id="categoryImage" alt="Foto categoría no disponible..."></img>
-          </div>
-        </div>
+              <Grid item c xs={12} sm={6}>
+                <img
+                  className={classes.image}
+                  id="categoryImage"
+                  alt="Foto categoría no disponible..."
+                ></img>
+              </Grid>
+            </Grid>
+          </Box>
 
-        <div>
-          <div>
-            <button type="submit" onClick={handleOnClickAddCategory}>
-              Crear Categoria
-            </button>
-          </div>
-          <div>
-            <button type="submit">Delete Category</button>
-          </div>
-        </div>
-      </section>
+          <Box p={3}>
+            <Grid container spacing={4}> 
+              <Grid item xm={12} sm={6}>
+                <Button variant="contained" color="secondary" fullWidth>
+                  Eliminar Categoría
+                </Button>
+              </Grid> 
+
+              <Grid item xm={12} sm={6}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  color="primary"
+                  onClick={handleOnClickAddCategory}
+                >
+                  Crear Categoría
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 }

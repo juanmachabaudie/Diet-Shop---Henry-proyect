@@ -17,7 +17,8 @@ import { green } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {Button} from '@material-ui/core'
-
+import {Link} from 'react-router-dom'
+import {addToCart} from '../redux/actions/cartActions'
 
 const useStyles = makeStyles((theme) => ({
     
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function ProductCard({ uuid, name, description, image, price }) {
+export default function ProductCard({ uuid, name, description, image, price, }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -66,9 +67,12 @@ export default function ProductCard({ uuid, name, description, image, price }) {
     window.scrollTo(0, 0);
   }
   const classes = useStyles();
+
+  const addProductToCart =() => dispatch(addToCart(uuid))
+
   return (
    
-    <Card onClick={handleClick} className={classes.root}>
+    <Card  className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar} >
@@ -77,7 +81,7 @@ export default function ProductCard({ uuid, name, description, image, price }) {
         }
        title={name}
       />
-      <CardMedia
+      <CardMedia onClick={handleClick}
         className={classes.media}
         image={image}
         title={name}
@@ -92,9 +96,11 @@ export default function ProductCard({ uuid, name, description, image, price }) {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="agregar" >
+         <Link to='/cart'> 
+        <IconButton onClick={addProductToCart} aria-label="agregar" >
         <AddShoppingCartIcon />
-        </IconButton>
+          </IconButton>
+          </Link>  
        <Button color='primary' variant='outlined'> COMPRAR </Button>
       </CardActions>
       <Collapse in={classes.expand} timeout="auto" unmountOnExit>

@@ -22,15 +22,15 @@ async function createCategory(req, res, next) {
         },
       });
       if (find) {
-        return res.status(200).send("Categoria existente");
+        return res.status(200).send({error: "Categoria existente"});
       }
       const category = await Category.create({
         name,
         image,
       });
-      return res.status(200).send("Categoria " + category.name + " creada");
+      return res.status(200).send({message: `Categoria ${category.name} creada correctamente`, category: category});
     } else {
-      return res.status(500).send("Faltan datos");
+      return res.status(500).send({error: `Faltan datos`});
     }
   } catch (error) {
     next(error);

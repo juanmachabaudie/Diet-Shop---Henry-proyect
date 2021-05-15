@@ -1,4 +1,4 @@
-const axios = require("axios");
+import { sweetAlert } from "../../helpers/utils";
 
 export const getCategories = () => {
   return async (dispatch) => {
@@ -53,23 +53,27 @@ export const addCategory = (category) => {
         mode: "cors",
         headers: { "Content-type": "application/json" },
       });
-      let json = await result.json();
-      if (json.error) {
-        return dispatch({
-          type: "ERROR",
-          payload: json,
-        });
-      }
-      dispatch({
-        type: "SUCCESS",
-        payload: json,
-      });
 
-      dispatch({
+      let json = await result.json();
+
+      if (json?.error) {
+        return sweetAlert(json?.error);
+      }
+      await dispatch({
         type: "ADD_CATEGORY",
         payload: json,
       });
-
+      await dispatch({
+        type: "SUCCESS",
+        payload: json,
+      });
+      sweetAlert(
+        "Info",
+        json.message,
+        "success",
+        "OK"
+      );
+            
       await getCategories()(dispatch);
     } catch (error) {
       return { error: error };
