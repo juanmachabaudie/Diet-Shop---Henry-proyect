@@ -58,12 +58,6 @@ export const addCategory = (category) => {
 
       if (json?.error) {
         return sweetAlert(json?.error);
-        // return dispatch({
-        //   type: "ERROR",
-        //   payload: json,
-        // });
-
-        
       }
       await dispatch({
         type: "ADD_CATEGORY",
