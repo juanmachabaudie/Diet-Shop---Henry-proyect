@@ -103,6 +103,12 @@ const NavBar = () => {
         <IconButton href='/products'>
         Productos
         </IconButton>
+        <IconButton href='/category/add'>
+        add category
+        </IconButton>
+        <IconButton href='/product/add'>
+        add product
+        </IconButton>
       </MenuItem>
     </Menu>
   );
