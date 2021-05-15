@@ -21,7 +21,7 @@ export const addToCart = (uuid, qty) => async (dispatch, getState) => {
       qty,
     },
   });
-  sweetAlert("Agregado", "success", "OK", 1000);
+  sweetAlert("Agregado al carrito", "exitoso", "ok", 1000);
   localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
 };
 
@@ -42,3 +42,7 @@ export const cartReset = () => (dispatch, getState) => {
   sweetAlert("Vaciado", "success", "OK", 1000);
   localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
 };
+
+export function changeProductQuantity() {
+  
+}

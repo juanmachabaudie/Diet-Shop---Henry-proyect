@@ -7,6 +7,7 @@ import {Button} from '@material-ui/core'
 import CartTotal from '../components/CartTotal'
 import {makeStyles} from '@material-ui/core/styles'
 
+import {cartReset} from '../redux/actions/cartActions'
 
 const useStyle = makeStyles({
     cart: {
@@ -17,30 +18,16 @@ const useStyle = makeStyles({
 
 
 const Cart = () => {
-   
-    
-    let products= [
-       { img: 'https://d3ugyf2ht6aenh.cloudfront.net/stores/860/030/products/dale-coco-leche-de-coco1-b4cb1c8d1424b2978115936240124870-1024-1024.png',
-        name: 'leche de soja',
-        price: 333,
-        quantity: 0 },
-        {
-            img:'https://d3ugyf2ht6aenh.cloudfront.net/stores/860/030/products/dale-coco-leche-de-coco1-b4cb1c8d1424b2978115936240124870-1024-1024.png',
-            name: 'leche de almendra',
-            price : 455,
-            quantity: 0
-        }
-    ]
+    const classes = useStyle()
+
+const dispatch= useDispatch()
+const products = useSelector(state => state.cart.cartItems)
 
 
-const classes = useStyle()
 
-function handleDeleteProductsInCart() {
- //traerme la accion que va a vaciar el carrito   
-}
-// useEffect(() => {
-//     dispatch(getAllProductsInCart());     //esto va a mostrar todos los productos que tiene un usuario en su carrito
-// }, [ dispatch])                            //y mostraremos los items cart y el total cart 
+const handleDeleteCart = () => dispatch(cartReset())
+
+//esto va a mostrar todos los productos que tiene un usuario en su carrito//y mostraremos los items cart y el total cart 
     return (
     
         <Container className={classes.cart}>
@@ -52,9 +39,16 @@ function handleDeleteProductsInCart() {
                  
             </Container> 
             <hr/>
-            <Button variant='contained' onClick={handleDeleteProductsInCart}>Vaciar Carrito</Button>
+            <Button variant='contained' onClick={handleDeleteCart}>Vaciar Carrito</Button>
                     <Container>
-                        <CartTotal />
+                      {products.map(data => {
+                          return(
+                              <CartTotal 
+                              price={data.price}
+                              quantity={data.quantity}
+                              />
+                          )
+                      })}
                     </Container>
         </Container>
     )
