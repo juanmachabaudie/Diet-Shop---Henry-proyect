@@ -8,7 +8,10 @@ export default function Products() {
   const products = useSelector((store) => store.products.products);
 
   useEffect(() => {
+
+    if(!products.length){
     dispatch(getProducts());
+  }
   }, [dispatch]);
 
   //const product= products.map(e => e.name

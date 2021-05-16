@@ -9,7 +9,7 @@ export default function AddProduct() {
 
   const categories = store.categories.categories;
   const loading = store.products.loading;
-  const agregado = store.products.message;
+  const added = store.products.message;
 
   useEffect(() => {
     dispatch(getCategories());
@@ -115,7 +115,7 @@ export default function AddProduct() {
             })}
           </select>
           <input type="submit" value="Agregar" />
-          <div>{agregado.message}</div>
+          <div>{added.message}</div>
         </form>
       </div>
     );

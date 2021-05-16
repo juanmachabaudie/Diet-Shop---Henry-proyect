@@ -2,8 +2,22 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { searchProducts } from "../redux/actions/productActions";
+//----------- ↓ Import Styles ↓ -----------
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  form,
+  IconButton,
+  Input,
+  InputAdornment,
+} from "@material-ui/core";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const useStyle = makeStyles();
 
 export default function SearchBar() {
+  const classes = useStyle();
+
   const [product, setProduct] = useState("");
 
   const dispatch = useDispatch();
@@ -21,58 +35,23 @@ export default function SearchBar() {
       return;
     }
     dispatch(searchProducts(product));
-    history.push("/products/search?name=" + product);
+    history.push(`/products/search?name=${product}`);
     setProduct("");
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <table>
-          <th>
-            <input
-              type="text"
-              placeholder="Buscar..."
-              autoComplete="on"
-              value={product}
-              onChange={(event) => handleChange(event)}
-            />
-          </th>
-          <th>
-            <button type="submit">Buscar</button>
-          </th>
-        </table>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <Input 
+        placeholder="Buscar..."
+        onChange={(event) => handleChange(event)}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton type = 'submit'>
+              <FontAwesomeIcon icon={faSearch} color="#404040" />
+            </IconButton>
+          </InputAdornment>
+        }
+      />
+    </form>
   );
 }
-
-/* function handleSubmit(e){
-    e.preventDefault()
-    setProduct('');
-}
-    return (
-        <div>
-        <form onSubmit={handleSubmit}>
-            <nav> 
-          
-                 <input
-                  className="form-control mr-sm-2"
-                  aria-label="Search"
-                   type="text"
-                   placeholder='que estas buscando?'
-                   autoComplete="on"
-                   value={product}
-                  onChange={(event) => handleChange(event)}
-                 />
-                 <button type="submit">
-                     <Link to={'/search?name=' + product}>
-                     buscar
-                     </Link>
-                     
-                </button>
-            </nav> 
-         </form>
-     </div>
-    )
-} */

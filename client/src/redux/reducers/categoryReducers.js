@@ -26,7 +26,7 @@ export default function categoryReducers(state = initialState, action) {
       };
 
     case "SUCCESS":
-      
+
       return {
         ...state,
         success: action.payload,

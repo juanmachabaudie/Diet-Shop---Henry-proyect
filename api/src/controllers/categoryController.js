@@ -23,6 +23,7 @@ async function createCategory(req, res, next) {
       });
       if (find) {
         return res.status(200).send({error: "Categoria existente"});
+
       }
       const category = await Category.create({
         name,
@@ -31,6 +32,7 @@ async function createCategory(req, res, next) {
       return res.status(200).send({message: `Categoria ${category.name} creada correctamente`, category: category});
     } else {
       return res.status(500).send({error: `Faltan datos`});
+
     }
   } catch (error) {
     next(error);

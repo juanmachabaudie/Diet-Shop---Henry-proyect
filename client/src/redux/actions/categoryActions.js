@@ -1,4 +1,6 @@
+
 import { sweetAlert } from "../../helpers/utils";
+
 
 export const getCategories = () => {
   return async (dispatch) => {
@@ -97,15 +99,3 @@ export const deleteSuccess = () => {
   };
 };
 
-/* export const byCategory = (name) => {
-  return async (dispatch) => {
-    const res = await fetch(
-      `http://localhost:3001/category/search?name=${name}`
-    );
-    const resJson = await res.json();
-    dispatch({
-      type: "BY_CATEGORY",
-      payload: resJson,
-    });
-  };
-}; */

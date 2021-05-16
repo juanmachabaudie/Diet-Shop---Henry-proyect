@@ -113,7 +113,6 @@ export default function ProductCard({ uuid, name, description, image, price, }) 
   );
 }
           
-          
          
           
           
