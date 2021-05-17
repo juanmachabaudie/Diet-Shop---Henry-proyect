@@ -128,14 +128,10 @@ export default function ProductDetail({ location }) {
       />
       <CardContent>
         <Typography variant="body" color="primary" component="p">
-          DESCRIPTION: {detail.description}
+          Descripción: {detail.description}
         </Typography>
         <Typography variant="body2" color="primary" component="p">
-          PRICE: ${detail.price},00
-        </Typography>
-        <Typography variant="body2" color="primary" component="p">
-          Categorias del Producto:
-          {detail.categories}
+          Precio: ${detail.price},00
         </Typography>
         <Typography variant="body2" color="primary" component="p">
           Categorias del Producto:

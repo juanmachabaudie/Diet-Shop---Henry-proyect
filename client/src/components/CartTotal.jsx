@@ -21,7 +21,7 @@ export const CartTotal = () => {
 
   return (
     <Container>
-      <Typography> total: {total}</Typography>
+      <Typography> Total: {total}</Typography>
       <Button>Comprar</Button>
     </Container>
   );

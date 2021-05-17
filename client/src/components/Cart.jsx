@@ -37,7 +37,7 @@ const Cart = () => {
   return (
     <Container className={classes.cart}>
       <div>
-        <h4 className={classes.title}>mis productos</h4>
+        <h4 className={classes.title}>Mis Productos</h4>
       </div>{" "}
       <hr />
       <Container>
