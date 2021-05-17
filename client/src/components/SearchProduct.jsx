@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 
 const SearchProducts = () => {
   const searchProducts = useSelector((store) => store.products.products);
- 
-  return (searchProducts.map((e) => {
+
+  return searchProducts.map((e) => {
     return (
       <ProductCard
         key={e.uuid}
@@ -16,7 +16,7 @@ const SearchProducts = () => {
         stock={e.stock}
       />
     );
-  }));
+  });
 };
 
 export default SearchProducts;

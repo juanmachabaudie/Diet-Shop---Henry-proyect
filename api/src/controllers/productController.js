@@ -156,7 +156,7 @@ async function getProductDetail(req, res, next) {
   }
 }
 
-//byCategory
+//productsByCategory
 async function productsByCategory(req, res, next) {
   const { uuid } = req.query;
   try {

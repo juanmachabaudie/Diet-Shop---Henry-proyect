@@ -1,7 +1,7 @@
 const { User } = require("../db");
 
 async function createUser(req, res, next) {
-  const { userName, email, password, isAdmin } = req.body;
+  const { userName, email, password, isAdmin } = req.body; //true
   const passAdmin = "henry";
   try {
     const userNameExist = await User.findOne({
@@ -22,7 +22,7 @@ async function createUser(req, res, next) {
           userName,
           email,
           password,
-          isAdmin: true,
+          isAdmin,
         });
         return res.json({ message: "administrador creado" });
       } else {
@@ -33,7 +33,7 @@ async function createUser(req, res, next) {
         userName,
         email,
         password,
-        isAdmin: false,
+        isAdmin: "",
       });
       return res.json({ message: "usuario creado" });
     }
@@ -42,6 +42,7 @@ async function createUser(req, res, next) {
   }
 }
 
+//trae todos los usuarios
 async function getUsers(req, res, next) {
   try {
     const users = await User.findAll();
@@ -67,6 +68,7 @@ async function getUsers(req, res, next) {
   }
 }
 
+//actualiza datos de Un Usuario
 async function updateUser(req, res, next) {
   const { uuid, userName, email, password, isAdmin } = req.body;
   const passAdmin = "henry";
@@ -76,65 +78,39 @@ async function updateUser(req, res, next) {
         uuid,
       },
     });
+    console.log(toEditUser);
     if (toEditUser) {
       const userNameExist = await User.findOne({
         where: { userName },
       });
       if (userNameExist) {
-        return res.json({ message: "nombre de usuario ya existente" });
+        return res.json({ message: "el nombre de usuario ya existe" });
       }
       const emailExist = await User.findOne({
         where: { email },
       });
       if (emailExist) {
-        return res.json({ message: "mail ya existente" });
-      }
-      if (isAdmin === passAdmin) {
-        toEditUser.update(req.body);
-        toEditUser.update({
-          isAdmin: true,
-        });
-        return res.status(200).json({ message: "Usuario Actualizado" });
+        return res.json({ message: "el mail ya existe" });
       } else {
-        if (isAdmin !== passAdmin) {
-          return res.status(200).json({ message: "Clave de administrador invalida" });
-        } else {
-          toEditUser.update(req.body);
-          toEditUser.update({
-            isAdmin: false,
-          });
-        }
+        toEditUser.update(req.body);
+        return res.status(200).json({ message: "Usuario Actualizado" });
       }
-    } else {
-      return res.status(400).json({ message: "Usuario no encontrado" });
     }
-    return res.status(200).json({ message: "Usuario Actualizado" });
+    return res.status(400).json({ message: "Usuario no encontrado" });
   } catch (error) {
     next(error);
   }
 }
 
-async function deleteUser(req, res, next) {
+//trae todos los usuarios
+async function getUser(req, res, next) {
+  const { userName } = req.params;
   try {
-    const { uuid } = req.body;
-    const userByeBye = await User.findOne({
-      where: {
-        uuid,
-      },
-    });
-    if (userByeBye) {
-      User.destroy({
-        where: {
-          uuid,
-        },
-      });
-      res.status(200).json({
-        message: "Usuario Eliminado",
-      });
+    const user = await User.findOne({ where: { userName } });
+    if (user === null) {
+      return res.send("Usuario No Existe");
     } else {
-      res.status(400).json({
-        message: "Usuario inexistente",
-      });
+      return res.send(user);
     }
   } catch (error) {
     next(error);
@@ -145,5 +121,5 @@ module.exports = {
   createUser,
   getUsers,
   updateUser,
-  deleteUser,
+  getUser,
 };

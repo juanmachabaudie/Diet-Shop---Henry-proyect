@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
 import ProductsByCategory from "./ProductsByCategory";
 
@@ -16,7 +16,7 @@ import {
   Menu,
 } from "@material-ui/core";
 
-import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faUser, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const useStyles = makeStyles((theme) => ({
@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = () => {
+  const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -86,6 +87,11 @@ const NavBar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const goToCart = () => {
+    history.push("/cart");
+    window.scroll(0, 0);
   };
 
   const menuId = "primary-search-account-menu";
@@ -100,15 +106,10 @@ const NavBar = () => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <IconButton href='/products'>
-        Productos
+        <IconButton>
+          <Link to="/products">Products</Link>
         </IconButton>
-        <IconButton href='/category/add'>
-        add category
-        </IconButton>
-        <IconButton href='/product/add'>
-        add product
-        </IconButton>
+        {/* <IconButton href="/products">Productos</IconButton> */}
       </MenuItem>
     </Menu>
   );
@@ -126,11 +127,13 @@ const NavBar = () => {
           >
             <FontAwesomeIcon icon={faBars} />
           </IconButton>
-          <IconButton color="inherit"  href='/'>
-          <Typography className={classes.title} variant="h6" noWrap >
-            HEALTHY-HENRY
-          </Typography>
-            </IconButton>
+          <IconButton color="inherit">
+            <Link to="/">
+              <Typography className={classes.title} variant="h6" noWrap>
+                HEALTHY-HENRY
+              </Typography>
+            </Link>
+          </IconButton>
           <div className={classes.search}>
             {/* <InputBase
               placeholder="Search…"
@@ -142,8 +145,14 @@ const NavBar = () => {
             /> */}
             <SearchBar />
           </div>
+          <MenuItem>
+            <ProductsByCategory />
+          </MenuItem>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <IconButton color="inherit" aria-label="agregar" onClick={goToCart}>
+              <FontAwesomeIcon icon={faCartPlus} />
+            </IconButton>
             <IconButton color="inherit">
               <FontAwesomeIcon icon={faUser} />
             </IconButton>

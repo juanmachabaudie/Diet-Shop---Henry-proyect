@@ -4,12 +4,16 @@ const { Router } = require("express");
 const router = Router();
 const productRoutes = require("./productRoutes");
 const categoryRoutes = require("./categoryRoutes");
-const usersRoutes = require("./usersRoutes")
+const cartRoutes = require("./cartRoutes");
+const orderRoutes = require("./orderRoutes");
+const userRoutes = require("./usersRoutes");
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 router.use("/product", productRoutes);
 router.use("/category", categoryRoutes);
-router.use("/users", usersRoutes)
+router.use("/cart", cartRoutes);
+router.use("/order", orderRoutes);
+router.use("/user", userRoutes);
 
 module.exports = router;

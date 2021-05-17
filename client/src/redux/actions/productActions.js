@@ -24,6 +24,7 @@ export const createProduct = (datos) => {
 };
 
 export const findProduct = (uuid) => {
+  console.log(uuid);
   try {
     return async (dispatch) => {
       const res = await fetch(`http://localhost:3001/product/detail/${uuid}`);

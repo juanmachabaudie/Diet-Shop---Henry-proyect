@@ -10,7 +10,6 @@ function ProductsByCategory() {
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getProducts());
   }, [dispatch]);
 
   const categories = useSelector((store) => store.categories.categories);
@@ -28,7 +27,10 @@ function ProductsByCategory() {
 
   //This is the function that DISPATCHES and d the FILTERS
   function handleChange(e) {
-    if (e.target.value === "All") {
+    if (e.target.value === "Categorias") {
+      return;
+    }
+    if (e.target.value === "Todas") {
       dispatch(getProducts());
       history.push("/products");
       window.scrollTo(0, 0);
@@ -42,10 +44,10 @@ function ProductsByCategory() {
   return (
     <div>
       <select id="categorias" onChange={handleChange} defaultValue="categorias">
-        <option defaultValue disabled>
+        <option defaultValue selected>
           Categorias
         </option>
-        <option value="All">All</option>
+        <option value="Todas">Todas</option>
         {options}
       </select>
     </div>

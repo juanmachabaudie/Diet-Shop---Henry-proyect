@@ -4,12 +4,7 @@ import { useHistory } from "react-router-dom";
 import { searchProducts } from "../redux/actions/productActions";
 //----------- ↓ Import Styles ↓ -----------
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  form,
-  IconButton,
-  Input,
-  InputAdornment,
-} from "@material-ui/core";
+import { form, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -41,12 +36,12 @@ export default function SearchBar() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Input 
+      <Input
         placeholder="Buscar..."
         onChange={(event) => handleChange(event)}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton type = 'submit'>
+            <IconButton type="submit">
               <FontAwesomeIcon icon={faSearch} color="#404040" />
             </IconButton>
           </InputAdornment>

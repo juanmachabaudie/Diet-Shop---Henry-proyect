@@ -2,9 +2,10 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
+import { addToCart } from "../redux/actions/cartActions";
 import { makeStyles } from "@material-ui/core/styles";
 
-import defaultImg from '../imgs/default.svg'
+import defaultImg from "../imgs/default.svg";
 
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -51,7 +52,10 @@ export default function ProductCard({ uuid, name, description, image, price }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-
+  function addToCartOnClick(uuid, qty) {
+    dispatch(addToCart(uuid, qty));
+    window.scrollTo(0, 0);
+  }
   function handleClick(e) {
     dispatch(findProduct(uuid));
     history.push("/product/detail/" + uuid);
@@ -68,14 +72,18 @@ export default function ProductCard({ uuid, name, description, image, price }) {
         }
         title={name}
       />
-      <CardMedia className={classes.media} image={image||defaultImg} title={name} />
+      <CardMedia
+        className={classes.media}
+        image={image || defaultImg}
+        title={name}
+      />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {description} <hr />${price}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="agregar">
+        <IconButton aria-label="agregar" onClick={addToCartOnClick}>
           <FontAwesomeIcon icon={faCartPlus} />
         </IconButton>
         <Button color="primary" variant="outlined">
