@@ -2,6 +2,16 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "./ProductCard";
 import { getProducts } from "../redux/actions/productActions";
+import { makeStyles } from "@material-ui/core/styles";
+
+
+const useStyles = makeStyles({
+ cards: {
+   display: 'flex',
+   flexWrap: 'wrap',
+   justifyContent: 'space-around'
+ } 
+})
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -22,6 +32,7 @@ export default function Products() {
     renderProducts = products.map((e) => {
       return (
         <ProductCard
+          key={e.uuid}
           uuid={e.uuid}
           name={e.name}
           description={e.description}
@@ -32,11 +43,14 @@ export default function Products() {
       );
     });
   }
-
+  const classes = useStyles();
   return (
     <div>
-      <h1>Products</h1>
+      
+      <div className={classes.cards}>
+
       {renderProducts}
+      </div>
     </div>
   );
 }

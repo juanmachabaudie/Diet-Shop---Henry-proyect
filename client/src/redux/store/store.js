@@ -6,6 +6,8 @@ import thunk from "redux-thunk"; //nos ayuda a trabajar con promesas con redux
 import productReducers from "../reducers/productReducers";
 import categoryReducers from "../reducers/categoryReducers";
 import cartReducers from "../reducers/cartReducers";
+import userReducer from "../reducers/userReducers";
+import orderReducer from "../reducers/orderReducers";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const cartInLocalStorage = localStorage.getItem("cart")
@@ -17,6 +19,8 @@ const rootReducer = combineReducers({
   categories: categoryReducers,
   cart: cartReducers,
   cartInLocalStorage: cartInLocalStorage,
+  users: userReducer,
+  orders: orderReducer,
 });
 
 export const store = createStore(

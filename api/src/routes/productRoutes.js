@@ -12,17 +12,11 @@ const {
 const router = Router();
 
 router.get("/", getProducts);
-
 router.post("/create", createProduct);
-
 router.put("/update", updateProduct);
-
 router.delete("/delete", deleteProduct);
-
 router.get("/detail/:uuid", getProductDetail);
-
 router.get("/filterByCategory", productsByCategory);
-
 router.get("/search", searchProduct);
 
 module.exports = router;

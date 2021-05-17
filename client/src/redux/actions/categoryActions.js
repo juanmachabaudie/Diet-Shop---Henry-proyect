@@ -100,7 +100,7 @@ export const deleteSuccess = () => {
     );
     const resJson = await res.json();
     dispatch({
-      type: "BY_CATEGORY",
+      type: "PRODUCTS_BY_CATEGORY",
       payload: resJson,
     });
   };

@@ -27,7 +27,7 @@ function ProductsByCategory() {
 
   //This is the function that DISPATCHES and d the FILTERS
   function handleChange(e) {
-    if (e.target.value === "All") {
+    if (e.target.value === "Todas") {
       dispatch(getProducts());
       history.push("/products");
       window.scrollTo(0, 0);
@@ -44,7 +44,7 @@ function ProductsByCategory() {
         <option defaultValue disabled>
           Categorias
         </option>
-        <option value="All">All</option>
+        <option value="Todas">Todas</option>
         {options}
       </select>
     </div>

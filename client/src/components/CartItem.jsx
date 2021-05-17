@@ -1,41 +1,72 @@
+import React, { useState } from "react";
+import {
+  Button,
+  Container,
+  IconButton,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import {
+  removeFromCart,
+  changeProductQuantity,
+} from "../redux/actions/cartActions";
 
-import React from 'react'
-import { Button, Container, IconButton, TextField, Typography } from '@material-ui/core'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import './itemCart.css'
-import {makeStyles} from '@material-ui/core/styles'
-
-
+//estilos
 const useStyle = makeStyles({
-    item: {
-      marginLeft: '150px' ,
-      display:'flex',
-      justifyContent: 'space-between' ,
-      marginTop: '20px',
-      alignItems: 'center'
+  item: {
+    marginLeft: 'auto',
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "10px",
+    alignItems: "center",
+    background: '#f3f6f7'
+  },
+  image: {
+  height: 150,
+  display: 'flex',
+  justifyContent: 'space-between'
+  }
+});
 
-    }
-})   
-const CartItem = ({product}) => {
-    const classes = useStyle()
+//function
+const CartItem = ({ product }) => {
+  const classes = useStyle();
+  const dispatch = useDispatch();
+  const [productQuantity, setProductQuantity] = useState(product.qty);
 
-    return (
-        <Container className={classes.item}>
-            <img src={product.img} alt={product.name} />
-            <Typography variant='span'>{product.name}</Typography>
-            <Typography variant='span'>${product.price}</Typography>
-            <TextField
-            type='number'
-            value={product.quantity}
-            />
-            <Button variant='contained' >
-                <IconButton>
-                    <DeleteForeverIcon/> 
-                </IconButton>
-            </Button>
+  const handleChangeQuantity = (e) => {
+    const { value } = e.target;
+    setProductQuantity(value);
+    dispatch(changeProductQuantity(product.uuid, productQuantity));
+  };
 
-        </Container>
-    )
-}
+  const removeProductFromCart = () => dispatch(removeFromCart(product.uuid));
 
-export default CartItem
+  return (
+    <Container className={classes.item}>
+      <div>
+        <img className={classes.image} src={product.image} alt={product.name} />
+      </div>
+      
+        <Typography variant="span">{product.name}</Typography>
+        <Typography variant="span">${product.price}</Typography>
+        <TextField
+          type="number"
+          label="cantidad"
+          value={productQuantity}
+          onChange={handleChangeQuantity}
+        />
+        <Button variant="contained" onClick={removeProductFromCart}>
+          <IconButton>
+            <DeleteForeverIcon />
+          </IconButton>
+        </Button>
+      
+    </Container>
+  );
+};
+
+export default CartItem;
