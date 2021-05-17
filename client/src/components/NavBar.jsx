@@ -109,6 +109,9 @@ const NavBar = () => {
         <IconButton>
           <Link to="/products">Products</Link>
         </IconButton>
+        <IconButton>
+          <Link to="/user/add">Nuevo Usuario</Link>
+        </IconButton>
         {/* <IconButton href="/products">Productos</IconButton> */}
       </MenuItem>
     </Menu>
