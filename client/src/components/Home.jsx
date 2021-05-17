@@ -6,7 +6,7 @@ export function Home() {
       <img
         src="https://www.gutmicrobiotaforhealth.com/wp-content/uploads/2018/07/post_gut_microbiota_personalised_nutrition.jpg
 "
-        alt="TV LED 55p"
+        alt="Background img"
       />
     </div>
   );
