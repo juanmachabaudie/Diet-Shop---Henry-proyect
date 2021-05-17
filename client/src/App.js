@@ -9,7 +9,21 @@ import SearchProduct from "./components/SearchProduct.jsx";
 import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
 import CartTotal from './components/CartTotal'
+import CartItem from "./components/CartItem";
+import { Container } from "@material-ui/core";
+import {makeStyles} from '@material-ui/styles'
+
+const useStyle = makeStyles({
+  cart: {
+    display: "flex",
+    marginLeft: '10px',
+    display: 'flex',
+    justifyContent: 'space-around'
+  }
+});
+
 const App = () => {
+  const classes = useStyle()
   return (
     <React.Fragment>
       <Route path="/" component={NavBar} />
@@ -19,7 +33,11 @@ const App = () => {
       <Route exact path="/product/add" component={AddProduct} />
       <Route path="/products/search" component={SearchProduct} />
       <Route exact path="/user/add" component={AddUser} />
-      <Route exact path="/cart" component={Cart} />
+      <Container className={classes.cart}>
+      <Route exact path="/cart" component={Cart}  />
+      <Route exact path="/cart" component={CartTotal}  />
+      </Container>
+      
       
     </React.Fragment>
   );

@@ -45,7 +45,7 @@ const Cart = () => {
       </Button>
       <Container>
         
-       <CartTotal />
+       
       </Container>
     </Container>
   );
