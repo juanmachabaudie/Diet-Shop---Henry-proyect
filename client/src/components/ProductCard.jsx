@@ -1,35 +1,97 @@
 import React from "react";
-import {Link} from 'react-router-dom'
-import "./product.css";
-import "./productCard.css";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { findProduct } from "../redux/actions/productActions";
+import { addToCart } from "../redux/actions/cartActions";
+import { makeStyles } from "@material-ui/core/styles";
 
-const defaultImg = "https://lh3.googleusercontent.com/proxy/lDX77oEN-GsT0mLlLb6s3Y0sf3-EG9S3dqBV7cOsOrSSJ9_mlEtMb9I-nIj469riZT-Q3EA2N4nP6gzt-iwoSuOR_Fihd8cC"
+import defaultImg from "../imgs/default.svg";
 
-export default function ProductCard({
-  productId,
-  name,
-  description,
-  image,
-  price,
-}) {
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Collapse from "@material-ui/core/Collapse";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import { green } from "@material-ui/core/colors";
+import { Button } from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+    boxShadow: "0 0 50px rgb(234, 232, 300)",
+    marginTop: "20px",
+    display: "flex",
+    flexDirection: "column",
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  avatar: {
+    backgroundColor: green[500],
+  },
+}));
+
+export default function ProductCard({ uuid, name, description, image, price }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  function addToCartOnClick(uuid, qty) {
+    dispatch(addToCart(uuid, qty));
+    window.scrollTo(0, 0);
+  }
+  function handleClick(e) {
+    dispatch(findProduct(uuid));
+    history.push("/product/detail/" + uuid);
+    window.scrollTo(0, 0);
+  }
+  const classes = useStyles();
   return (
-     
-      <div className="card" id="product">
-        <img class="card-img-top" class="img" src={image || defaultImg} alt="Card image cap" />
-        <div class="card-body">
-        <Link to={`/detail/${productId}`}>
-          <p className="card-text" class="n">
-            {name}
-          </p>
-          </Link>
-          <p className="card-text" class="n">
-            {description}
-          </p>
-          <p className="card-text" class="n">
-            {price}
-          </p>
-      </div>
-      </div>
-    
+    <Card onClick={handleClick} className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            diet
+          </Avatar>
+        }
+        title={name}
+      />
+      <CardMedia
+        className={classes.media}
+        image={image || defaultImg}
+        title={name}
+      />
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {description} <hr />${price}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="agregar" onClick={addToCartOnClick}>
+          <FontAwesomeIcon icon={faCartPlus} />
+        </IconButton>
+        <Button color="primary" variant="outlined">
+          {" "}
+          COMPRAR{" "}
+        </Button>
+      </CardActions>
+      <Collapse in={classes.expand} timeout="auto" unmountOnExit></Collapse>
+    </Card>
   );
 }

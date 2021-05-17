@@ -1,32 +1,192 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
-import ByCategory from "./ByCategory";
+import ProductsByCategory from "./ProductsByCategory";
+
+import React from "react";
+import {
+  fade,
+  makeStyles,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  Badge,
+  MenuItem,
+  Menu,
+} from "@material-ui/core";
+
+import { faBars, faUser, faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  },
+
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+}));
 
 const NavBar = () => {
+  const history = useHistory();
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const goToCart = () => {
+    history.push("/cart");
+    window.scroll(0, 0);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton>
+          <Link to="/products">Products</Link>
+        </IconButton>
+        <IconButton>
+          <Link to="/user/add">Nuevo Usuario</Link>
+        </IconButton>
+        {/* <IconButton href="/products">Productos</IconButton> */}
+      </MenuItem>
+    </Menu>
+  );
+
   return (
-<nav>
-      <nav className="navbar navbar-dark bg-dark justify-content-between">
-        <Link className="navbar-brand" to="/">
-          DIET SHOP
-        </Link>
-        <Link className="navbar-brand" to="/products">
-          Productos
-        </Link>
-        <Link className="navbar-brand" to='/addCategory'>
-          Agregar Categoría
-        </Link>
-        <Link className="navbar-brand" to="/aboutUs">
-          Nosotros
-        </Link>
-        <Link className="navbar-brand" to="/contact">
-          Contacto
-        </Link>
-        <form className="form-inline"></form>
-        <SearchBar />
-        <ByCategory />
-      </nav>
-    </nav>
+    <div className={classes.grow}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleProfileMenuOpen}
+          >
+            <FontAwesomeIcon icon={faBars} />
+          </IconButton>
+          <IconButton color="inherit">
+            <Link to="/">
+              <Typography className={classes.title} variant="h6" noWrap>
+                HEALTHY-HENRY
+              </Typography>
+            </Link>
+          </IconButton>
+          <div className={classes.search}>
+            {/* <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ "aria-label": "search" }}
+            /> */}
+            <SearchBar />
+          </div>
+          <MenuItem>
+            <ProductsByCategory />
+          </MenuItem>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <IconButton color="inherit" aria-label="agregar" onClick={goToCart}>
+              <FontAwesomeIcon icon={faCartPlus} />
+            </IconButton>
+            <IconButton color="inherit">
+              <FontAwesomeIcon icon={faUser} />
+            </IconButton>
+          </div>
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-haspopup="true"
+              color="inherit"
+            ></IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      {renderMenu}
+    </div>
   );
 };
+// return (
+//   <div>
+//     <nav>
+//       <Link to="/">DIET SHOP</Link>
+//       <Link to="/products">Productos</Link>
+//       <Link to="/aboutUs">Nosotros</Link>
+//       <Link to="/contact">Contacto</Link>
+//       {/*---------------porvicionales--------------*/}
+//       <Link to='/product/add'>new prod</Link>
+//       <Link to='/category/add'>new cat</Link>
+//       <SearchBar />
+//       <ProductsByCategory />
+//     </nav>
+//   </div>
+// );
 
 export default NavBar;
