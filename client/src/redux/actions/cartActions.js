@@ -8,7 +8,7 @@ export const CHANGE_PRODUCT_QTY = "CHANGE_PRODUCT_QTY";
 
 export const addToCart = (uuid, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(
-    `http://localhost:3001/product/detail/${uuid}`
+    `/product/detail/${uuid}`
   );
 
   dispatch({
