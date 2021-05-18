@@ -2,8 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createProduct } from "../redux/actions/productActions.js";
 import { getCategories } from '../redux/actions/categoryActions';
+import makeStyles from './componentsStyles/AddProductStyles'
+import { Container, Card} from "@material-ui/core";
+
 
 export default function AddProduct() {
+  const classes = makeStyles()
   const dispatch = useDispatch();
   const store = useSelector((store) => store);
 
@@ -59,11 +63,14 @@ export default function AddProduct() {
     );
   } else {
     return (
-      <div>
+      
+      <Container >
+        <Card className={classes.container}> 
+        <h5 className={classes.title}>AGREGAR PRODUCTO</h5> <hr/>
         <form onSubmit={enviarDatos}>
           <div>
             <section>
-              <input
+              <input className={classes.input}
                 type="text"
                 placeholder="Nombre"
                 name="name"
@@ -71,24 +78,24 @@ export default function AddProduct() {
               />
             </section>
             <section>
-              <input
+              <input className={classes.input}
                 type="text"
                 placeholder="Descripción"
-                name="description"
+                name="descripcion"
                 onChange={handleInputChange}
               />
             </section>
             <section>
-              $
-              <input
+              
+              <input className={classes.input}
                 type="number"
-                placeholder="Precio"
+                placeholder="$Precio"
                 name="price"
                 onChange={handleInputChange}
               />
             </section>
             <section>
-              <input
+              <input className={classes.input}
                 type="number"
                 placeholder="Stock"
                 name="stock"
@@ -96,8 +103,8 @@ export default function AddProduct() {
               />
             </section>
           </div>
-          <div>
-            <label for="mainPic">Imagenes del Producto:</label>
+          <div className={classes.input}>
+            <label for="mainPic">Imagenes del producto:</label>
             <input
               type="file"
               id="mainPic"
@@ -105,7 +112,7 @@ export default function AddProduct() {
               accept="image/jpeg"
             />
           </div>
-          <select multiple name="categories" onChange={handleCat} required>
+          <select className={classes.input} multiple name="categories" onChange={handleCat} required>
             {categories?.map((each) => {
               return (
                 <option value={each.name} key={each.uuid}>
@@ -113,11 +120,16 @@ export default function AddProduct() {
                 </option>
               );
             })}
-          </select>
-          <input type="submit" value="Agregar" />
+          </select> <br/>
+          
+          <input className={classes.input} type="submit" value="Agregar" /> <hr/>
+
+          
           <div>{agregado.message}</div>
         </form>
-      </div>
+        </Card>
+      </Container >
+     
     );
   }
 }
