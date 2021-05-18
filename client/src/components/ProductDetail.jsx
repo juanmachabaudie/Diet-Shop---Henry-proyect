@@ -5,7 +5,18 @@ import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
 
 import clsx from "clsx";
-import { makeStyles, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Collapse,
+  Avatar,
+  IconButton,
+  Typography,
+} from "@material-ui/core/";
 import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
@@ -132,8 +143,7 @@ export default function ProductDetail({ location }) {
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
-        >
-        </IconButton>
+        ></IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent></CardContent>
