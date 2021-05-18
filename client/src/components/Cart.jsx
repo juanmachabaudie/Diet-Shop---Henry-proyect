@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
-import { Container } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import CartItem from "../components/CartItem";
-import { Button } from "@material-ui/core";
-import CartTotal from "../components/CartTotal";
-import { makeStyles } from "@material-ui/core/styles";
 import { cartReset } from "../redux/actions/cartActions";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import CartItem from "../components/CartItem";
+import { Button, Container, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Container } from "@material-ui/core";
 
 const useStyle = makeStyles({
   cart: {
