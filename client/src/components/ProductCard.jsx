@@ -18,7 +18,7 @@ import {
   IconButton,
   Typography,
   Button,
-} from "@material-ui/core/Card";
+} from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
