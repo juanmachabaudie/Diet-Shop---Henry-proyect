@@ -1,10 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import { cartReset } from "../redux/actions/cartActions";
 import CartItem from "../components/CartItem";
-import { Button, Container, makeStyles } from "@material-ui/core";
 
+import { Button, Container, makeStyles } from "@material-ui/core";
 
 const useStyle = makeStyles({
   cart: {
