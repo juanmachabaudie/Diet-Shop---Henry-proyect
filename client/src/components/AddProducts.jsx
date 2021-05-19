@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createProduct } from "../redux/actions/productActions.js";
 import { getCategories } from '../redux/actions/categoryActions';
-import makeStyles from './componentsStyles/AddProductStyles'
+import makeStyles from './componentsStyles/AddProductsStyles'
 import { Container, Card} from "@material-ui/core";
 
 
@@ -63,8 +63,7 @@ export default function AddProduct() {
     );
   } else {
     return (
-      
-      <Container >
+    <Container >
         <Card className={classes.container}> 
         <h5 className={classes.title}>AGREGAR PRODUCTO</h5> <hr/>
         <form onSubmit={enviarDatos}>
@@ -123,9 +122,7 @@ export default function AddProduct() {
           </select> <br/>
           
           <input className={classes.input} type="submit" value="Agregar" /> <hr/>
-
-          
-          <div>{agregado.message}</div>
+            <div>{agregado.message}</div>
         </form>
         </Card>
       </Container >

@@ -4,7 +4,7 @@ import AddCategory from "./components/AddCategory";
 import NavBar from "./components/NavBar";
 import ProductDetail from "./components/ProductDetail";
 import Products from "./components/Products";
-import AddProduct from "./components/AddProduct.jsx";
+import AddProducts from "./components/AddProducts.jsx";
 import SearchProduct from "./components/SearchProduct.jsx";
 import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
@@ -19,7 +19,7 @@ const App = () => {
       <Route exact path="/products" component={Products} />
       <Route path="/product/detail" component={ProductDetail} />
       <Route exact path="/category/add" component={AddCategory} />
-      <Route exact path="/product/add" component={AddProduct} />
+      <Route exact path="/product/add" component={AddProducts} />
       <Route path="/products/search" component={SearchProduct} />
       <Route exact path="/user/add" component={AddUser} />
       <Route exact path="/cart" component={Cart} />
