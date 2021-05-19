@@ -6,11 +6,9 @@ export default makeStyles({
         display: 'flex',
         flexDirection: 'column',        
     },
-
     select: {
         width: '100%',   
     },
-
     image: {
         objectFit: 'cover',
         width: '100%',

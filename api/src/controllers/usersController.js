@@ -22,7 +22,7 @@ async function createUser(req, res, next) {
           userName,
           email,
           password,
-          isAdmin,
+          isAdmin: true,
         });
         return res.json({ message: "administrador creado" });
       } else {
@@ -33,7 +33,7 @@ async function createUser(req, res, next) {
         userName,
         email,
         password,
-        isAdmin: "",
+        isAdmin: false,
       });
       return res.json({ message: "usuario creado" });
     }

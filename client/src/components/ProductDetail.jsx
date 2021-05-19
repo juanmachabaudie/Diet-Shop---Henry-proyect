@@ -4,7 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
 
+import { red } from "@material-ui/core/colors";
+
 import clsx from "clsx";
+
 import {
   makeStyles,
   Card,
@@ -17,7 +20,6 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core/";
-import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {

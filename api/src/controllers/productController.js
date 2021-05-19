@@ -36,7 +36,6 @@ async function createProduct(req, res, next) {
     name,
     description,
     image,
-    thumbnail,
     price,
     stock,
     categories,
@@ -50,7 +49,6 @@ async function createProduct(req, res, next) {
       name,
       description,
       image,
-      thumbnail,
       price,
       stock,
     });
