@@ -1,4 +1,4 @@
-const { Category, Product } = require("../db");
+const { Category, Product, Review, User } = require("../db");
 const { checkUuid, productCategory } = require("../helpers/utils");
 const { Op } = require("sequelize");
 
@@ -32,14 +32,7 @@ async function getProducts(req, res, next) {
 }
 
 async function createProduct(req, res, next) {
-  const {
-    name,
-    description,
-    image,
-    price,
-    stock,
-    categories,
-  } = req.body;
+  const { name, description, image, price, stock, categories } = req.body;
   try {
     const exist = await Product.findOne({ where: { name } });
     if (exist) {
@@ -123,26 +116,40 @@ async function getProductDetail(req, res, next) {
   try {
     const { uuid } = req.params;
     // ↓↓↓ Validación ↓↓↓↓
-    if (checkUuid(uuid)) {
+    if (uuid && checkUuid(uuid)) {
       const product = await Product.findOne({
         where: {
           uuid,
         },
+        include: [{ model: Review }],
       });
       if (product) {
         const values = product.dataValues;
+        let organizedReviews = []; //[ { userName: ramon, text: "info"  }, { }  ]
+        for (let element of values.reviews) {
+          const user = await User.findOne({
+            where: {
+              uuid: element.userUuid,
+            },
+          });
+          const userName = await user.dataValues.userName;
+          organizedReviews.push({
+            userName,
+            text: element.text,
+          });
+        }
         let arrCategories = await productCategory(values.uuid);
         const objProduct = {
           uuid: values.uuid,
           name: values.name,
           description: values.description,
           image: values.image,
-          thumbnail: values.thumbnail,
           price: values.price,
           stock: values.stock,
           categories: arrCategories,
+          reviews: organizedReviews,
         };
-        res.status(200).json(objProduct);
+        return res.status(200).json(objProduct);
       } else {
         res.status(404).send("no encontrado");
       }
