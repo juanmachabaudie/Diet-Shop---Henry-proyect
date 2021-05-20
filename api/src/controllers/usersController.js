@@ -1,4 +1,5 @@
-const { User } = require("../db");
+const { Review, User, Product } = require("../db");
+const { checkUuid } = require("../helpers/utils");
 
 async function createUser(req, res, next) {
   const { userName, email, password, isAdmin } = req.body; //true
@@ -102,16 +103,79 @@ async function updateUser(req, res, next) {
   }
 }
 
-//trae todos los usuarios
-async function getUser(req, res, next) {
-  const { userName } = req.params;
+//borra usuario
+async function deleteUser(req, res, next) {
+  const { uuid } = req.body;
   try {
-    const user = await User.findOne({ where: { userName } });
-    if (user === null) {
-      return res.send("Usuario No Existe");
+    if (checkUuid(uuid)) {
+      const toDestroy = await User.findOne({
+        where: {
+          uuid,
+        },
+      });
+      if (toDestroy) {
+        User.destroy({
+          where: {
+            uuid,
+          },
+        });
+        res.status(200).send("Usuario eliminado");
+      } else {
+        res.status(404).send("No se encuentra el usuario a eliminar");
+      }
     } else {
-      return res.send(user);
+      res.status(404).send("Id invalido");
     }
+  } catch (error) {
+    next(error);
+  }
+}
+
+//trae perfil del usuario
+async function userProfile(req, res, next) {
+  const { userUuid } = req.params;
+  try {
+    if (userUuid && checkUuid(userUuid)) {
+      const userFound = await User.findOne({ where: { userUuid } });
+      if (userFound) {
+        return res.json(userFound);
+      }
+    }
+    return res.status(400).json({ message: "Usuario Inexistente" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+//El usuario inicia sesion
+async function login(req, res, next) {
+  try {
+    const { userName, email, password, isAdmin } = req.body;
+    if (userName) {
+      const userFoundName = await User.findOne({
+        where: {
+          userName,
+        },
+      });
+      if (userFoundName) {
+        if (password === userFoundName.password) {
+          return res.json(userFoundName);
+        }
+      }
+    }
+    if (email) {
+      const userFoundEmail = await User.findOne({
+        where: {
+          email,
+        },
+      });
+      if (userFoundEmail) {
+        if (password === userFoundEmail.password) {
+          return res.json(userFoundEmail);
+        }
+      }
+    }
+    return res.status(404).json({ message: "El usuario no existe" });
   } catch (error) {
     next(error);
   }
@@ -138,6 +202,9 @@ module.exports = {
   createUser,
   getUsers,
   updateUser,
-  getUser,
   changeAdmin,
+  deleteUser,
+  userProfile,
+  login,
+
 };

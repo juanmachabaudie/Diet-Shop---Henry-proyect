@@ -18,12 +18,18 @@ export default function productReducers(state = initialState, action) {
           users: action.payload,
           change:false,
         }; 
-        
+       
         case "ADMINS":
           return {
             ...state,
             message: action.payload,
             change: true,
+            
+        case "RESET_PASSWORD":
+          return{
+            ...state,
+            message: action.payload,
+
           }
       default:
         return state;

@@ -1,4 +1,4 @@
-const { Category, product_category, Product } = require("../db");
+const { Category, product_category } = require("../db");
 
 const checkUuid = (uuid) => {
   const uuidSplit = uuid.split("-");
