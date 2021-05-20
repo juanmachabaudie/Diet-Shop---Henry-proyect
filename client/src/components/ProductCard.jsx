@@ -90,8 +90,7 @@ export default function ProductCard({ uuid, name, description, image, price }) {
           <FontAwesomeIcon icon={faCartPlus} />
         </IconButton>
         <Button color="primary" variant="outlined">
-          {" "}
-          COMPRAR{" "}
+          COMPRAR
         </Button>
       </CardActions>
       <Collapse in={classes.expand} timeout="auto" unmountOnExit></Collapse>
