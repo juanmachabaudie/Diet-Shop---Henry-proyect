@@ -9,21 +9,42 @@ async function createReview(req, res, next) {
         uuid: userUuid,
       },
     });
-    const productReviewed = await Product.findOne({
-      where: {
-        uuid: productUuid,
-      },
-    });
 
-    if (userReviewing && productReviewed) {
-      await Review.create({
-        text,
-        userUuid,
-        productUuid,
-      });
-      res.status(200).json({ message: "Gracias por su comentario" });
-    } else {
-      res.status(400).json({ message: "No se ha podido realizar la operación" });
+    const reviewByOrderStatus = await Order.findAll({ where: { userUuid } });
+    for (let order of reviewByOrderStatus) {
+      const values = order.dataValues;
+      if (values.shippingState === "processing" || values.shippingState === "completed") {
+        const productInOrderLines = order_lines.findAll({
+          where: { orderUuid: values.uuid },
+        });
+        for (let product of productInOrderLines) {
+          if (product.dataValues.productUuid === productUuid) {
+            const productReviewed = await Product.findOne({
+              where: {
+                uuid: productUuid,
+              },
+              include: [{ model: Review }],
+            });
+            if (userReviewing && productReviewed) {
+              for (let review of productReviewed.dataValues.reviews) {
+                if (review.userUuid === userUuid) {
+                  return res
+                    .status(200)
+                    .json({ message: "Ya has comentado sobre este producto" });
+                }
+              }
+              await Review.create({
+                text,
+                userUuid,
+                productUuid,
+              });
+              res.status(200).json({ message: "Gracias por su comentario" });
+            } else {
+              res.status(400).json({ message: "Usuario No Valido para Comentar" });
+            }
+          }
+        }
+      }
     }
   } catch (error) {
     next(error);
