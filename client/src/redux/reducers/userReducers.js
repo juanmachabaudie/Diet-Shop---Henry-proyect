@@ -9,6 +9,11 @@ export default function productReducers(state = initialState, action) {
           ...state,
           message: action.payload,
         };
+        case "RESET_PASSWORD":
+          return{
+            ...state,
+            message: action.payload,
+          }
       default:
         return state;
     }

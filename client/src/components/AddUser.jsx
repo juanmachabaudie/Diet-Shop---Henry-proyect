@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addUser } from "../redux/actions/userActions.js";
 
 export default function AddUser() {
