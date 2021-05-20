@@ -2,7 +2,7 @@ export const addUser = (datos) => {
   return async (dispatch) => {
     console.log(datos);
     if (datos.password === datos.confirmPassword) {
-      const res = await fetch("/users/create", {
+      const res = await fetch("http://localhost:3001/users/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datos),

@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import {
+  removeFromCart,
+  changeProductQuantity,
+} from "../redux/actions/cartActions";
+
 import {
   Button,
   Container,
   IconButton,
   TextField,
   Typography,
+  makeStyles
 } from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
-import {
-  removeFromCart,
-  changeProductQuantity,
-} from "../redux/actions/cartActions";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 //estilos
 const useStyle = makeStyles({
@@ -69,7 +73,7 @@ const CartItem = ({ product }) => {
       />
       <Button variant="contained" onClick={removeProductFromCart}>
         <IconButton>
-          <DeleteForeverIcon />
+          <FontAwesomeIcon icon={faTrashAlt}/>
         </IconButton>
       </Button>
     </Container>
