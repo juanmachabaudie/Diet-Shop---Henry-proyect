@@ -181,11 +181,30 @@ async function login(req, res, next) {
   }
 }
 
+async function changeAdmin(req, res, next) {
+  const { uuid } = req.body;
+  console.log('entra')
+  try {
+    const toEditUser = await User.findOne({
+      where: {
+        uuid,
+      },
+    });
+    toEditUser.update(req.body);
+    return res.status(200).json({ message: "Usuario Actualizado" });
+  } catch (error) {
+    console.log('entra error')
+    next(error);
+  }
+}
+
 module.exports = {
   createUser,
   getUsers,
   updateUser,
+  changeAdmin,
   deleteUser,
   userProfile,
   login,
+
 };

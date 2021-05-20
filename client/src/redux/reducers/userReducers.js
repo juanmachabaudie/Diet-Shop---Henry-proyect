@@ -1,5 +1,7 @@
 const initialState={
-    message:{}
+    message:{},
+    users: [],
+    change:false,
 }
 
 export default function productReducers(state = initialState, action) {
@@ -9,10 +11,25 @@ export default function productReducers(state = initialState, action) {
           ...state,
           message: action.payload,
         };
+
+      case "GET_USERS":
+        return {
+          ...state,
+          users: action.payload,
+          change:false,
+        }; 
+       
+        case "ADMINS":
+          return {
+            ...state,
+            message: action.payload,
+            change: true,
+            
         case "RESET_PASSWORD":
           return{
             ...state,
             message: action.payload,
+
           }
       default:
         return state;
