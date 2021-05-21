@@ -1,10 +1,8 @@
 export const getProducts = () => {
-  return function (dispatch) {
-    return fetch("/product")
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch({ type: "GET_PRODUCTS", payload: data });
-      });
+  return async function (dispatch) {
+    const res = await fetch("http://localhost:3001/product");
+    const data = await res.json();
+    dispatch({ type: "GET_PRODUCTS", payload: data });
   };
 };
 
@@ -24,7 +22,6 @@ export const createProduct = (datos) => {
 };
 
 export const findProduct = (uuid) => {
-  console.log(uuid);
   try {
     return async (dispatch) => {
       const res = await fetch(`http://localhost:3001/product/detail/${uuid}`);
