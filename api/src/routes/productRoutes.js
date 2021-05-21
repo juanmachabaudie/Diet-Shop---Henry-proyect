@@ -27,6 +27,6 @@ router.get("/search", searchProduct);
 router.get("/reviews/:productUuid", getReviewsByProduct);
 router.post("/addReview", createReview);
 router.put("/updateReview", updateReview);
-router.delete("/deleteReview", deleteReview);
+router.delete("/deleteReview/:uuid", deleteReview);
 
 module.exports = router;

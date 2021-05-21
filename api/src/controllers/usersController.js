@@ -136,7 +136,7 @@ async function userProfile(req, res, next) {
   const { userUuid } = req.params;
   try {
     if (userUuid && checkUuid(userUuid)) {
-      const userFound = await User.findOne({ where: { userUuid } });
+      const userFound = await User.findOne({ where: { uuid: userUuid } });
       if (userFound) {
         return res.json(userFound);
       }
@@ -183,7 +183,6 @@ async function login(req, res, next) {
 
 async function changeAdmin(req, res, next) {
   const { uuid } = req.body;
-  console.log('entra')
   try {
     const toEditUser = await User.findOne({
       where: {
@@ -193,7 +192,14 @@ async function changeAdmin(req, res, next) {
     toEditUser.update(req.body);
     return res.status(200).json({ message: "Usuario Actualizado" });
   } catch (error) {
-    console.log('entra error')
+    next(error);
+  }
+}
+
+async function resetPassword(req, res, next) {
+  try {
+    const { email } = req.body;
+  } catch (error) {
     next(error);
   }
 }
@@ -206,5 +212,5 @@ module.exports = {
   deleteUser,
   userProfile,
   login,
-
+  resetPassword,
 };

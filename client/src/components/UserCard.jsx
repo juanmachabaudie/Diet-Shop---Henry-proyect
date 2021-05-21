@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Button, Card, CardContent, Grid, Typography, Modal } from "@material-ui/core";
+import { Button, Card, CardContent, Grid, Typography, Snackbar } from "@material-ui/core";
 
-import AddUser from "./AddUser";
+import MuiAlert from "@material-ui/lab/Alert";
+
 import { selectAdmins } from "../redux/actions/userActions.js";
 import { useDispatch } from "react-redux";
 
@@ -21,59 +22,50 @@ const useStyles = makeStyles((theme) => ({
   buttons: {
     display: "flex",
     justifyContent: "flex-end",
-    alignItems: 'center'
+    alignItems: "center",
   },
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  rootSnack: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
   },
 }));
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export default function UserCard({ uuid, userName, email, isAdmin }) {
-
   const classes = useStyles();
-
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const addAdmin = (uuid, act) => {
     dispatch(selectAdmins(uuid, act));
   };
 
-  const [modalStyle] = useState(getModalStyle);
-  const [open, setOpen] = useState(false);
+  function allOnClicksTrue() {
+    addAdmin(uuid, true);
+    handleClick();
+  }
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-     <AddUser/>
-    </div>
-  );
+  function allOnClicksFalse() {
+    addAdmin(uuid, false);
+    handleClick();
+  }
 
   return (
     <Card className={classes.root}>
@@ -93,37 +85,29 @@ export default function UserCard({ uuid, userName, email, isAdmin }) {
         </CardContent>
       </Grid>
       <Grid item xs={3} className={classes.buttons}>
-        {!isAdmin?
-        <Button 
-          onClick={() => addAdmin(uuid, true)}
-          color="primary"
-          variant="contained"
-        >
-          Designar Admin
-        </Button>
-        :
-        <Button
-          onClick={() => addAdmin(uuid, false)}
-          color="secondary"
-          variant="contained"
-        >
-          Descartar Admin
-        </Button>
-      }
-      </Grid>
-      <Grid item xs={3} className={classes.buttons}>
-        <Button onClick={handleOpen} variant="contained">
-          Reset Password
-        </Button>
-        <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {/* //componente de nico  */}
-        {body}
-      </Modal>
+        {!isAdmin ? (
+          <>
+            <Button onClick={allOnClicksTrue} color="primary" variant="contained">
+              Designar Admin
+            </Button>
+            <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="success">
+                {userName} ahora es administrador
+              </Alert>
+            </Snackbar>
+          </>
+        ) : (
+          <>
+            <Button onClick={allOnClicksFalse} color="secondary" variant="contained">
+              Descartar Admin
+            </Button>
+            <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="error">
+                {userName} no es mas administrador
+              </Alert>
+            </Snackbar>
+          </>
+        )}
       </Grid>
     </Card>
   );
