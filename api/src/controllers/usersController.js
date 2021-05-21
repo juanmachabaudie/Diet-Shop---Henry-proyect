@@ -2,15 +2,11 @@ const { Review, User, Product } = require("../db");
 const { checkUuid } = require("../helpers/utils");
 
 async function createUser(req, res, next) {
-  const { userName, email, password, isAdmin } = req.body; //true
-  const passAdmin = "henry";
+  const { email, password, isAdmin } = req.body; //true
   try {
     const userNameExist = await User.findOne({
       where: { userName },
     });
-    if (userNameExist) {
-      return res.json({ message: "nombre de usuario ya existente" });
-    }
     const emailExist = await User.findOne({
       where: { email },
     });
@@ -20,7 +16,6 @@ async function createUser(req, res, next) {
     if (isAdmin) {
       if (isAdmin === passAdmin) {
         const newUser = await User.create({
-          userName,
           email,
           password,
           isAdmin: true,

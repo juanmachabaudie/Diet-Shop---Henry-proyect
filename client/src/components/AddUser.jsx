@@ -26,7 +26,6 @@ export default function AddUser() {
   const added = store.users.message;
 
   const [datos, setDatos] = useState({
-    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -44,7 +43,6 @@ export default function AddUser() {
     event.preventDefault();
     dispatch(addUser(datos));
     setDatos({
-      userName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -73,14 +71,6 @@ export default function AddUser() {
             Crear Usuario
           </Typography>
           <TextField
-            id="filled-name"
-            label="Nombre de Usuario"
-            value={datos.userName}
-            onChange={handleInputChange}
-            variant="filled"
-            className={classes.color}
-          />
-          <TextField
             id="outlined-name"
             label="Correo Electronico"
             value={datos.email}
@@ -98,13 +88,6 @@ export default function AddUser() {
             id="outlined-name"
             label="Confirmar Contraseña"
             value={datos.confirmPassword}
-            onChange={handleInputChange}
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-name"
-            label="Clave de administrador"
-            value={datos.isAdmin}
             onChange={handleInputChange}
             variant="outlined"
           />
