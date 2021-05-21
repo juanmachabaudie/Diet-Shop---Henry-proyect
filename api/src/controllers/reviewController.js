@@ -1,6 +1,7 @@
-const { Review, User, Product } = require("../db");
+const { Review, User, Product, Order, order_lines } = require("../db");
 const { checkUuid } = require("../helpers/utils");
 
+//crea una review por persona por producto
 async function createReview(req, res, next) {
   try {
     const { userUuid, text, productUuid } = req.body;
@@ -8,42 +9,25 @@ async function createReview(req, res, next) {
       where: {
         uuid: userUuid,
       },
+      include: [{ model: Review }],
     });
-
-    const reviewByOrderStatus = await Order.findAll({ where: { userUuid } });
-    for (let order of reviewByOrderStatus) {
-      const values = order.dataValues;
-      if (values.shippingState === "processing" || values.shippingState === "completed") {
-        const productInOrderLines = order_lines.findAll({
-          where: { orderUuid: values.uuid },
+    const userReviews = userReviewing.dataValues.reviews;
+    if (!userReviews.length) {
+      const newReview = await Review.create({
+        userUuid,
+        text,
+        productUuid,
+      });
+    }
+    for (let review of userReviews) {
+      if (review.productUuid === productUuid) {
+        return res.status(400).json({ message: "Usted ya comento este producto" });
+      } else {
+        const newReview = await Review.create({
+          userUuid,
+          text,
+          productUuid,
         });
-        for (let product of productInOrderLines) {
-          if (product.dataValues.productUuid === productUuid) {
-            const productReviewed = await Product.findOne({
-              where: {
-                uuid: productUuid,
-              },
-              include: [{ model: Review }],
-            });
-            if (userReviewing && productReviewed) {
-              for (let review of productReviewed.dataValues.reviews) {
-                if (review.userUuid === userUuid) {
-                  return res
-                    .status(200)
-                    .json({ message: "Ya has comentado sobre este producto" });
-                }
-              }
-              await Review.create({
-                text,
-                userUuid,
-                productUuid,
-              });
-              res.status(200).json({ message: "Gracias por su comentario" });
-            } else {
-              res.status(400).json({ message: "Usuario No Valido para Comentar" });
-            }
-          }
-        }
       }
     }
   } catch (error) {
@@ -51,6 +35,7 @@ async function createReview(req, res, next) {
   }
 }
 
+//devuelve todas las reviews de un producto
 async function getReviewsByProduct(req, res, next) {
   try {
     const { productUuid } = req.params;
@@ -74,6 +59,7 @@ async function getReviewsByProduct(req, res, next) {
   }
 }
 
+//esta ruta actualiza el comentario del usuario mandando el id de la review y el texto
 async function updateReview(req, res, next) {
   try {
     const { uuid } = req.body; // review a modificar
@@ -97,9 +83,11 @@ async function updateReview(req, res, next) {
   }
 }
 
+//elima una review por paramas ya que lo que tiene que recibir es un unico dato (el id de la review)
 async function deleteReview(req, res, next) {
   try {
-    const { uuid } = req.body;
+    const { uuid } = req.params;
+    console.log(uuid);
     if (checkUuid(uuid)) {
       const toDestroy = await Review.findOne({
         where: {
