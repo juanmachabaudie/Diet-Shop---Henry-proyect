@@ -1,11 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
-import { cartReset } from "../redux/actions/cartActions";
+import { setCartReload } from '../redux/actions/cartActions.js'
 import CartItem from "../components/CartItem";
 
-import { Button, Container, makeStyles } from "@material-ui/core";
+import { Container, makeStyles } from "@material-ui/core";
 
 const useStyle = makeStyles({
   cart: {
@@ -17,20 +16,17 @@ const useStyle = makeStyles({
 });
 
 const Cart = () => {
+  
   const classes = useStyle();
   const dispatch = useDispatch();
   const cartInLocal = localStorage.getItem("cart");
   // Parse JSON string to object
   const cartItems = JSON.parse(cartInLocal);
-  const history = useHistory();
-  const handleEmptyCart = () =>
-    dispatch(
-      cartReset(),
-      history.push("/"),
-      history.push("/cart"),
-      window.scrollTo(0, 0)
-    );
-
+  
+  useEffect(() => {
+    dispatch (setCartReload())
+  }, [dispatch])
+  
   //esto va a mostrar todos los productos que tiene un usuario en su carrito//y mostraremos los items cart y el total cart
   return (
     <Container className={classes.cart}>
@@ -46,10 +42,6 @@ const Cart = () => {
         </Container>
       </Container>
       <hr />
-      <Button variant="contained" onClick={handleEmptyCart}>
-        Vaciar Carrito
-      </Button>
-      <Container></Container>
     </Container>
   );
 };

@@ -13,11 +13,11 @@ export const CartTotal = () => {
 
   let sumProduct = 0;
   for (var e of cartItems) {
-    sumProduct += e.price * e.qty;
+    sumProduct += e.price * e.quantity;
   }
   useEffect(() => {
     setTotal(sumProduct);
-  }, []);
+  }, [sumProduct]);
 
   return (
     <Container>

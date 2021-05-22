@@ -36,6 +36,21 @@ export const findProduct = (uuid) => {
   }
 };
 
+export const editProduct = (datos) => {
+  return async (dispatch) => {
+    const res = await fetch("http://localhost:3001/product/update", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos),
+    });
+    const resJson = await res.json();
+    dispatch({
+      type: "PUT_PRODUCT",
+      payload: resJson,
+    });
+  };
+};
+
 export const filterByCategory = (categoryUuid) => async (dispatch) => {
   try {
     const res = await fetch(

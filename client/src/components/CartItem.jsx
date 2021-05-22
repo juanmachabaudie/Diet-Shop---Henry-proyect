@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -7,17 +7,23 @@ import {
   changeProductQuantity,
 } from "../redux/actions/cartActions";
 
+import defaultImg from '../imgs/default.svg';
+
+import {addToCart} from '../redux/actions/cartActions.js';
+
 import {
   Button,
   Container,
-  IconButton,
-  TextField,
   Typography,
-  makeStyles
+  makeStyles,
 } from "@material-ui/core";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMinusCircle,
+  faPlusCircle,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 //estilos
 const useStyle = makeStyles({
@@ -36,18 +42,17 @@ const useStyle = makeStyles({
   },
 });
 
+
 //function
 const CartItem = ({ product }) => {
-  const classes = useStyle();
   const dispatch = useDispatch();
+  const classes = useStyle();
   const history = useHistory();
-  const [productQuantity, setProductQuantity] = useState(product.qty);
+  
+  const [refres, setRefres] = useState (product.quantity)
 
-  const handleChangeQuantity = (e) => {
-    const { value } = e.target;
-    setProductQuantity(value);
-    dispatch(changeProductQuantity(product.uuid, productQuantity));
-  };
+  useEffect(() => {
+  }, [refres])
 
   const removeProductFromCart = () =>
     dispatch(
@@ -57,24 +62,38 @@ const CartItem = ({ product }) => {
       window.scrollTo(0, 0)
     );
 
+    function clickToAdd(){
+      if(refres<product.stock){
+      dispatch(addToCart(product.uuid, 1))
+      history.push('/cart')
+      setRefres(refres+1)
+      }
+    }
+
+    function clickToMin(){
+      if(refres>1){
+      dispatch(addToCart(product.uuid, -1))
+      history.push('/cart')
+      setRefres(refres-1)
+      }
+    }
+
   return (
     <Container className={classes.item}>
       <div>
-        <img className={classes.image} src={product.image} alt={product.name} />
+        <img className={classes.image} src={product.image || defaultImg} alt={product.name} />
       </div>
-
       <Typography variant="span">{product.name}</Typography>
       <Typography variant="span">${product.price}</Typography>
-      <TextField
-        type="number"
-        label="cantidad"
-        value={productQuantity}
-        onChange={handleChangeQuantity}
-      />
+      <Button color="primary" variant="contained" onClick={clickToAdd}>
+        <FontAwesomeIcon size="2x" icon={faPlusCircle} />
+      </Button>
+      <Typography variant="span">{refres}</Typography>
+      <Button color="secondary" variant="contained" onClick={clickToMin}>
+        <FontAwesomeIcon size="2x" icon={faMinusCircle} />
+      </Button>
       <Button variant="contained" onClick={removeProductFromCart}>
-        <IconButton>
-          <FontAwesomeIcon icon={faTrashAlt}/>
-        </IconButton>
+        <FontAwesomeIcon size="2x" icon={faTrashAlt} />
       </Button>
     </Container>
   );

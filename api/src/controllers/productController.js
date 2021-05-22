@@ -61,6 +61,7 @@ async function createProduct(req, res, next) {
 
 async function updateProduct(req, res, next) {
   // Editamos el producto aún teniendo el mismo id
+  console.log(req.body)
   try {
     const { uuid } = req.body;
     if (checkUuid(uuid)) {
@@ -69,14 +70,23 @@ async function updateProduct(req, res, next) {
           uuid,
         },
       });
+      if (req.body.categories) {
+        for (eachCategory of req.body.categories) {
+          const categoryToAdd = await Category.findOne({
+            //Recibir arreglos de uuid y armarlo con eso
+            where: { name: eachCategory },
+          });
+          toEditProduct.addCategory(categoryToAdd);
+        }
+      }
       if (toEditProduct) {
         toEditProduct.update(req.body); //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
-        return res.status(200).send("Producto Actualizado");
+        return res.status(200).json({ message: "Producto Actualizado" });
       } else {
-        return res.status(400).send("Producto no encontrado");
+        return res.status(400).json({ message: "Producto no encontrado" });
       }
     } else {
-      return res.status(500).send("Id Invalido");
+      return res.status(500).json({ message: "Id Invalido" });
     }
   } catch (error) {
     next(error);

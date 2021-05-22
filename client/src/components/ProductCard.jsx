@@ -55,10 +55,11 @@ export default function ProductCard({ uuid, name, description, image, price }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  function addToCartOnClick(uuid, qty) {
-    dispatch(addToCart(uuid, qty));
-    window.scrollTo(0, 0);
+  function clickToAdd(){
+    dispatch(addToCart(uuid, 1))
+    history.push('/cart')
   }
+
   function handleClick(e) {
     dispatch(findProduct(uuid));
     history.push("/product/detail/" + uuid);
@@ -66,7 +67,7 @@ export default function ProductCard({ uuid, name, description, image, price }) {
   }
   const classes = useStyles();
   return (
-    <Card onClick={handleClick} className={classes.root}>
+    <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -86,11 +87,11 @@ export default function ProductCard({ uuid, name, description, image, price }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="agregar" onClick={addToCartOnClick}>
+        <IconButton aria-label="agregar" onClick={clickToAdd}>
           <FontAwesomeIcon icon={faCartPlus} />
         </IconButton>
-        <Button color="primary" variant="outlined">
-          COMPRAR
+        <Button onClick={handleClick} color="primary" variant="outlined">
+          DETALLE
         </Button>
       </CardActions>
       <Collapse in={classes.expand} timeout="auto" unmountOnExit></Collapse>

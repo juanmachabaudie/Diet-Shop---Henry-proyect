@@ -151,33 +151,27 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   makeStyles,
   Grid,
-  Card,
-  CardHeader,
   CardMedia,
-  CardContent,
-  CardActions,
-  Collapse,
-  Avatar,
-  IconButton,
   Typography,
   Container,
+  Button,
 } from "@material-ui/core/";
 
-import { FontAwesomIcon } from "@fortawesome/react-fontawesome";
+import { useHistory } from 'react-router-dom';
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { findProduct } from "../redux/actions/productActions.js";
 
-import defaultImg from '../imgs/default.svg';
+import defaultImg from "../imgs/default.svg";
+import { faCartPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-    maxWidth: 500,
-  },
-});
+import { addToCart } from '../redux/actions/cartActions.js'
+
+const useStyles = makeStyles((theme) => ({}));
 
 const ProductDetail = ({ location }) => {
-  
+  let history = useHistory();
   const detail = useSelector((store) => store.products.product);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -190,25 +184,46 @@ const ProductDetail = ({ location }) => {
     dispatch(findProduct(uuid));
   }, [dispatch, uuid]);
 
-  return (
-      <Container className={classes.root}>
-        <Typography variant="h4" align="center">{detail.name}</Typography>
-        <Grid xs={6}>
-        <CardMedia
-          component="img"
-          alt={ detail.name }
-          height="350"
-          image={ detail.image || defaultImg }
-        />
-        </Grid>
-        <Grid xs={6}>
-          <Typography variant="body2">Categorias: {detail.categories}</Typography>
-          <Typography variant="h5">{detail.name}</Typography>
-          <Typography variant="body1">Descripcion: {detail.description}</Typography>
+  function clickToAdd(){
+    dispatch(addToCart(uuid, 1))
+    history.push('/cart')
+  }
 
-        </Grid>
-        <Grid></Grid>
-      </Container>
+  return (
+    <Container>
+      <Typography variant="h4" align="center">
+        {detail.name}
+      </Typography>
+      <Grid item xs={6}>
+        
+          <CardMedia
+            component="img"
+            alt={detail.name}
+            height="350"
+            image={detail.image || defaultImg}
+          />
+        
+      </Grid>
+      <Grid item xs={6}>
+       
+          <Typography variant="body2">
+            Categorias: {detail.categories}
+          </Typography>
+          <Typography variant="h5">{detail.name}</Typography>
+          <Typography variant="body1">
+            Descripcion: {detail.description}
+          </Typography>
+        
+      </Grid>
+      <Grid>
+        <Button href={`/product/edit/${uuid}`}>
+          <FontAwesomeIcon size = "3x" icon={faEdit} />
+        </Button>
+        <Button onClick={clickToAdd}>
+          <FontAwesomeIcon size = "3x" icon={faCartPlus} />
+        </Button>
+      </Grid>
+    </Container>
   );
 };
 

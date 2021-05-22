@@ -140,7 +140,7 @@ export default function AddCategory() {
                 <TextField
                   fullWidth
                   variant="outlined"
-                  label="Categoría"
+                  label="Categoria"
                   placeholder="Escribir una categoria..."
                   name="name"
                   id="categoryName"

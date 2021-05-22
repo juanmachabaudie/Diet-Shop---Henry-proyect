@@ -3,20 +3,12 @@ import {
   REMOVE_FROM_CART,
   CART_RESET,
   CHANGE_PRODUCT_QTY,
+  SET_CART_RELOAD,
 } from "../actions/cartActions";
 
 const initialState = {
   cartItems: [],
 };
-
-/* payload: {
-  uuid: data.uuid,
-  name: data.name,
-  image: data.image,
-  price: data.price,
-  stock: data.stock,
-  qty,
-}, */
 
 export default function cartReducers(state = initialState, action) {
   switch (action.type) {
@@ -37,6 +29,11 @@ export default function cartReducers(state = initialState, action) {
           cartItems: [...state.cartItems, item],
         };
       }
+      case SET_CART_RELOAD:
+        return {
+          ...state,
+          cartItems: action.payload
+        }
     case REMOVE_FROM_CART:
       return {
         ...state,

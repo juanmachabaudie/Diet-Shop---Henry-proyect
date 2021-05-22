@@ -11,7 +11,8 @@ import Cart from "./components/Cart.jsx";
 import CartTotal from "./components/CartTotal.jsx";
 import Home from "./components/Home.jsx";
 import Promote from './components/Promote.jsx';
-import PasswordReset from "./components/PasswordReset"
+import PasswordReset from "./components/PasswordReset.jsx";
+import ProductEdit from "./components/ProductEdit.jsx";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
       <Route exact path="/cart" component={CartTotal} />
       <Route exact path="/user/promote" component={Promote}/>
       <Route exact path="/user/resetPassword" component={PasswordReset} />
+      <Route exact path="/product/edit/:uuid" component = {ProductEdit} />
     </React.Fragment>
   );
 };

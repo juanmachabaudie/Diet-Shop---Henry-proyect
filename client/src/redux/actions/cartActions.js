@@ -5,9 +5,21 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const CART_RESET = "CART_RESET";
 export const CHANGE_PRODUCT_QTY = "CHANGE_PRODUCT_QTY";
+export const SET_CART_RELOAD = 'SET_CART_RELOAD';
 
-export const addToCart = (uuid, qty) => async (dispatch, getState) => {
+export const addToCart = (uuid, quantity) => async (dispatch, getState) => {
   const { data } = await axios.get(`http://localhost:3001/product/detail/${uuid}`);
+  let old = await JSON.parse(localStorage.getItem("cart"));
+  for (let prod of old) {
+    if (prod.uuid === uuid) {
+      if (quantity > 0) {
+        quantity = ++prod.quantity
+      } else {
+        quantity = --prod.quantity
+      }
+    }
+  }
+
   dispatch({
     type: ADD_TO_CART,
     payload: {
@@ -16,12 +28,19 @@ export const addToCart = (uuid, qty) => async (dispatch, getState) => {
       image: data.image,
       price: data.price,
       stock: data.stock,
-      qty,
+      quantity,
     },
   });
-  sweetAlert("Agregado", "success", "OK");
   localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
 };
+
+export const setCartReload = (local = JSON.parse(localStorage.getItem("cart"))) => (dispatch) => {
+  console.log(local)
+  dispatch({
+    type: SET_CART_RELOAD,
+    payload: local
+  })
+}
 
 export const removeFromCart = (uuid) => (dispatch, getState) => {
   dispatch({

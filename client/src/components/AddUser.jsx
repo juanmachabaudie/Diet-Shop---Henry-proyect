@@ -8,6 +8,7 @@ import {
   TextField,
   makeStyles,
   Typography,
+  FormControl,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +57,7 @@ export default function AddUser() {
 
   return (
     <Grid>
-      <form
+      <FormControl
         className={classes.root}
         noValidate
         autoComplete="off"
@@ -78,6 +79,7 @@ export default function AddUser() {
             value={datos.userName}
             onChange={handleInputChange}
             variant="filled"
+            name='userName'
             className={classes.color}
           />
           <TextField
@@ -86,6 +88,7 @@ export default function AddUser() {
             value={datos.email}
             onChange={handleInputChange}
             variant="outlined"
+            name='email'
           />
           <TextField
             id="outlined-name"
@@ -93,6 +96,7 @@ export default function AddUser() {
             value={datos.password}
             onChange={handleInputChange}
             variant="outlined"
+            name='password'
           />
           <TextField
             id="outlined-name"
@@ -100,6 +104,7 @@ export default function AddUser() {
             value={datos.confirmPassword}
             onChange={handleInputChange}
             variant="outlined"
+            name='confirmPassword'
           />
           <TextField
             id="outlined-name"
@@ -107,6 +112,7 @@ export default function AddUser() {
             value={datos.isAdmin}
             onChange={handleInputChange}
             variant="outlined"
+            name='isAdmin'
           />
           <Button
             size="large"
@@ -119,7 +125,7 @@ export default function AddUser() {
             Agregar
           </Button>
         </Grid>
-      </form>
+      </FormControl>
     </Grid>
   );
 }
