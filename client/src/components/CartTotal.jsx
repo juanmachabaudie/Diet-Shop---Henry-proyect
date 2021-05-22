@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Container, Typography, Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-export const CartTotal = () => {
+export const CartTotal = ({cartItems}) => {
+  const history = useHistory();
+  
   const [total, setTotal] = useState(0);
+  
 
-  //const dispatch = useDispatch();
-  // Retrieve the JSON string
-  const cartInLocal = localStorage.getItem("cart");
-  // Parse JSON string to object
-  const cartItems = JSON.parse(cartInLocal);
 
-  let sumProduct = 0;
-  for (var e of cartItems) {
-    sumProduct += e.price * e.quantity;
+
+  function suma (cartItems){
+    let sumProduct = 0;
+    for (var e of cartItems) {
+      sumProduct += e.price * e.quantity;
+    }
+    return sumProduct;
+    console.log('suma'+ sumProduct)
   }
+  
+  
+  
   useEffect(() => {
-    setTotal(sumProduct);
-  }, [sumProduct]);
+    setTotal(suma(cartItems));
+    
+    console.log('estado '+total)
+    
+  }, [total]);
 
   return (
     <Container>

@@ -194,6 +194,7 @@ const ProductDetail = ({ location }) => {
       <Typography variant="h4" align="center">
         {detail.name}
       </Typography>
+      <Grid>
       <Grid item xs={6}>
         
           <CardMedia
@@ -222,6 +223,7 @@ const ProductDetail = ({ location }) => {
         <Button onClick={clickToAdd}>
           <FontAwesomeIcon size = "3x" icon={faCartPlus} />
         </Button>
+      </Grid>
       </Grid>
     </Container>
   );

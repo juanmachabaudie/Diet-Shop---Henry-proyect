@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { setCartReload } from '../redux/actions/cartActions.js'
 import CartItem from "../components/CartItem";
+import CartTotal from "../components/CartTotal";
 
 import { Container, makeStyles } from "@material-ui/core";
 
@@ -42,7 +43,9 @@ const Cart = () => {
         </Container>
       </Container>
       <hr />
+      <CartTotal cartItems={cartItems}/>
     </Container>
+   
   );
 };
 
