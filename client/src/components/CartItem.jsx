@@ -28,6 +28,7 @@ const useStyle = makeStyles({
     marginTop: "10px",
     alignItems: "center",
     background: "#f3f6f7",
+    width: '900px'
   },
   image: {
     height: 150,
@@ -37,6 +38,7 @@ const useStyle = makeStyles({
 });
 
 //function
+
 const CartItem = ({ product }) => {
   const classes = useStyle();
   const dispatch = useDispatch();
@@ -56,7 +58,11 @@ const CartItem = ({ product }) => {
       history.push("/cart"),
       window.scrollTo(0, 0)
     );
-
+  if(!product) {
+    return (
+      <div></div>
+    )
+  } 
   return (
     <Container className={classes.item}>
       <div>

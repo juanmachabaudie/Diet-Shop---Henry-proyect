@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "caniuse-lite": "^1.0.30001208",
     "choco": "^0.2.1",
+    "firebase": "^8.6.1",
     "mercadopago": "^1.5.7",
     "mkcert": "^1.4.0",
     "react": "^16.13.1",

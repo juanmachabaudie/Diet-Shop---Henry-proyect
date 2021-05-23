@@ -8,8 +8,8 @@ import AddProduct from "./components/AddProduct.jsx";
 import SearchProduct from "./components/SearchProduct.jsx";
 import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
-import CartTotal from "./components/CartTotal.jsx";
 import Home from "./components/Home.jsx";
+import LoginPage from "./components/LoginPage";
 
 const App = () => {
   return (
@@ -23,7 +23,7 @@ const App = () => {
       <Route path="/products/search" component={SearchProduct} />
       <Route exact path="/user/add" component={AddUser} />
       <Route exact path="/cart" component={Cart} />
-      <Route exact path="/cart" component={CartTotal} />
+      <Route exact path='/login' component={LoginPage}/>
     </React.Fragment>
   );
 };

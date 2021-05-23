@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
@@ -86,8 +86,10 @@ export default function ProductCard({ uuid, name, description, image, price }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="agregar" onClick={addToCartOnClick}>
+        <IconButton  aria-label="agregar" onClick={addToCartOnClick}>
+        
           <FontAwesomeIcon icon={faCartPlus} />
+      
         </IconButton>
         <Button color="primary" variant="outlined">
           {" "}

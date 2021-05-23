@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
+import makeStyles from '../components/componentsStyles/ProductDetail'
 
 import clsx from "clsx";
 import {
-  makeStyles,
   Card,
   CardHeader,
   CardMedia,
@@ -17,33 +17,9 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core/";
-import { red } from "@material-ui/core/colors";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 700,
-    boxShadow: "0 0 30px",
-    marginLeft: "500px",
-    background: "#f3f6f7",
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-}));
+
+
 
 export default function ProductDetail({ location }) {
   const { pathname } = location;
@@ -55,7 +31,7 @@ export default function ProductDetail({ location }) {
   const [count, setCount] = useState(0);
   const defaultImg =
     "https://lh3.googleusercontent.com/proxy/lDX77oEN-GsT0mLlLb6s3Y0sf3-EG9S3dqBV7cOsOrSSJ9_mlEtMb9I-nIj469riZT-Q3EA2N4nP6gzt-iwoSuOR_Fihd8cC";
-  const classes = useStyles();
+  const classes = makeStyles();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -121,17 +97,17 @@ export default function ProductDetail({ location }) {
         title={detail.name}
       />
       <CardContent>
-        <Typography variant="body" color="primary" component="p">
+        <Typography variant="body"  component="p">
           Descripción: {detail.description}
         </Typography>
-        <Typography variant="body2" color="primary" component="p">
+        <Typography variant="body2" component="p">
           Precio: ${detail.price},00
         </Typography>
-        <Typography variant="body2" color="primary" component="p">
+        <Typography variant="body2" component="p">
           Categorias del Producto:
           {detail.categories}
         </Typography>
-        <Typography variant="body2" color="primary" component="p">
+        <Typography variant="body2" component="p">
           {checkStock}
         </Typography>
       </CardContent>

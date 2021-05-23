@@ -1,6 +1,6 @@
 export const getProducts = () => {
   return function (dispatch) {
-    return fetch("/product")
+    return fetch("http://localhost:3001/product")
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "GET_PRODUCTS", payload: data });
@@ -10,7 +10,7 @@ export const getProducts = () => {
 
 export const createProduct = (datos) => {
   return async (dispatch) => {
-    const res = await fetch("/product/create", {
+    const res = await fetch("http://localhost:3001/product/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datos),
@@ -27,7 +27,7 @@ export const findProduct = (uuid) => {
   console.log(uuid);
   try {
     return async (dispatch) => {
-      const res = await fetch(`/product/detail/${uuid}`);
+      const res = await fetch(`http://localhost:3001/product/detail/${uuid}`);
       const resJson = await res.json();
       dispatch({
         type: "GET_PRODUCT",
@@ -42,7 +42,7 @@ export const findProduct = (uuid) => {
 export const filterByCategory = (categoryUuid) => async (dispatch) => {
   try {
     const res = await fetch(
-      `/product/filterByCategory?uuid=${categoryUuid}`
+      `http://localhost:3001/product/filterByCategory?uuid=${categoryUuid}`
     );
     const resJson = await res.json();
     console.log(resJson);
@@ -58,7 +58,7 @@ export const filterByCategory = (categoryUuid) => async (dispatch) => {
 export const searchProducts = (name) => {
   return async (dispatch) => {
     const res = await fetch(
-      `/product/search?name=${name}`
+      `http://localhost:3001/product/search?name=${name}`
     );
     const resJson = await res.json();
     dispatch({

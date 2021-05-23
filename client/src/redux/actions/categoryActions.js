@@ -4,7 +4,7 @@ export const getCategories = () => {
   return async (dispatch) => {
     let categories;
     try {
-      const result = await fetch(`/category/`);
+      const result = await fetch(`http://localhost:3001/category/`);
       categories = await result.json();
       dispatch({
         type: "GET_CATEGORIES",
@@ -25,7 +25,7 @@ export const getCategoryByName = (name) => {
     let categoryByName = [];
     try {
       let result = await fetch(
-        `/category/byName?name=${name}`
+        `http://localhost:3001/category/byName?name=${name}`
       );
       categoryByName = await result.json();
       if (!categoryByName.error) {
@@ -47,7 +47,7 @@ export const getCategoryByName = (name) => {
 export const addCategory = (category) => {
   return async (dispatch) => {
     try {
-      const result = await fetch("/category/create", {
+      const result = await fetch("http://localhost:3001/category/create", {
         method: "POST",
         body: JSON.stringify(category),
         mode: "cors",
