@@ -10,6 +10,7 @@ import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
 import CartTotal from "./components/CartTotal.jsx";
 import Home from "./components/Home.jsx";
+import ShippingForm from "./components/ShippingForm.jsx";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
       <Route exact path="/user/add" component={AddUser} />
       <Route exact path="/cart" component={Cart} />
       <Route exact path="/cart" component={CartTotal} />
+      <Route exact path="/user/Shipping" component={ShippingForm} />
     </React.Fragment>
   );
 };
