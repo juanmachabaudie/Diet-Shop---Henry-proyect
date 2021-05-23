@@ -18,7 +18,7 @@ export const addToCart = (uuid, name, description, stock, image, price, quantity
         quantity = ++prod.quantity
       }
     }
-    if(!flag) old.push({uuid, name, description, image, price, quantity});
+    if(!flag) old.push({uuid, name, description, stock, image, price, quantity});
   };
   dispatch({ type: ADD_TO_CART, payload: old, });
   localStorage.setItem("cart", JSON.stringify(old));

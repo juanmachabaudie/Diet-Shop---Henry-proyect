@@ -7,7 +7,7 @@ import {
   changeProductQuantity,
 } from "../redux/actions/cartActions";
 
-import defaultImg from '../imgs/default.svg';
+import defaultImg from "../imgs/default.svg";
 
 import {
   Button,
@@ -18,11 +18,9 @@ import {
 } from "@material-ui/core";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
-//estilos
+//styles
 const useStyle = makeStyles({
   item: {
     marginLeft: "auto",
@@ -39,14 +37,13 @@ const useStyle = makeStyles({
   },
 });
 
-
 //function
 const CartItem = ({ product }) => {
   const dispatch = useDispatch();
   const classes = useStyle();
   const history = useHistory();
-  
-  const [quantity, setQuantity] = useState(product.quantity)
+
+  const [quantity, setQuantity] = useState(product.quantity);
 
   const removeProductFromCart = () =>
     dispatch(
@@ -56,22 +53,31 @@ const CartItem = ({ product }) => {
       window.scrollTo(0, 0)
     );
 
-    const handleChangeQuantity = e => {
-      const { value } = e.target;
-      setQuantity(value);
+  const handleChangeQuantity = (e) => {
+    const { value } = e.target;
+    if (quantity >= 1 && quantity <= product.stock && value >= 1 && value <= product.stock) {
       dispatch(changeProductQuantity(product.uuid, Number(value)));
-    };
+      setQuantity(value);
+    }
+  };
 
   return (
     <Container className={classes.item}>
       <div>
-        <img className={classes.image} src={product.image || defaultImg} alt={product.name} />
+        <img
+          className={classes.image}
+          src={product.image || defaultImg}
+          alt={product.name}
+        />
       </div>
       <Typography variant="span">{product.name}</Typography>
       <Typography variant="span">${product.price}</Typography>
+      <Typography variant="span">{product.stock}</Typography>
       <TextField
-        type='number'
+        type="number"
         value={quantity}
+        min={1}
+        max={product.stock}
         onChange={handleChangeQuantity}
       />
       <Button variant="contained" onClick={removeProductFromCart}>

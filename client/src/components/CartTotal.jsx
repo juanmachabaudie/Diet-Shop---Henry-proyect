@@ -11,7 +11,7 @@ export const CartTotal = ({cartItems}) => {
 
   return (
     <Container>
-      <Typography> Total: {`${total}`}</Typography>
+      <Typography> Total: ${`${total}`}</Typography>
       <Button onClick={handleGoToCheckout} >Comprar</Button>
     </Container>
   );

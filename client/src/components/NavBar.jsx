@@ -4,21 +4,22 @@ import SearchBar from "./SearchBar.jsx";
 
 import {
   AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  MenuItem,
-  Menu,
-  fade,
-  Modal,
   Backdrop,
+  Badge, //LLeva un contador con la cantidad de elementos que hay en el carrito
+  Button,
+  Fade,
+  fade,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Toolbar,
+  Typography,
+  MenuItem,
+  Menu,
+  Modal,
   makeStyles,
-  Fade,
-  //Badge, LLeva un contador con la cantidad de elementos que hay en el carrito
 } from "@material-ui/core";
 
 import {
@@ -29,6 +30,7 @@ import {
   faSeedling,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { counter } from "@fortawesome/fontawesome-svg-core";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -112,6 +114,17 @@ const NavBar = () => {
     window.scroll(0, 0);
   };
 
+  const showItems = () => {
+    let count = 0;
+  const cartItem = JSON.parse(localStorage.getItem("cart"))
+  for (let item of cartItem){
+    count = count + item.quantity;
+  }
+  return count;
+} 
+
+
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -150,30 +163,50 @@ const NavBar = () => {
       <Fade in={open}>
         <div>
           <List component="nav">
+            <Button href="/products">
+              <ListItem button className={classes.paper}>
+                <ListItemIcon>
+                  <FontAwesomeIcon color="green" icon={faSeedling} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Productos"
+                  className={classes.listItemText}
+                />
+              </ListItem>
+            </Button>
+            <Button>
             <ListItem button className={classes.paper}>
               <ListItemIcon>
                 <FontAwesomeIcon color="green" icon={faSeedling} />
               </ListItemIcon>
-              <ListItemText primary="Productos" className={classes.listItemText} />
+              <ListItemText
+                primary="Categorias"
+                className={classes.listItemText}
+              />
             </ListItem>
+            </Button>
+            <Button>
             <ListItem button className={classes.paper}>
               <ListItemIcon>
                 <FontAwesomeIcon color="green" icon={faSeedling} />
               </ListItemIcon>
-              <ListItemText primary="Categorias" className={classes.listItemText} />
+              <ListItemText
+                primary="Contacto"
+                className={classes.listItemText}
+              />
             </ListItem>
+            </Button>
+            <Button>
             <ListItem button className={classes.paper}>
               <ListItemIcon>
                 <FontAwesomeIcon color="green" icon={faSeedling} />
               </ListItemIcon>
-              <ListItemText primary="Contacto" className={classes.listItemText} />
+              <ListItemText
+                primary="Nosotros"
+                className={classes.listItemText}
+              />
             </ListItem>
-            <ListItem button className={classes.paper}>
-              <ListItemIcon>
-                <FontAwesomeIcon color="green" icon={faSeedling} />
-              </ListItemIcon>
-              <ListItemText primary="Nosotros" className={classes.listItemText} />
-            </ListItem>
+            </Button>
           </List>
         </div>
       </Fade>
@@ -206,7 +239,9 @@ const NavBar = () => {
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit" aria-label="agregar" onClick={goToCart}>
-              <FontAwesomeIcon icon={faCartPlus} />
+              <Badge badgeContent={showItems()} color="secondary">
+                <FontAwesomeIcon icon={faCartPlus} />
+              </Badge>
             </IconButton>
             <IconButton color="inherit">
               <FontAwesomeIcon icon={faUser} />
