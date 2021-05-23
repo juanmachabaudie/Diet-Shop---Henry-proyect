@@ -7,6 +7,7 @@ const categoryRoutes = require("./categoryRoutes");
 const cartRoutes = require("./cartRoutes");
 const orderRoutes = require("./orderRoutes");
 const userRoutes = require("./usersRoutes");
+const checkoutRoutes = require("./checkoutRoutes");
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
@@ -15,5 +16,6 @@ router.use("/category", categoryRoutes);
 router.use("/cart", cartRoutes);
 router.use("/order", orderRoutes);
 router.use("/user", userRoutes);
+router.use("/checkout", checkoutRoutes)
 
 module.exports = router;

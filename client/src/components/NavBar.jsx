@@ -1,36 +1,42 @@
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
-import ProductsByCategory from "./ProductsByCategory";
 
-import React from "react";
 import {
-  fade,
-  makeStyles,
   AppBar,
   Toolbar,
   IconButton,
   Typography,
-  InputBase,
-  Badge,
   MenuItem,
   Menu,
+  fade,
+  Modal,
+  Backdrop,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  makeStyles,
+  Fade,
+  //Badge, LLeva un contador con la cantidad de elementos que hay en el carrito
 } from "@material-ui/core";
 
-import { faBars, faUser, faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faUser,
+  faCartPlus,
+  faEllipsisV,
+  faSeedling,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const useStyles = makeStyles((theme) => ({
+  offset: theme.mixins.toolbar,
   grow: {
     flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
   },
   search: {
     position: "relative",
@@ -39,25 +45,12 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(3),
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
       width: "auto",
-    },
-  },
-
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
     },
   },
   sectionDesktop: {
@@ -72,21 +65,46 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: "RGBA(255,255,255,0.8)",
+    borderRadius: "10px",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    margin: "1rem",
+  },
+  listItemText: {
+    color: "orange",
+  },
 }));
 
 const NavBar = () => {
   const history = useHistory();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const goToCart = () => {
@@ -94,64 +112,98 @@ const NavBar = () => {
     window.scroll(0, 0);
   };
 
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
+  const renderMobileMenu = (
     <Menu
-      anchorEl={anchorEl}
+      anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton>
-          <Link to="/products">Products</Link>
+      <MenuItem>
+        <IconButton color="inherit">
+          <FontAwesomeIcon icon={faCartPlus} />
         </IconButton>
-        <IconButton>
-          <Link to="/user/add">Nuevo Usuario</Link>
+      </MenuItem>
+      <MenuItem>
+        <IconButton color="inherit">
+          <FontAwesomeIcon icon={faUser} />
         </IconButton>
-        {/* <IconButton href="/products">Productos</IconButton> */}
       </MenuItem>
     </Menu>
   );
 
+  const mainMenu = (
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      className={classes.modal}
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={open}>
+        <div>
+          <List component="nav">
+            <ListItem button className={classes.paper}>
+              <ListItemIcon>
+                <FontAwesomeIcon color="green" icon={faSeedling} />
+              </ListItemIcon>
+              <ListItemText primary="Productos" className={classes.listItemText} />
+            </ListItem>
+            <ListItem button className={classes.paper}>
+              <ListItemIcon>
+                <FontAwesomeIcon color="green" icon={faSeedling} />
+              </ListItemIcon>
+              <ListItemText primary="Categorias" className={classes.listItemText} />
+            </ListItem>
+            <ListItem button className={classes.paper}>
+              <ListItemIcon>
+                <FontAwesomeIcon color="green" icon={faSeedling} />
+              </ListItemIcon>
+              <ListItemText primary="Contacto" className={classes.listItemText} />
+            </ListItem>
+            <ListItem button className={classes.paper}>
+              <ListItemIcon>
+                <FontAwesomeIcon color="green" icon={faSeedling} />
+              </ListItemIcon>
+              <ListItemText primary="Nosotros" className={classes.listItemText} />
+            </ListItem>
+          </List>
+        </div>
+      </Fade>
+    </Modal>
+  );
+
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar>
         <Toolbar>
           <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
-            onClick={handleProfileMenuOpen}
+            onClick={handleOpen}
           >
             <FontAwesomeIcon icon={faBars} />
           </IconButton>
           <IconButton color="inherit">
             <Link to="/">
-              <Typography className={classes.title} variant="h6" noWrap>
+              <Typography className={classes.grow} variant="h6">
                 HEALTHY-HENRY
               </Typography>
             </Link>
           </IconButton>
+          <div className={classes.grow} />
           <div className={classes.search}>
-            {/* <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            /> */}
             <SearchBar />
           </div>
-          <MenuItem>
-            <ProductsByCategory />
-          </MenuItem>
-          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit" aria-label="agregar" onClick={goToCart}>
               <FontAwesomeIcon icon={faCartPlus} />
@@ -164,29 +216,19 @@ const NavBar = () => {
             <IconButton
               aria-label="show more"
               aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
               color="inherit"
-            ></IconButton>
+            >
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
-      {renderMenu}
+      {mainMenu}
+      {renderMobileMenu}
+      <div className={classes.offset}></div>
     </div>
   );
 };
-// return (
-//   <div>
-//     <nav>
-//       <Link to="/">DIET SHOP</Link>
-//       <Link to="/products">Productos</Link>
-//       <Link to="/aboutUs">Nosotros</Link>
-//       <Link to="/contact">Contacto</Link>
-//       {/*---------------porvicionales--------------*/}
-//       <Link to='/product/add'>new prod</Link>
-//       <Link to='/category/add'>new cat</Link>
-//       <SearchBar />
-//       <ProductsByCategory />
-//     </nav>
-//   </div>
-// );
 
 export default NavBar;

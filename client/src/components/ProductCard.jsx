@@ -51,16 +51,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProductCard({ uuid, name, description, image, price }) {
+export default function ProductCard({ uuid, name, description, stock, image, price }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
   function clickToAdd(){
-    dispatch(addToCart(uuid, 1))
-    history.push('/cart')
+    dispatch(addToCart(uuid, name, description, stock, image, price, 1))
+    // history.push('/cart')
   }
 
-  function handleClick(e) {
+  function handleClick() {
     dispatch(findProduct(uuid));
     history.push("/product/detail/" + uuid);
     window.scrollTo(0, 0);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -9,19 +9,16 @@ import {
 
 import defaultImg from '../imgs/default.svg';
 
-import {addToCart} from '../redux/actions/cartActions.js';
-
 import {
   Button,
   Container,
   Typography,
   makeStyles,
+  TextField,
 } from "@material-ui/core";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMinusCircle,
-  faPlusCircle,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -49,10 +46,7 @@ const CartItem = ({ product }) => {
   const classes = useStyle();
   const history = useHistory();
   
-  const [refres, setRefres] = useState (product.quantity)
-
-  useEffect(() => {
-  }, [refres])
+  const [quantity, setQuantity] = useState(product.quantity)
 
   const removeProductFromCart = () =>
     dispatch(
@@ -62,21 +56,11 @@ const CartItem = ({ product }) => {
       window.scrollTo(0, 0)
     );
 
-    function clickToAdd(){
-      if(refres<product.stock){
-      dispatch(addToCart(product.uuid, 1))
-      history.push('/cart')
-      setRefres(refres+1)
-      }
-    }
-
-    function clickToMin(){
-      if(refres>1){
-      dispatch(addToCart(product.uuid, -1))
-      history.push('/cart')
-      setRefres(refres-1)
-      }
-    }
+    const handleChangeQuantity = e => {
+      const { value } = e.target;
+      setQuantity(value);
+      dispatch(changeProductQuantity(product.uuid, Number(value)));
+    };
 
   return (
     <Container className={classes.item}>
@@ -85,13 +69,11 @@ const CartItem = ({ product }) => {
       </div>
       <Typography variant="span">{product.name}</Typography>
       <Typography variant="span">${product.price}</Typography>
-      <Button color="primary" variant="contained" onClick={clickToAdd}>
-        <FontAwesomeIcon size="2x" icon={faPlusCircle} />
-      </Button>
-      <Typography variant="span">{refres}</Typography>
-      <Button color="secondary" variant="contained" onClick={clickToMin}>
-        <FontAwesomeIcon size="2x" icon={faMinusCircle} />
-      </Button>
+      <TextField
+        type='number'
+        value={quantity}
+        onChange={handleChangeQuantity}
+      />
       <Button variant="contained" onClick={removeProductFromCart}>
         <FontAwesomeIcon size="2x" icon={faTrashAlt} />
       </Button>

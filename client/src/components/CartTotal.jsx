@@ -1,38 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { Container, Typography, Button } from "@material-ui/core";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import {goToCheckout} from "../redux/actions/cartActions";
 
 export const CartTotal = ({cartItems}) => {
-  const history = useHistory();
-  
-  const [total, setTotal] = useState(0);
-  
+  const dispatch = useDispatch();
+  const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
 
-
-
-  function suma (cartItems){
-    let sumProduct = 0;
-    for (var e of cartItems) {
-      sumProduct += e.price * e.quantity;
-    }
-    return sumProduct;
-    console.log('suma'+ sumProduct)
-  }
-  
-  
-  
-  useEffect(() => {
-    setTotal(suma(cartItems));
-    
-    console.log('estado '+total)
-    
-  }, [total]);
+  const handleGoToCheckout = () => dispatch(goToCheckout());
 
   return (
     <Container>
-      <Typography> Total: {total}</Typography>
-      <Button>Comprar</Button>
+      <Typography> Total: {`${total}`}</Typography>
+      <Button onClick={handleGoToCheckout} >Comprar</Button>
     </Container>
   );
 };

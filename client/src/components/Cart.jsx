@@ -1,11 +1,10 @@
 import React, {useEffect} from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { setCartReload } from '../redux/actions/cartActions.js'
 import CartItem from "../components/CartItem";
 import CartTotal from "../components/CartTotal";
 
-import { Container, makeStyles } from "@material-ui/core";
+import { Container, makeStyles, Typography } from "@material-ui/core";
 
 const useStyle = makeStyles({
   cart: {
@@ -17,33 +16,38 @@ const useStyle = makeStyles({
 });
 
 const Cart = () => {
-  
   const classes = useStyle();
   const dispatch = useDispatch();
-  const cartInLocal = localStorage.getItem("cart");
-  // Parse JSON string to object
-  const cartItems = JSON.parse(cartInLocal);
-  
+
+  const cartItems = useSelector(state => state.cart.cartItems);
   useEffect(() => {
-    dispatch (setCartReload())
+    dispatch(setCartReload());
   }, [dispatch])
   
   //esto va a mostrar todos los productos que tiene un usuario en su carrito//y mostraremos los items cart y el total cart
   return (
     <Container className={classes.cart}>
-      <div>
-        <h4 className={classes.title}>Mis Productos</h4>
-      </div>{" "}
-      <hr />
-      <Container>
-        <Container>
-          {cartItems.map((product) => (
-            <CartItem product={product} />
-          ))}
-        </Container>
-      </Container>
-      <hr />
-      <CartTotal cartItems={cartItems}/>
+      {
+        cartItems.length
+        ? (
+          <Container>
+            <div>
+              <h4 className={classes.title}>Mis Productos</h4>
+            </div>
+            <hr />
+            <Container>
+              <Container>
+                {cartItems.map((product) => (
+                  <CartItem key={product.uuid} product={product} />
+                ))}
+              </Container>
+            </Container>
+            <hr />
+            <CartTotal cartItems={cartItems}/>
+          </Container>
+        )
+      : <Typography >No hay productos en tu carrito! Anda a comprar algo!</Typography>
+      }
     </Container>
    
   );
