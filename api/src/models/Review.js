@@ -2,34 +2,20 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "product",
+    "review",
     {
       uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: {
+      text: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      image: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-      },
-      thumbnail: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-      },
-      price: {
+      rating: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      stock: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
     },
 

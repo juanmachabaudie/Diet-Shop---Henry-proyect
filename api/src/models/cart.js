@@ -4,27 +4,17 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define(
-    "category",
+    "cart",
     {
       uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      image: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      clicks: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
+      items: {
+        type: DataTypes.ARRAY(DataTypes.JSON),
       },
     },
-
     {
       freezeTableName: true,
     },

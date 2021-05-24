@@ -3,24 +3,36 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk"; //nos ayuda a trabajar con promesas con redux
 //import {composeWithDevTools} from 'redux-devtools-extension' //nos ayuda a ver los state de la herramienta
 
-import catalogueReducer from "../reducers/catalogueReducer";
-import productReducer from "../reducers/productsReducer.js";
-import categoriesReducer from "../reducers/categoriesReducer";
-import categoryReducer from '../reducers/categoryReducer.js';
-
+import productReducers from "../reducers/productReducers";
+import categoryReducers from "../reducers/categoryReducers";
+import cartReducers from "../reducers/cartReducers";
+import userReducers from "../reducers/userReducers";
+import orderReducers from "../reducers/orderReducers";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const rootReducer = combineReducers({
-  //aca va el objeto con los nombres de los reducers ej:
-  // miReducer: reducer_1  (obiamente con la respectiva importacion del reducer_1)
-  catalogue: catalogueReducer,
-  products: productReducer,
-  category: categoryReducer,
-  categories: categoriesReducer,
-});
+const cartInLocalStorage = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart"))
+  : [];
 
+const rootReducer = combineReducers({
+  products: productReducers,
+  categories: categoryReducers,
+  cart: cartReducers,
+  cartInLocalStorage: cartInLocalStorage,
+  user: userReducers,
+  orders: orderReducers,
+});
 
 export const store = createStore(
   rootReducer, // --->>  persistedReducer
   composeEnhancers(applyMiddleware(thunk))
 );
+
+/* export default function generatorStore() {
+  let store = createStore(
+    rootReducer, // --->>  persistedReducer
+    composeEnhancers(applyMiddleware(thunk))
+  );
+  restoreSessionAction()(store.dispatch);
+  return store;
+} */

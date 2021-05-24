@@ -1,16 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  getCategories,
-  postProduct,
-} from "../redux/actions/productsActions.js";
-import Style from "../componentsCss/AddProduct.module.css";
+import { createProduct } from "../redux/actions/productActions.js";
+import { getCategories } from "../redux/actions/categoryActions";
+import { sweetAlert } from "../helpers/utils";
+
+/* {
+  "name": "vit z",
+  "description": "sups",
+  "image": ["https://www.crhoy.com/wp-content/uploads/2014/11/suplementos-medicamentos.jpg"],
+  "thumbnail": ["https://www.crhoy.com/wp-content/uploads/2014/11/suplementos-medicamentos.jpg"],
+  "price": 123,
+  "stock": 0,
+  "categories": ["suplementos"]
+} */
 
 export default function AddProduct() {
   const dispatch = useDispatch();
   const store = useSelector((store) => store);
 
-  const categories = store.products.categories;
+  const categories = store.categories.categories;
   const loading = store.products.loading;
   const agregado = store.products.message;
 
@@ -18,13 +26,24 @@ export default function AddProduct() {
     dispatch(getCategories());
   }, []);
 
-  const [cate, setc] = useState([]);
   const [datos, setDatos] = useState({
     name: "",
     description: "",
+    image: [],
+    thumbnail: [],
     price: "",
     stock: "",
     categories: [],
+    url: "",
+    /* {
+  "name": "vit z",
+  "description": "sups",
+  "image": ["https://www.crhoy.com/wp-content/uploads/2014/11/suplementos-medicamentos.jpg"],
+  "thumbnail": ["https://www.crhoy.com/wp-content/uploads/2014/11/suplementos-medicamentos.jpg"],
+  "price": 123,
+  "stock": 0,
+  "categories": ["suplementos"]
+} */
   });
 
   const handleInputChange = (event) => {
@@ -44,14 +63,41 @@ export default function AddProduct() {
       }
     }
     setDatos({
+      ...datos,
+      categories: seleccionadas,
+    });
+  };
+
+  const handleImgs = (event) => {
+    event.preventDefault();
+    if (datos.image.includes(datos.url)) {
+      sweetAlert(
+        "Atención",
+        "La Url que intentas añadir ya existe",
+        "warning",
+        "OK",
+        5000
+      );
+      return;
+    } else {
+      setDatos({
         ...datos,
-        categories: seleccionadas
-    })
+        image: [...datos.image, datos.url],
+        thumbnail: [...datos.thumbnail, datos.url],
+      });
+    }
   };
 
   const enviarDatos = (event) => {
     event.preventDefault();
-    dispatch(postProduct(datos));
+    dispatch(createProduct(datos));
+    sweetAlert(
+      "Atención",
+      "Producto Agregado a la Base de Datos",
+      "success",
+      "OK",
+      5000
+    );
   };
 
   if (loading) {
@@ -64,8 +110,8 @@ export default function AddProduct() {
     return (
       <div>
         <form onSubmit={enviarDatos}>
-          <div className={Style.container}>
-            <section className={Style.section}>
+          <div>
+            <section>
               <input
                 type="text"
                 placeholder="Nombre"
@@ -73,7 +119,7 @@ export default function AddProduct() {
                 onChange={handleInputChange}
               />
             </section>
-            <section className={Style.section}>
+            <section>
               <input
                 type="text"
                 placeholder="Descripción"
@@ -81,7 +127,7 @@ export default function AddProduct() {
                 onChange={handleInputChange}
               />
             </section>
-            <section className={Style.section}>
+            <section>
               $
               <input
                 type="number"
@@ -90,7 +136,7 @@ export default function AddProduct() {
                 onChange={handleInputChange}
               />
             </section>
-            <section className={Style.section}>
+            <section>
               <input
                 type="number"
                 placeholder="Stock"
@@ -100,13 +146,16 @@ export default function AddProduct() {
             </section>
           </div>
           <div>
-            <label for="mainPic">Imagenes del Producto:</label>
-            <input
-              type="file"
-              id="mainPic"
-              name="mainPic"
-              accept="image/jpeg"
-            />
+            <label>Imagenes del Producto:</label>
+            <section>
+              <input
+                type="text"
+                placeholder="Inserta Urls"
+                name="url"
+                onChange={handleInputChange}
+              />
+              <button onClick={handleImgs}>Insertar Url</button>
+            </section>
           </div>
           <select multiple name="categories" onChange={handleCat} required>
             {categories?.map((each) => {
