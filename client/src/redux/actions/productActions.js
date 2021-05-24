@@ -57,7 +57,6 @@ export const filterByCategory = (categoryUuid) => async (dispatch) => {
       `http://localhost:3001/product/filterByCategory?uuid=${categoryUuid}`
     );
     const resJson = await res.json();
-    console.log(resJson);
     dispatch({
       type: "GET_PRODUCTS",
       payload: resJson,

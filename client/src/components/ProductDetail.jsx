@@ -1,180 +1,35 @@
-// import React, { useEffect, useState } from "react";
-// import { useSelector, useDispatch } from "react-redux";
-
-// import { findProduct } from "../redux/actions/productActions";
-// import { addToCart } from "../redux/actions/cartActions";
-
-// import { red } from "@material-ui/core/colors";
-
-// import {
-//   makeStyles,
-//   Card,
-//   CardHeader,
-//   CardMedia,
-//   CardContent,
-//   CardActions,
-//   Collapse,
-//   Avatar,
-//   IconButton,
-//   Typography,
-// } from "@material-ui/core/";
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     maxWidth: 700,
-//     boxShadow: "0 0 30px",
-//     marginLeft: "500px",
-//     background: "#f3f6f7",
-//   },
-//   media: {
-//     height: 0,
-//     paddingTop: "56.25%", // 16:9
-//   },
-//   expand: {
-//     transform: "rotate(0deg)",
-//     marginLeft: "auto",
-//     transition: theme.transitions.create("transform", {
-//       duration: theme.transitions.duration.shortest,
-//     }),
-//   },
-//   expandOpen: {
-//     transform: "rotate(180deg)",
-//   },
-//   avatar: {
-//     backgroundColor: red[500],
-//   },
-// }));
-
-// export default function ProductDetail({ location }) {
-
-//   const dispatch = useDispatch();
-//   const classes = useStyles();
-
-//   const { pathname } = location;
-
-//   const uuid = pathname.split("/")[3];
-
-//   useEffect(() => {
-//     dispatch(findProduct(uuid));
-//   }, [dispatch,uuid]);
-
-//   const [count, setCount] = useState(1);
-
-//   const defaultImg =
-//     "https://lh3.googleusercontent.com/proxy/lDX77oEN-GsT0mLlLb6s3Y0sf3-EG9S3dqBV7cOsOrSSJ9_mlEtMb9I-nIj469riZT-Q3EA2N4nP6gzt-iwoSuOR_Fihd8cC";
-
-//   const [expanded, setExpanded] = useState(false);
-
-//   const handleExpandClick = () => {
-//     setExpanded(!expanded);
-//   };
-
-//   const detail = useSelector((store) => store.products.product);
-
-//   function handleChange(e) {
-//     setCount(e.target.value);
-//     if (detail.stock >= count || detail.stock <= count) {
-//       setCount(detail.stock);
-//       e.target.value = detail.stock;
-//     }
-//   }
-//   //agregarAlCarrito
-//   function handleClick() {
-//     if (count > detail.stock) {
-//       dispatch(addToCart(detail.uuid, count));
-//     }
-//   }
-//   let checkStock;
-
-//   if (detail.stock > 0) {
-//     checkStock = (
-//       <div>
-//         <p>Stock: {detail.stock}</p>
-//         <input
-//           type="number"
-//           placeholder=""
-//           value={count}
-//           onChange={handleChange}
-//         />
-//         <button value={detail.uuid} onClick={handleClick}>
-//           Agregar al Carrito
-//         </button>
-//       </div>
-//     );
-//   } else {
-//     checkStock = (
-//       <div>
-//         <p>Stock: Sin Stock</p>
-//         <button value={detail.uuid} disabled>
-//           Agregar al Carrito
-//         </button>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <Card className={classes.root}>
-//       <CardHeader
-//         avatar={
-//           <Avatar aria-label="recipe" className={classes.avatar}>
-//             diet
-//           </Avatar>
-//         }
-//         title={detail.name}
-//       />
-//       <CardMedia
-//         className={classes.media}
-//         image={detail.image || defaultImg}
-//         title={detail.name}
-//       />
-//       <CardContent>
-//         <Typography paragraph variant="body" color="primary" component="p">
-//           Descripción: {detail.description}
-//         </Typography>
-//         <Typography variant="body2" color="primary" component="p">
-//           Precio: ${detail.price}
-//         </Typography>
-//         <Typography variant="body2" color="primary" component="p">
-//           Categorias del Producto:
-//           {detail.categories}
-//         </Typography>
-//         <Typography variant="body2" color="primary" component="p">
-//           {checkStock}
-//         </Typography>
-//       </CardContent>
-//     </Card>
-//   );
-// }
-
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
+import Reviews from "./Reviews.jsx";
+import { findProduct } from "../redux/actions/productActions.js";
+import { addToCart } from '../redux/actions/cartActions.js'
 import {
   makeStyles,
+  Box,
   Grid,
   CardMedia,
   Typography,
-  Container,
   Button,
 } from "@material-ui/core/";
 
-import { useHistory } from 'react-router-dom';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { findProduct } from "../redux/actions/productActions.js";
+import { faCartPlus, faEdit, faPlusCircle, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 
 import defaultImg from "../imgs/default.svg";
-import { faCartPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-import { addToCart } from '../redux/actions/cartActions.js'
+const useStyles = makeStyles((theme) => ({
+  description: {
+    flexDirection: "column",
+  },
+}));
 
-const useStyles = makeStyles((theme) => ({}));
 
 const ProductDetail = ({ location }) => {
+  const classes = useStyles();
   let history = useHistory();
   const detail = useSelector((store) => store.products.product);
   const dispatch = useDispatch();
-  const classes = useStyles();
 
   const { pathname } = location;
 
@@ -190,43 +45,82 @@ const ProductDetail = ({ location }) => {
   }
 
   return (
-    <Container>
-      <Typography variant="h4" align="center">
-        {detail.name}
-      </Typography>
-      <Grid>
-      <Grid item xs={6}>
-        
-          <CardMedia
-            component="img"
-            alt={detail.name}
-            height="350"
-            image={detail.image || defaultImg}
-          />
-        
+    <div>
+      <Grid container>
+        <Grid item xs={12} md={6}>
+          <Box m={5}>
+            <CardMedia
+              component="img"
+              alt={detail.name}
+              height="500"
+              image={detail.image || defaultImg}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box m={5} display="flex" className={classes.description}>
+            <Box m={2}>
+              <Typography variant="body2" color="primary" component="p">
+                Categorias: {detail.categories}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="h4" color="initial">
+                {detail.name}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="h4" color="primary" component="p">
+                Precio: ${detail.price}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="h6" color="primary" component="p">
+                Stock: {detail.stock}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="body1" color="primary" component="p">
+                Descripción: {detail.description}
+              </Typography>
+            </Box>
+            {/* <Box m={2}>
+              <Typography variant="body2" color="initial">
+                Cantidad
+              </Typography>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={clickToMin}
+              >
+                <FontAwesomeIcon size="2x" icon={faMinusCircle} />
+              </Button>
+              <Typography variant="span"> 0 {refres}</Typography>
+              <Button
+                color="primary"
+                variant="contained" onClick={clickToAdd}
+              >
+                <FontAwesomeIcon size="2x" icon={faPlusCircle} />
+              </Button>
+            </Box> */}
+            <Button onClick={clickToAdd}><FontAwesomeIcon icon={faCartPlus}/>Agregar al Carrito </Button>
+          </Box>
+          <Box>
+            <Button href={`/product/edit/${uuid}`}>
+              <FontAwesomeIcon size = "3x" icon={faEdit} />
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box display="flex" justifyContent="center">
+            <Reviews />
+          </Box>
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-       
-          <Typography variant="body2">
-            Categorias: {detail.categories}
-          </Typography>
-          <Typography variant="h5">{detail.name}</Typography>
-          <Typography variant="body1">
-            Descripcion: {detail.description}
-          </Typography>
-        
-      </Grid>
-      <Grid>
-        <Button href={`/product/edit/${uuid}`}>
-          <FontAwesomeIcon size = "3x" icon={faEdit} />
-        </Button>
-        <Button onClick={clickToAdd}>
-          <FontAwesomeIcon size = "3x" icon={faCartPlus} />
-        </Button>
-      </Grid>
-      </Grid>
-    </Container>
+    </div>
   );
 };
 
 export default ProductDetail;
+
+

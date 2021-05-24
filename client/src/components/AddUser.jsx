@@ -4,34 +4,40 @@ import { useState } from "react";
 import { addUser } from "../redux/actions/userActions.js";
 import {
   Button,
-  Grid,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
   TextField,
   makeStyles,
-  Typography,
-  FormControl,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
+  textField: {
+    "& > *": {
       margin: theme.spacing(1),
-      width: "25ch",
+      display: "flex",
+      flexDirection: "column",
     },
+  },
+  paper: {
+    backgroundColor: "RGBA(255,255,255,0.8)",
+    borderRadius: "10px",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    margin: "1rem",
   },
 }));
 
 export default function AddUser() {
   const dispatch = useDispatch();
-  const store = useSelector((store) => store);
-
-  const added = store.users.message;
 
   const [datos, setDatos] = useState({
-    userName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    isAdmin: "",
   });
 
   const handleInputChange = (event) => {
@@ -45,42 +51,38 @@ export default function AddUser() {
     event.preventDefault();
     dispatch(addUser(datos));
     setDatos({
-      userName: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
-      isAdmin: "",
     });
   };
 
   const classes = useStyles();
 
   return (
-    <Grid>
-      <FormControl
-        className={classes.root}
-        noValidate
-        autoComplete="off"
-        onSubmit={enviarDatos}
-      >
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          justify="center"
-          style={{ minHeight: "100vh" }}
-        >
+    <div className={classes.paper}>
+      <Card className={classes.textField}>
+        <CardContent>
           <Typography variant="h5" color="initial">
-            Crear Usuario
+            Registrarse
           </Typography>
           <TextField
-            id="filled-name"
-            label="Nombre de Usuario"
-            value={datos.userName}
+            id="outlined-name"
+            label="Nombre"
+            value={datos.firstName}
             onChange={handleInputChange}
-            variant="filled"
-            name='userName'
-            className={classes.color}
+            variant="outlined"
+            name="firstName"
+          />
+          <TextField
+            id="outlined-name"
+            label="Apellido"
+            value={datos.lastName}
+            onChange={handleInputChange}
+            variant="outlined"
+            name="lastName"
           />
           <TextField
             id="outlined-name"
@@ -88,7 +90,7 @@ export default function AddUser() {
             value={datos.email}
             onChange={handleInputChange}
             variant="outlined"
-            name='email'
+            name="email"
           />
           <TextField
             id="outlined-name"
@@ -96,7 +98,7 @@ export default function AddUser() {
             value={datos.password}
             onChange={handleInputChange}
             variant="outlined"
-            name='password'
+            name="password"
           />
           <TextField
             id="outlined-name"
@@ -104,28 +106,15 @@ export default function AddUser() {
             value={datos.confirmPassword}
             onChange={handleInputChange}
             variant="outlined"
-            name='confirmPassword'
+            name="confirmPassword"
           />
-          <TextField
-            id="outlined-name"
-            label="Clave de administrador"
-            value={datos.isAdmin}
-            onChange={handleInputChange}
-            variant="outlined"
-            name='isAdmin'
-          />
-          <Button
-            size="large"
-            variant="outlined"
-            color="primary"
-            onSubmit={added.message}
-            justify="center"
-            AlignItems="center"
-          >
-            Agregar
+        </CardContent>
+        <CardActions>
+          <Button size="small" onClick={enviarDatos}>
+            Registrarse
           </Button>
-        </Grid>
-      </FormControl>
-    </Grid>
+        </CardActions>
+      </Card>
+    </div>
   );
 }

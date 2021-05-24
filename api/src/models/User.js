@@ -1,17 +1,15 @@
 const { DataTypes } = require("sequelize");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 module.exports = (sequelize) => {
-  sequelize.define(
+  const User = sequelize.define(
     "user",
     {
       uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-      },
-      userName: {
-        type: DataTypes.STRING,
-        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
@@ -21,7 +19,13 @@ module.exports = (sequelize) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        set(value) {
+          if (value) { // tiene que ser sincrónico
+            const salt = bcrypt.genSaltSync(saltRounds) // si guardo como contraseña hola dos veces, en la base de datos van a ser diferentes (para que las contraseñas no sean iguales)
+            const hash = bcrypt.hashSync(value, salt) // hashea en base 64
+            this.setDataValue("password", hash) // le decimos el valor que queremos setear y el hash
+          }
+        }
       },
       isAdmin: {
         type: DataTypes.BOOLEAN,
@@ -57,4 +61,10 @@ module.exports = (sequelize) => {
     },
     { timestamps: false }
   );
+
+  User.prototype.verifyPassword = function(password) {
+    return bcrypt.compareSync(password, this.password)
+  }
+  return User;
+
 };

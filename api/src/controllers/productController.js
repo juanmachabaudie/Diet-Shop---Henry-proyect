@@ -61,7 +61,6 @@ async function createProduct(req, res, next) {
 
 async function updateProduct(req, res, next) {
   // Editamos el producto aún teniendo el mismo id
-  console.log(req.body)
   try {
     const { uuid } = req.body;
     if (checkUuid(uuid)) {
@@ -92,6 +91,7 @@ async function updateProduct(req, res, next) {
     next(error);
   }
 }
+
 
 async function deleteProduct(req, res, next) {
   //Borramos producto llamandolo por su id
@@ -223,6 +223,30 @@ async function searchProduct(req, res, next) {
   }
 }
 
+async function updateStock(req, res, next) {
+  // Editamos el producto aún teniendo el mismo id
+  try {
+    const { uuid } = req.body.form;
+    if (checkUuid(uuid)) {
+      const toEditProduct = await Product.findOne({
+        where: {
+          uuid,
+        },
+      });
+      if (toEditProduct) {
+        toEditProduct.update(req.body); //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
+        return res.status(200).json({ message: "Stock Actualizado" });
+      } else {
+        return res.status(400).json({ message: "Producto no encontrado" });
+      }
+    } else {
+      return res.status(500).json({ message: "Id Invalido" });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getProducts,
   getProductDetail,
@@ -231,4 +255,5 @@ module.exports = {
   updateProduct,
   productsByCategory,
   searchProduct,
+  updateStock
 };

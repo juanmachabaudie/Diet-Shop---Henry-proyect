@@ -25,7 +25,7 @@ const LoggedUser = () => {
   const classes = useStyles();
   return (
     <div>
-      <Grid container /* xs={12} md={12} */>
+      <Grid container>
         <Grid Item xs={12} md={12}>
           <Box m={5} justifyContent="center" alignItems="center">
             <CardMedia

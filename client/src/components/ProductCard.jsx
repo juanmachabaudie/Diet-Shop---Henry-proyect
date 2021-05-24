@@ -19,10 +19,10 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { green } from "@material-ui/core/colors";
+import { grey } from "@material-ui/core/colors";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: green[500],
+    backgroundColor: grey[500],
   },
 }));
 
@@ -71,7 +71,9 @@ export default function ProductCard({ uuid, name, description, stock, image, pri
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            diet
+            {
+              stock? <FontAwesomeIcon icon={faCheck} color="lightgreen"/> : <FontAwesomeIcon icon={faTimes} color="red"/>
+            }
           </Avatar>
         }
         title={name}

@@ -11,7 +11,6 @@ async function createOrder(req, res, next) {
   const userFound = await User.findOne({
     where: { userName: userName },
   });
-  console.log("USER: ", userFound === null);
   if (userFound === null) {
     return res.send("Usuario No Existe");
   }
@@ -33,7 +32,6 @@ async function createOrder(req, res, next) {
           where: { name },
         });
         //relaciona Order con Product y le mete qty && price en OrderLine
-        console.log("Added");
         await newOrder.addProduct(productFound, {
           through: { quantity, price: productFound.dataValues.price },
         });
@@ -90,7 +88,6 @@ async function getUserOrders(req, res, _next) {
 //trae una sola orden por UUID y todos sus productos
 async function getOrder(req, res, _next) {
   const { uuid } = req.params;
-  console.log("UUID: ", uuid);
   const order = await Order.findOne(
     {
       where: {
@@ -117,7 +114,6 @@ async function getOrder(req, res, _next) {
     },
     { timestamps: false }
   );
-  console.log(order);
   res.json(order);
 }
 
@@ -140,9 +136,20 @@ async function updateOrder(req, res, _next) {
       },
     ],
   });
-  console.log(order);
   await order.update(req.body);
   res.json(order);
+}
+
+async function postOrder(req, res) {
+  const order = { status: req.body.order.status };
+  const user = await User.findByPk(req.body.order.userId);
+  if (!user) return res.status(404).send("User not found");
+
+  const newOrder = await Order.create(order)
+
+  user.addOrder(newOrder)
+    .then(order => res.send(order))
+    .catch(err => console.log(err));
 }
 
 module.exports = {
@@ -151,4 +158,5 @@ module.exports = {
   getOrder,
   updateOrder,
   createOrder,
+  postOrder
 };

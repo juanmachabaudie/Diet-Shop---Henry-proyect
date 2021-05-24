@@ -15,6 +15,8 @@ import {
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
+//imagines carrousel precargado
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "100%",
@@ -49,7 +51,6 @@ export default function Carouselmages() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    console.log(activeStep)
   };
 
   const handleStepChange = (step) => {

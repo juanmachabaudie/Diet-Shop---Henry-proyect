@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
+import AddUser from "./AddUser.jsx";
+import { logIn, userLogout } from "../redux/actions/userActions.js";
 
 import {
   AppBar,
@@ -15,10 +17,14 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  Typography,
   MenuItem,
   Menu,
   Modal,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  TextField,
   makeStyles,
 } from "@material-ui/core";
 
@@ -30,7 +36,14 @@ import {
   faSeedling,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { counter } from "@fortawesome/fontawesome-svg-core";
+import logo from "../imgs/Healthy.png";
+import { useDispatch, useSelector } from "react-redux";
+
+//import jwt from "jsonwebtoken";
+// const token = window.sessionStorage.getItem('user');
+// console.log(token)
+// const user = jwt.decode(JSON.parse(token));
+// console.log(user)
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -72,6 +85,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  textField: {
+    "& > *": {
+      margin: theme.spacing(1),
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
   paper: {
     backgroundColor: "RGBA(255,255,255,0.8)",
     borderRadius: "10px",
@@ -82,16 +102,26 @@ const useStyles = makeStyles((theme) => ({
   listItemText: {
     color: "orange",
   },
+  media: {
+    width: "2.5vw",
+    borderRadius: "15px",
+  },
 }));
 
 const NavBar = () => {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.cart.cartItems);
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [anchorEle, setAnchorEle] = useState(null);
   const [open, setOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const openProfile = Boolean(anchorEle);
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -109,21 +139,56 @@ const NavBar = () => {
     setOpen(false);
   };
 
+  const handleLoggedOpen = () => {
+    setUserOpen(true);
+  };
+  const handleRegisterOpen = () => {
+    setRegisterOpen(true);
+  };
+
+  const handleLoginClose = () => {
+    setUserOpen(false);
+  };
+  const handleRegisterClose = () => {
+    setRegisterOpen(false);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEle(event.currentTarget);
+  };
+
+  const handleLoginMenuClose = () => {
+    setAnchorEle(null);
+  };
+  const handleRegisterMenuClose = () => {
+    setAnchorEle(null);
+  };
+
+  function onClickLogin() {
+    handleLoginMenuClose();
+    handleLoggedOpen();
+  }
+  function onClickRegister() {
+    handleRegisterMenuClose();
+    handleRegisterOpen();
+  }
+
   const goToCart = () => {
     history.push("/cart");
     window.scroll(0, 0);
   };
 
-  const showItems = () => {
-    let count = 0;
-  const cartItem = JSON.parse(localStorage.getItem("cart"))
-  for (let item of cartItem){
-    count = count + item.quantity;
-  }
-  return count;
-} 
+  const logout = () => {
+    dispatch(userLogout());
+  };
 
-
+  const showItems = (state) => {
+    // let count = 0;
+    // for (let item of state) {
+    //   count = count + item.quantity;
+    // }
+    // return count;
+  };
 
   const renderMobileMenu = (
     <Menu
@@ -175,40 +240,160 @@ const NavBar = () => {
               </ListItem>
             </Button>
             <Button>
-            <ListItem button className={classes.paper}>
-              <ListItemIcon>
-                <FontAwesomeIcon color="green" icon={faSeedling} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Categorias"
-                className={classes.listItemText}
-              />
-            </ListItem>
+              <ListItem button className={classes.paper}>
+                <ListItemIcon>
+                  <FontAwesomeIcon color="green" icon={faSeedling} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Categorias"
+                  className={classes.listItemText}
+                />
+              </ListItem>
             </Button>
             <Button>
-            <ListItem button className={classes.paper}>
-              <ListItemIcon>
-                <FontAwesomeIcon color="green" icon={faSeedling} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Contacto"
-                className={classes.listItemText}
-              />
-            </ListItem>
+              <ListItem button className={classes.paper}>
+                <ListItemIcon>
+                  <FontAwesomeIcon color="green" icon={faSeedling} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Contacto"
+                  className={classes.listItemText}
+                />
+              </ListItem>
             </Button>
             <Button>
-            <ListItem button className={classes.paper}>
-              <ListItemIcon>
-                <FontAwesomeIcon color="green" icon={faSeedling} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Nosotros"
-                className={classes.listItemText}
-              />
-            </ListItem>
+              <ListItem button className={classes.paper}>
+                <ListItemIcon>
+                  <FontAwesomeIcon color="green" icon={faSeedling} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Nosotros"
+                  className={classes.listItemText}
+                />
+              </ListItem>
             </Button>
           </List>
         </div>
+      </Fade>
+    </Modal>
+  );
+  const [datos, setDatos] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (event) => {
+    setDatos({
+      ...datos,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const enviarDatos = (event) => {
+    event.preventDefault();
+    dispatch(logIn(datos));
+    setDatos({
+      email: "",
+      password: "",
+    });
+  };
+
+  const login = (
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      className={classes.modal}
+      open={userOpen}
+      onClose={handleLoginClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={userOpen}>
+        <div className={classes.paper}>
+          <Card className={classes.textField}>
+            <CardContent>
+              <form className={classes.textField}>
+                <TextField
+                  name="email"
+                  value={datos.email}
+                  label="Email"
+                  variant="outlined"
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  name="password"
+                  value={datos.password}
+                  type="text"
+                  label="Contraseña"
+                  variant="outlined"
+                  onChange={handleInputChange}
+                />
+              </form>
+            </CardContent>
+            <CardActions>
+              <Button size="small" onClick={enviarDatos}>
+                Iniciar Sesión
+              </Button>
+              <Button
+                class="g-signin2"
+                data-onsuccess="onSignIn"
+                href="http://localhost:3001/auth/login/google"
+              >
+                Iniciar sesion con Google
+              </Button>
+              <Button size="small">Olvidé Mi Contraseña</Button>
+            </CardActions>
+          </Card>
+        </div>
+      </Fade>
+    </Modal>
+  );
+
+  const profileMenu = (
+    <Menu
+      id="fade-menu"
+      anchorEl={anchorEle}
+      keepMounted
+      open={openProfile}
+      onClose={handleLoginMenuClose}
+      TransitionComponent={Fade}
+    >
+      {window.sessionStorage.getItem("user") ? (
+        <>
+          <MenuItem onClick={handleLoginMenuClose}>
+            <Button href="/user/profile">Perfil</Button>
+          </MenuItem>
+          <MenuItem onClick={logout}>
+            <Button> Cerrar Sesión</Button>
+          </MenuItem>
+        </>
+      ) : (
+        <>
+          <MenuItem onClick={() => onClickLogin()}>Iniciar Sesión</MenuItem>
+          <MenuItem onClick={() => onClickRegister()}>Registrarse</MenuItem>
+        </>
+      )}
+    </Menu>
+  );
+
+  const register = (
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      className={classes.modal}
+      open={registerOpen}
+      onClose={handleRegisterClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={registerOpen}>
+        <AddUser />
       </Fade>
     </Modal>
   );
@@ -227,11 +412,15 @@ const NavBar = () => {
             <FontAwesomeIcon icon={faBars} />
           </IconButton>
           <IconButton color="inherit">
-            <Link to="/">
-              <Typography className={classes.grow} variant="h6">
-                HEALTHY-HENRY
-              </Typography>
-            </Link>
+            <Button href="/" className={classes.grow}>
+              <Card>
+                <CardMedia
+                  component="img"
+                  image={logo}
+                  className={classes.media}
+                />
+              </Card>
+            </Button>
           </IconButton>
           <div className={classes.grow} />
           <div className={classes.search}>
@@ -239,11 +428,11 @@ const NavBar = () => {
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit" aria-label="agregar" onClick={goToCart}>
-              <Badge badgeContent={showItems()} color="secondary">
+              <Badge badgeContent={showItems(state)} color="secondary">
                 <FontAwesomeIcon icon={faCartPlus} />
               </Badge>
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={handleClick}>
               <FontAwesomeIcon icon={faUser} />
             </IconButton>
           </div>
@@ -259,8 +448,11 @@ const NavBar = () => {
           </div>
         </Toolbar>
       </AppBar>
+      {register}
+      {profileMenu}
       {mainMenu}
       {renderMobileMenu}
+      {login}
       <div className={classes.offset}></div>
     </div>
   );

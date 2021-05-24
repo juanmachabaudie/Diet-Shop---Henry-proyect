@@ -98,8 +98,8 @@ Category.belongsToMany(Product, { through: "product_category" });
 Order.belongsToMany(Product, { through: "order_lines" });
 Product.belongsToMany(Order, { through: "order_lines" });
 
-Order.belongsTo(User);
 User.hasMany(Order);
+Order.belongsTo(User);
 
 Product.hasMany(Review);
 Review.belongsTo(Product); 
