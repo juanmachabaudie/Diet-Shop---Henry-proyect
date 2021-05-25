@@ -10,6 +10,7 @@ import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
 import CartTotal from "./components/CartTotal.jsx";
 import Home from "./components/Home.jsx";
+import ShippingForm from "./components/ShippingForm.jsx";
 import Promote from './components/Promote.jsx';
 import PasswordReset from "./components/PasswordReset"
 
@@ -26,6 +27,7 @@ const App = () => {
       <Route exact path="/user/add" component={AddUser} />
       <Route exact path="/cart" component={Cart} />
       <Route exact path="/cart" component={CartTotal} />
+      <Route exact path="/user/Shipping" component={ShippingForm} />
       <Route exact path="/user/promote" component={Promote}/>
       <Route exact path="/user/resetPassword" component={PasswordReset} />
     </React.Fragment>
