@@ -87,7 +87,6 @@ async function updateReview(req, res, next) {
 async function deleteReview(req, res, next) {
   try {
     const { uuid } = req.params;
-    console.log(uuid);
     if (checkUuid(uuid)) {
       const toDestroy = await Review.findOne({
         where: {

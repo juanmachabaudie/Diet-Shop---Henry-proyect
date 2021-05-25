@@ -12,6 +12,11 @@ dotenv.config();
 
 axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
 
+if (!localStorage.cart){
+  localStorage.setItem("cart", JSON.stringify([]));
+} else {
+  localStorage.setItem("cart", localStorage.getItem("cart"));
+}
 
 ReactDom.render(
   <Provider store={store}>

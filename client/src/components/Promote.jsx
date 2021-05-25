@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container } from "@material-ui/core";
 
 export default function Promote() {
+  
   const dispatch = useDispatch();
   const users = useSelector((store) => store.users.users);
   const change = useSelector((store) => store.users.change);
 
-  console.log(change)
-
   useEffect(() => {
     dispatch(getAllUsers());
   }, [change]);
+
 
   let cosas = users.map((e) => (
     <UserCard

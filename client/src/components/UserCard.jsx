@@ -36,7 +36,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function UserCard({ uuid, userName, email, isAdmin }) {
+export default function UserCard({ uuid, email, isAdmin }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -71,11 +71,6 @@ export default function UserCard({ uuid, userName, email, isAdmin }) {
     <Card className={classes.root}>
       <Grid item xs={3}>
         <CardContent className={classes.data}>
-          <Typography>{userName}</Typography>
-        </CardContent>
-      </Grid>
-      <Grid item xs={3}>
-        <CardContent className={classes.data}>
           <Typography>{email}</Typography>
         </CardContent>
       </Grid>
@@ -92,7 +87,7 @@ export default function UserCard({ uuid, userName, email, isAdmin }) {
             </Button>
             <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
               <Alert onClose={handleClose} severity="success">
-                {userName} ahora es administrador
+                {email} ahora es administrador
               </Alert>
             </Snackbar>
           </>
@@ -103,7 +98,7 @@ export default function UserCard({ uuid, userName, email, isAdmin }) {
             </Button>
             <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
               <Alert onClose={handleClose} severity="error">
-                {userName} no es mas administrador
+                {email} no es mas administrador
               </Alert>
             </Snackbar>
           </>
