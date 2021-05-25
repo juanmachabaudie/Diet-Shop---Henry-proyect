@@ -24,12 +24,36 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       isAdmin: {
-        type: DataTypes.STRING,
+        type: DataTypes.BOOLEAN,
         default: false,
       },
-    },
-    {
-      freezeTableName: true,
+      shippingCost: {
+        type: DataTypes.FLOAT,
+      },
+      shippingAddress: {
+        type: DataTypes.STRING,
+      },
+      shippingZip: {
+        type: DataTypes.STRING,
+      },
+      shippingCity: {
+        type: DataTypes.STRING,
+      },
+      shippingState: {
+        type: DataTypes.STRING,
+      },
+      firstName: {
+        type: DataTypes.STRING,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+      },
+      comments: {
+        type: DataTypes.STRING,
+      },
+      paymentDetails: {
+        type: DataTypes.STRING,
+      },
     },
     { timestamps: false }
   );

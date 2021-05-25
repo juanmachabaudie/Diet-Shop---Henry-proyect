@@ -7,10 +7,7 @@ export const CART_RESET = "CART_RESET";
 export const CHANGE_PRODUCT_QTY = "CHANGE_PRODUCT_QTY";
 
 export const addToCart = (uuid, qty) => async (dispatch, getState) => {
-  const { data } = await axios.get(
-    `/product/detail/${uuid}`
-  );
-
+  const { data } = await axios.get(`http://localhost:3001/product/detail/${uuid}`);
   dispatch({
     type: ADD_TO_CART,
     payload: {
@@ -44,10 +41,7 @@ export const cartReset = () => (dispatch, getState) => {
   localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
 };
 
-export const changeProductQuantity = (productId, qty) => (
-  dispatch,
-  getState
-) => {
+export const changeProductQuantity = (productId, qty) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_PRODUCT_QTY,
     payload: { productId: productId, qty: qty },
