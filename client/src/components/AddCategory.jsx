@@ -6,6 +6,7 @@ import {
   addCategory,
   deleteSuccess,
 } from "../redux/actions/categoryActions";
+
 import {
   Grid,
   Container,
@@ -14,8 +15,9 @@ import {
   Box,
   TextField,
 } from "@material-ui/core";
+
 import { sweetAlert } from "../helpers/utils";
-import makeStyles from "./AddCategorySytles";
+import makeStyles from "./componentsStyles/AddCategorySytles";
 
 const initialState = {
   name: "",
@@ -138,7 +140,7 @@ export default function AddCategory() {
                 <TextField
                   fullWidth
                   variant="outlined"
-                  label="Categoría"
+                  label="Categoria"
                   placeholder="Escribir una categoria..."
                   name="name"
                   id="categoryName"

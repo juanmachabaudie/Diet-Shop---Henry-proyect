@@ -1,4 +1,4 @@
-const { Category, Product } = require("../db");
+const { Category, Product, Review, User } = require("../db");
 const { checkUuid, productCategory } = require("../helpers/utils");
 const { Op } = require("sequelize");
 
@@ -32,15 +32,7 @@ async function getProducts(req, res, next) {
 }
 
 async function createProduct(req, res, next) {
-  const {
-    name,
-    description,
-    image,
-    thumbnail,
-    price,
-    stock,
-    categories,
-  } = req.body;
+  const { name, description, image, price, stock, categories } = req.body;
   try {
     const exist = await Product.findOne({ where: { name } });
     if (exist) {
@@ -50,7 +42,6 @@ async function createProduct(req, res, next) {
       name,
       description,
       image,
-      thumbnail,
       price,
       stock,
     });
@@ -78,19 +69,29 @@ async function updateProduct(req, res, next) {
           uuid,
         },
       });
+      if (req.body.categories) {
+        for (eachCategory of req.body.categories) {
+          const categoryToAdd = await Category.findOne({
+            //Recibir arreglos de uuid y armarlo con eso
+            where: { name: eachCategory },
+          });
+          toEditProduct.addCategory(categoryToAdd);
+        }
+      }
       if (toEditProduct) {
         toEditProduct.update(req.body); //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
-        return res.status(200).send("Producto Actualizado");
+        return res.status(200).json({ message: "Producto Actualizado" });
       } else {
-        return res.status(400).send("Producto no encontrado");
+        return res.status(400).json({ message: "Producto no encontrado" });
       }
     } else {
-      return res.status(500).send("Id Invalido");
+      return res.status(500).json({ message: "Id Invalido" });
     }
   } catch (error) {
     next(error);
   }
 }
+
 
 async function deleteProduct(req, res, next) {
   //Borramos producto llamandolo por su id
@@ -125,26 +126,40 @@ async function getProductDetail(req, res, next) {
   try {
     const { uuid } = req.params;
     // ↓↓↓ Validación ↓↓↓↓
-    if (checkUuid(uuid)) {
+    if (uuid && checkUuid(uuid)) {
       const product = await Product.findOne({
         where: {
           uuid,
         },
+        include: [{ model: Review }],
       });
       if (product) {
         const values = product.dataValues;
+        let organizedReviews = []; //[ { userName: ramon, text: "info"  }, { }  ]
+        for (let element of values.reviews) {
+          const user = await User.findOne({
+            where: {
+              uuid: element.userUuid,
+            },
+          });
+          const userName = await user.dataValues.userName;
+          organizedReviews.push({
+            userName,
+            text: element.text,
+          });
+        }
         let arrCategories = await productCategory(values.uuid);
         const objProduct = {
           uuid: values.uuid,
           name: values.name,
           description: values.description,
           image: values.image,
-          thumbnail: values.thumbnail,
           price: values.price,
           stock: values.stock,
           categories: arrCategories,
+          reviews: organizedReviews,
         };
-        res.status(200).json(objProduct);
+        return res.status(200).json(objProduct);
       } else {
         res.status(404).send("no encontrado");
       }
@@ -208,6 +223,30 @@ async function searchProduct(req, res, next) {
   }
 }
 
+async function updateStock(req, res, next) {
+  // Editamos el producto aún teniendo el mismo id
+  try {
+    const { uuid } = req.body.form;
+    if (checkUuid(uuid)) {
+      const toEditProduct = await Product.findOne({
+        where: {
+          uuid,
+        },
+      });
+      if (toEditProduct) {
+        toEditProduct.update(req.body); //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
+        return res.status(200).json({ message: "Stock Actualizado" });
+      } else {
+        return res.status(400).json({ message: "Producto no encontrado" });
+      }
+    } else {
+      return res.status(500).json({ message: "Id Invalido" });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getProducts,
   getProductDetail,
@@ -216,4 +255,5 @@ module.exports = {
   updateProduct,
   productsByCategory,
   searchProduct,
+  updateStock
 };

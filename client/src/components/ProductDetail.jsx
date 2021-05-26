@@ -1,167 +1,126 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { findProduct } from "../redux/actions/productActions";
-import { addToCart } from "../redux/actions/cartActions";
-import clsx from "clsx";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { useHistory } from 'react-router-dom';
+import Reviews from "./Reviews.jsx";
+import { findProduct } from "../redux/actions/productActions.js";
+import { addToCart } from '../redux/actions/cartActions.js'
+import {
+  makeStyles,
+  Box,
+  Grid,
+  CardMedia,
+  Typography,
+  Button,
+} from "@material-ui/core/";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus, faEdit, faPlusCircle, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+
 import defaultImg from "../imgs/default.svg";
+
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 700,
-    boxShadow: "0 0 30px",
-    marginLeft: "500px",
-    background: "#f3f6f7",
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-  avatar: {
-    backgroundColor: red[500],
+  description: {
+    flexDirection: "column",
   },
 }));
 
-export default function ProductDetail({ location }) {
-  const { pathname } = location;
-  const uuid = pathname.split("/")[3];
+
+const ProductDetail = ({ location }) => {
+  const classes = useStyles();
+  let history = useHistory();
+  const detail = useSelector((store) => store.products.product);
   const dispatch = useDispatch();
+
+  const { pathname } = location;
+
+  const uuid = pathname.split("/")[3];
+
   useEffect(() => {
     dispatch(findProduct(uuid));
-  }, [dispatch]);
-  const [count, setCount] = useState(0);
-  const defaultImg =
-    "https://lh3.googleusercontent.com/proxy/lDX77oEN-GsT0mLlLb6s3Y0sf3-EG9S3dqBV7cOsOrSSJ9_mlEtMb9I-nIj469riZT-Q3EA2N4nP6gzt-iwoSuOR_Fihd8cC";
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  }, [dispatch, uuid]);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  const detail = useSelector((store) => store.products.product);
-  //const cart = useSelector((store) => store.cart.cartItems);
-
-  function handleChange(e) {
-    setCount(e.target.value);
-    if (detail.stock < count) {
-      setCount(detail.stock);
-      e.target.value = detail.stock;
-    }
-  }
-  //agregarAlCarrito
-  function handleClick() {
-    if (count <= detail.stock) {
-      dispatch(addToCart(detail.uuid, count));
-    }
-  }
-  let checkStock;
-  if (detail.stock > 0) {
-    checkStock = (
-      <div>
-        <p>Stock: {detail.stock}</p>
-        <input
-          type="number"
-          placeholder=""
-          value={count}
-          onChange={handleChange}
-        />
-        <button value={detail.uuid} onClick={handleClick}>
-          Agregar al Carrito
-        </button>
-      </div>
-    );
-  } else {
-    checkStock = (
-      <div>
-        <p>Stock: Sin Stock</p>
-        <button value={detail.uuid} disabled>
-          Agregar al Carrito
-        </button>
-      </div>
-    );
+  function clickToAdd(){
+    dispatch(addToCart(uuid, 1))
+    history.push('/cart')
   }
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            diet
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={detail.name}
-      />
-      <CardMedia
-        className={classes.media}
-        image={detail.image || defaultImg}
-        title={detail.name}
-      />
-      <CardContent>
-        <Typography variant="body" color="primary" component="p">
-          Descripción: {detail.description}
-        </Typography>
-        <Typography variant="body2" color="primary" component="p">
-          Precio: ${detail.price},00
-        </Typography>
-        <Typography variant="body2" color="primary" component="p">
-          Categorias del Producto:
-          {detail.categories}
-        </Typography>
-        <Typography variant="body2" color="primary" component="p">
-          {checkStock}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent></CardContent>
-      </Collapse>
-    </Card>
+    <div>
+      <Grid container>
+        <Grid item xs={12} md={6}>
+          <Box m={5}>
+            <CardMedia
+              component="img"
+              alt={detail.name}
+              height="500"
+              image={detail.image || defaultImg}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box m={5} display="flex" className={classes.description}>
+            <Box m={2}>
+              <Typography variant="body2" color="primary" component="p">
+                Categorias: {detail.categories}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="h4" color="initial">
+                {detail.name}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="h4" color="primary" component="p">
+                Precio: ${detail.price}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="h6" color="primary" component="p">
+                Stock: {detail.stock}
+              </Typography>
+            </Box>
+            <Box m={2}>
+              <Typography variant="body1" color="primary" component="p">
+                Descripción: {detail.description}
+              </Typography>
+            </Box>
+            {/* <Box m={2}>
+              <Typography variant="body2" color="initial">
+                Cantidad
+              </Typography>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={clickToMin}
+              >
+                <FontAwesomeIcon size="2x" icon={faMinusCircle} />
+              </Button>
+              <Typography variant="span"> 0 {refres}</Typography>
+              <Button
+                color="primary"
+                variant="contained" onClick={clickToAdd}
+              >
+                <FontAwesomeIcon size="2x" icon={faPlusCircle} />
+              </Button>
+            </Box> */}
+            <Button onClick={clickToAdd}><FontAwesomeIcon icon={faCartPlus}/>Agregar al Carrito </Button>
+          </Box>
+          <Box>
+            <Button href={`/product/edit/${uuid}`}>
+              <FontAwesomeIcon size = "3x" icon={faEdit} />
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box display="flex" justifyContent="center">
+            <Reviews />
+          </Box>
+        </Grid>
+      </Grid>
+    </div>
   );
-}
+};
+
+export default ProductDetail;
+
+
