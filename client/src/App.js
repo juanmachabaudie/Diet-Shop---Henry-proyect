@@ -9,6 +9,7 @@ import SearchProduct from "./components/SearchProduct.jsx";
 import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
 import Home from "./components/Home.jsx";
+import ShippingForm from "./components/ShippingForm.jsx";
 import Promote from './components/Promote.jsx';
 import PasswordReset from "./components/PasswordReset.jsx";
 import ProductEdit from "./components/ProductEdit.jsx";
