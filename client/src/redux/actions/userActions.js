@@ -1,10 +1,20 @@
+import axios from 'axios';
+
 export const addUser = (datos) => {
   return async (dispatch) => {
     if (datos.password === datos.confirmPassword) {
-      const res = await fetch("http://localhost:3001/users/create", {
+      const { firstName, lastName, email, password } = datos
+      const data = {
+        firstName,
+        lastName,
+        email,
+        password,
+        isAdmin: false,
+      }
+      const res = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datos),
+        body: JSON.stringify(data),
       });
       const resJson = await res.json();
       dispatch({
@@ -24,7 +34,6 @@ export const getAllUsers = () => {
   return async (dispatch) => {
     const res = await fetch("http://localhost:3001/user/");
     const resJson = await res.json();
-    console.log('getAllUsers', resJson)
     dispatch({
       type: 'GET_USERS',
       payload: resJson,
@@ -34,10 +43,8 @@ export const getAllUsers = () => {
 
 export const selectAdmins = (uuid, act) => {
   return async (dispatch) => {
-    console.log(act)
     let datos = {}
     if (act) {
-      console.log('verdadero')
       datos = {
         "uuid": uuid,
         "isAdmin": true
@@ -48,14 +55,13 @@ export const selectAdmins = (uuid, act) => {
         "isAdmin": false
       }
     }
-    console.log(datos)
     const res = await fetch("http://localhost:3001/user/changeAdmin", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datos),
     });
     const resJson = await res.json();
-        dispatch({
+    dispatch({
       type: "ADMINS",
       payload: resJson,
     });
@@ -65,27 +71,42 @@ export const selectAdmins = (uuid, act) => {
 
 export const resetUserPassword = (data) => {
   return async (dispatch) => {
-if (data.newPassword === data.confirmPassword){
-  const toChange = {
-    "uuid" : data.uuid,
-    "password" : data.newPassword
-  }
-  const res = await fetch("http://localhost:3001/user/update", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(toChange),
-  })
-         const responseJson = await res.json();
-               dispatch({
+    if (data.newPassword === data.confirmPassword) {
+      const toChange = {
+        "uuid": data.uuid,
+        "password": data.newPassword
+      }
+      const res = await fetch("http://localhost:3001/user/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(toChange),
+      })
+      const responseJson = await res.json();
+      dispatch({
         type: "RESET_PASSWORD",
         payload: responseJson,
       });
     } else {
-      dispatch ({
+      dispatch({
         type: "RESET_PASSWORD",
-        payload: {message: "Las contraseñas no coinciden"},
+        payload: { message: "Las contraseñas no coinciden" },
       });
     }
   };
 };
+
+export const logIn = (data) => {
+  return async (dispatch) => {
+    const user = await axios.post('/auth/login/email', data)
+    window.sessionStorage.setItem('user', JSON.stringify(user.data))
+  }
+}
+
+export const userLogout = () => {
+  return async (dispatch) => {
+    window.sessionStorage.clear();
+    window.localStorage.clear();
+    window.location.replace('http://localhost:3000/')
+  }
+}
 

@@ -19,10 +19,10 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { green } from "@material-ui/core/colors";
+import { grey } from "@material-ui/core/colors";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,30 +47,33 @@ const useStyles = makeStyles((theme) => ({
     transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: green[500],
+    backgroundColor: grey[500],
   },
 }));
 
-export default function ProductCard({ uuid, name, description, image, price }) {
+export default function ProductCard({ uuid, name, description, stock, image, price }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  function addToCartOnClick(uuid, qty) {
-    dispatch(addToCart(uuid, qty));
-    window.scrollTo(0, 0);
+  function clickToAdd(){
+    dispatch(addToCart(uuid, name, description, stock, image, price, 1))
+    // history.push('/cart')
   }
-  function handleClick(e) {
+
+  function handleClick() {
     dispatch(findProduct(uuid));
     history.push("/product/detail/" + uuid);
     window.scrollTo(0, 0);
   }
   const classes = useStyles();
   return (
-    <Card onClick={handleClick} className={classes.root}>
+    <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            diet
+            {
+              stock? <FontAwesomeIcon icon={faCheck} color="lightgreen"/> : <FontAwesomeIcon icon={faTimes} color="red"/>
+            }
           </Avatar>
         }
         title={name}
@@ -86,11 +89,11 @@ export default function ProductCard({ uuid, name, description, image, price }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="agregar" onClick={addToCartOnClick}>
+        <IconButton aria-label="agregar" onClick={clickToAdd}>
           <FontAwesomeIcon icon={faCartPlus} />
         </IconButton>
-        <Button color="primary" variant="outlined">
-          COMPRAR
+        <Button onClick={handleClick} color="primary" variant="outlined">
+          DETALLE
         </Button>
       </CardActions>
       <Collapse in={classes.expand} timeout="auto" unmountOnExit></Collapse>

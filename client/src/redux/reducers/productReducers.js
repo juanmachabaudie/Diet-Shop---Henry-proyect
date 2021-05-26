@@ -2,6 +2,7 @@ const initialState = {
   products: [],
   product: [],
   message: {},
+  update: {},
 };
 
 export default function productReducers(state = initialState, action) {
@@ -21,6 +22,12 @@ export default function productReducers(state = initialState, action) {
         ...state,
         product: action.payload,
       };
+
+    case "PUT_PRODUCT":
+      return {
+        ...state,
+        message: action.payload,
+    };
 
     default:
       return state;

@@ -18,13 +18,16 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require("./src/app.js");
-const { conn } = require("./src/db.js");
+const { conn, User } = require("./src/db.js");
 
 // Syncing all the models at once.
 
-conn.sync({ force: false }).then(() => {
+const force = true
+conn.sync({ force }).then(async () => {
   //server.listen(process.env.PORT, () => {
-
+  if(force) {
+    await User.create({firstName: "Gordo", password:'FanDeLean', lastName: "Siri", email: "gordo@gmail.com", isAdmin: true})
+  }
     server.listen(3001, () => {
     console.log("%s listening at 3001"); // eslint-disable-line no-console
   });
