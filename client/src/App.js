@@ -18,9 +18,9 @@ import NotAcces from "./components/NotAcces.jsx";
 //import jwt from 'jsonwebtoken';
 
 const App = () => {
-// const token = sessionStorage.getItem('user');
-// const tokeen = JSON.parse(token)
-// const user = jwt.decode(tokeen)
+  // const token = sessionStorage.getItem('user');
+  // const tokeen = JSON.parse(token)
+  // const user = jwt.decode(tokeen)
 
   return (
     <React.Fragment>
@@ -35,9 +35,9 @@ const App = () => {
       <Route exact path="/user/add" component={AddUser} />
       <Route exact path="/user/profile" component={UserProfile} />
       <Route exact path="/user/resetPassword" component={PasswordReset} />
-      <Route exact path="/product/edit/:uuid" component = {ProductEdit} />
+      <Route exact path="/product/edit/:uuid" component={ProductEdit} />
       <Route exact path="/user/promote" component={Promote} />
-      <Route exact path="/restricted" component = {NotAcces} />
+      <Route exact path="/restricted" component={NotAcces} />
     </React.Fragment>
   );
 };

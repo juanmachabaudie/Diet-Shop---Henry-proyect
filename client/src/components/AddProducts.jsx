@@ -4,7 +4,7 @@ import { createProduct } from "../redux/actions/productActions.js";
 import { getCategories } from '../redux/actions/categoryActions';
 import makeStyles from './componentsStyles/AddProductsStyles'
 import { Container, Card} from "@material-ui/core";
-
+import UploadButton from './UploadButton'
 
 export default function AddProduct() {
   const classes = makeStyles()
@@ -17,7 +17,7 @@ export default function AddProduct() {
 
   useEffect(() => {
     dispatch(getCategories());
-  }, []);
+  }, [dispatch]);
 
   
   const [datos, setDatos] = useState({
@@ -64,7 +64,7 @@ export default function AddProduct() {
   } else {
     return (
     <Container >
-        <Card className={classes.container}> 
+       
         <h5 className={classes.title}>AGREGAR PRODUCTO</h5> <hr/>
         <form onSubmit={enviarDatos}>
           <div>
@@ -102,15 +102,7 @@ export default function AddProduct() {
               />
             </section>
           </div>
-          <div className={classes.input}>
-            <label for="mainPic">Imagenes del producto:</label>
-            <input
-              type="file"
-              id="mainPic"
-              name="mainPic"
-              accept="image/jpeg"
-            />
-          </div>
+          <UploadButton name={'productos'}/>
           <select className={classes.input} multiple name="categories" onChange={handleCat} required>
             {categories?.map((each) => {
               return (
@@ -120,11 +112,10 @@ export default function AddProduct() {
               );
             })}
           </select> <br/>
-          
           <input className={classes.input} type="submit" value="Agregar" /> <hr/>
             <div>{agregado.message}</div>
         </form>
-        </Card>
+
       </Container >
      
     );

@@ -18,6 +18,8 @@ import {
 
 import { sweetAlert } from "../helpers/utils";
 import makeStyles from "./componentsStyles/AddCategorySytles";
+import UploadButton from './UploadButton.jsx'
+
 
 const initialState = {
   name: "",
@@ -166,36 +168,7 @@ export default function AddCategory() {
             </Grid>
           </Box>
 
-          <Box p={3}>
-            <Grid container spacing={4} id="selectImageContainer">
-              <Grid item xs={12} sm={6}>
-                <select
-                  className={classes.select}
-                  size="15"
-                  onChange={handleOnChangeCategory}
-                  value={currentSelectedState.value}
-                >
-                  {categories?.sort(sortByCategoryNameAZ).map((category) => (
-                    <option
-                      key={category.uuid}
-                      value={category.uuid}
-                      data-img={category.image}
-                    >
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </Grid>
-
-              <Grid item c xs={12} sm={6}>
-                <img
-                  className={classes.image}
-                  id="categoryImage"
-                  alt="Foto categoría no disponible..."
-                ></img>
-              </Grid>
-            </Grid>
-          </Box>
+          <UploadButton name={'categorias'} /> 
 
           <Box p={3}>
             <Grid container spacing={4}>

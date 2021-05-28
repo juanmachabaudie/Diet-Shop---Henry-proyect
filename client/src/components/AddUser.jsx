@@ -11,6 +11,7 @@ import {
   TextField,
   makeStyles,
 } from "@material-ui/core";
+import UploadButton from './UploadButton.jsx'
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -108,6 +109,7 @@ export default function AddUser() {
             variant="outlined"
             name="confirmPassword"
           />
+          <UploadButton name={'usuarios'}/>
         </CardContent>
         <CardActions>
           <Button size="small" onClick={enviarDatos}>
