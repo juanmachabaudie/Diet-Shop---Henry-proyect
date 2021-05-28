@@ -20,16 +20,12 @@ const UploadButton = (props) => {
   const handleUpload = (event) => {
     console.log(event.target.files);
     const file = event.target.files[0];
-    const storageRef = firebase
-      .storage()
-      .ref(`/${props.name}/${file.name}`)
-      .put(file);
+    const storageRef = firebase.storage().ref(`/${props.name}/${file.name}`).put(file);
 
     storageRef.on(
       "state_changed",
       (snapshot) => {
-        let percentage =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setUploadValue(percentage);
       },
       (error) => {
@@ -61,7 +57,7 @@ const UploadButton = (props) => {
       <label htmlFor="contained-button-file">
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           startIcon={<FontAwesomeIcon icon={faCloudUploadAlt} />}
           component="span"
         >
@@ -76,12 +72,12 @@ const UploadButton = (props) => {
 
 export default UploadButton;
 
-    // <div>
-    //   <label for="mainPic">Imagenes del producto:</label>
+// <div>
+//   <label for="mainPic">Imagenes del producto:</label>
 
-    //   <input name="files" type="file" onChange={handleUpload} />
+//   <input name="files" type="file" onChange={handleUpload} />
 
-    //   <progress value={uploadValue} max="100"></progress>
+//   <progress value={uploadValue} max="100"></progress>
 
-    //   <img width="320" src={image} alt="" />
-    // </div>
+//   <img width="320" src={image} alt="" />
+// </div>

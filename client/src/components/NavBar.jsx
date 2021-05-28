@@ -233,10 +233,7 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Productos"
-                  className={classes.listItemText}
-                />
+                <ListItemText primary="Productos" className={classes.listItemText} />
               </ListItem>
             </Button>
             <Button>
@@ -244,10 +241,7 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Categorias"
-                  className={classes.listItemText}
-                />
+                <ListItemText primary="Categorias" className={classes.listItemText} />
               </ListItem>
             </Button>
             <Button>
@@ -255,10 +249,7 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Contacto"
-                  className={classes.listItemText}
-                />
+                <ListItemText primary="Contacto" className={classes.listItemText} />
               </ListItem>
             </Button>
             <Button>
@@ -266,10 +257,7 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Nosotros"
-                  className={classes.listItemText}
-                />
+                <ListItemText primary="Nosotros" className={classes.listItemText} />
               </ListItem>
             </Button>
           </List>
@@ -414,11 +402,7 @@ const NavBar = () => {
           <IconButton color="inherit">
             <Button href="/" className={classes.grow}>
               <Card>
-                <CardMedia
-                  component="img"
-                  image={logo}
-                  className={classes.media}
-                />
+                <CardMedia component="img" image={logo} className={classes.media} />
               </Card>
             </Button>
           </IconButton>
@@ -453,7 +437,7 @@ const NavBar = () => {
       {mainMenu}
       {renderMobileMenu}
       {login}
-      <div className={classes.offset}></div>
+      <div className={classes.offset} />
     </div>
   );
 };
