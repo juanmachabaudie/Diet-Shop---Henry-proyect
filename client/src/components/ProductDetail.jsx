@@ -40,7 +40,7 @@ const ProductDetail = ({ location }) => {
   }, [dispatch, uuid]);
 
   function clickToAdd(){
-    dispatch(addToCart(uuid, 1))
+    dispatch(addToCart(detail.uuid, detail.name, detail.description, detail.stock, detail.image, detail.price, 1))
     history.push('/cart')
   }
 

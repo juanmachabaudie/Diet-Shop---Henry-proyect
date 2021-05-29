@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Button, CardMedia, Grid, Typography, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  CardMedia,
+  Grid,
+  Typography,
+  makeStyles,
+  Container,
+} from "@material-ui/core";
 import jwt from "jsonwebtoken";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,21 +25,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserProfile = () => {
+  const defaulImg = 'https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png'
+  let tokeen;
   const token = sessionStorage.getItem("user");
-  const tokeen = JSON.parse(token);
+  if (token[0] === '"'){
+    tokeen = JSON.parse(token);
+  } else {
+    tokeen = token;
+  }
   const user = jwt.decode(tokeen);
-
   const userAdmin = user.isAdmin;
   const classes = useStyles();
+  console.log(user)
 
   return (
-    <div>
+    <Container>
       <Grid container>
-        <Grid Item xs={12} md={12} justifyContent="center" alignItems="center">
+        <Grid Item xs={12} md={12}>
           <CardMedia
             component="img"
             className={classes.media}
-            src="https://avatars.githubusercontent.com/u/54723628?v=4"
+            src={user.image || defaulImg}
+
           />
           <Typography variant="h4">Bienvenidx {user.firstName}!</Typography>
         </Grid>
@@ -84,7 +99,7 @@ const UserProfile = () => {
           <> </>
         )}
       </Grid>
-    </div>
+    </Container>
   );
 };
 

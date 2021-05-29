@@ -1,4 +1,4 @@
-const axios = require("axios");
+import { sweetAlert } from "../../helpers/utils";
 
 export const getCategories = () => {
   return async (dispatch) => {
@@ -69,8 +69,7 @@ export const addCategory = (category) => {
         type: "ADD_CATEGORY",
         payload: json,
       });
-
-      await getCategories()(dispatch);
+      sweetAlert(category.name, "AGREGADO", 'ACEPTAR');
     } catch (error) {
       return { error: error };
     }

@@ -19,6 +19,7 @@ async function getProducts(req, res, next) {
           price: values.price,
           stock: values.stock,
           categories: arrCategories,
+          image: values.image,
         };
         arrProducts.push(objProduct);
       }
@@ -32,7 +33,8 @@ async function getProducts(req, res, next) {
 }
 
 async function createProduct(req, res, next) {
-  const { name, description, image, price, stock, categories } = req.body;
+  console.log(req.body)
+  const { name, description, price, stock, categories, img } = req.body;
   try {
     const exist = await Product.findOne({ where: { name } });
     if (exist) {
@@ -41,7 +43,7 @@ async function createProduct(req, res, next) {
     const newProduct = await Product.create({
       name,
       description,
-      image,
+      image: img,
       price,
       stock,
     });
@@ -194,6 +196,7 @@ async function productsByCategory(req, res, next) {
         thumbnail: product.dataValues.thumbnail,
         price: product.dataValues.price,
         stock: product.dataValues.stock,
+        image: dataValues.img,
       };
       toSendProducts.push(objProduct);
     }

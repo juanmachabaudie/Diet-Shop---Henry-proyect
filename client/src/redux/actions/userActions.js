@@ -3,13 +3,14 @@ import axios from 'axios';
 export const addUser = (datos) => {
   return async (dispatch) => {
     if (datos.password === datos.confirmPassword) {
-      const { firstName, lastName, email, password } = datos
+      const { firstName, lastName, email, password, img } = datos
       const data = {
         firstName,
         lastName,
         email,
         password,
         isAdmin: false,
+        image: img,
       }
       const res = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
@@ -28,6 +29,7 @@ export const addUser = (datos) => {
       });
     }
   };
+
 };
 
 export const getAllUsers = () => {

@@ -58,6 +58,9 @@ module.exports = (sequelize) => {
       paymentDetails: {
         type: DataTypes.STRING,
       },
+      image: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
     },
     { timestamps: false }
   );

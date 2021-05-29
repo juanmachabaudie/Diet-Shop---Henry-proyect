@@ -16,8 +16,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       image: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.ARRAY(DataTypes.STRING),
       },
       clicks: {
         type: DataTypes.INTEGER,
