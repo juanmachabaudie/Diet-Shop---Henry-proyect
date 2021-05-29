@@ -46,6 +46,7 @@ const UserProfile = () => {
             component="img"
             className={classes.media}
             src={user.image || defaulImg}
+
           />
           <Typography variant="h4">Bienvenidx {user.firstName}!</Typography>
         </Grid>
