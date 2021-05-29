@@ -15,13 +15,8 @@ import PasswordReset from "./components/PasswordReset.jsx";
 import ProductEdit from "./components/ProductEdit.jsx";
 import UserProfile from "./components/UserProfile.jsx";
 import NotAcces from "./components/NotAcces.jsx";
-//import jwt from 'jsonwebtoken';
 
 const App = () => {
-  // const token = sessionStorage.getItem('user');
-  // const tokeen = JSON.parse(token)
-  // const user = jwt.decode(tokeen)
-
   return (
     <React.Fragment>
       <Route path="/" component={NavBar} />

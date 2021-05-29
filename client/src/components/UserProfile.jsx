@@ -26,11 +26,17 @@ const useStyles = makeStyles((theme) => ({
 
 const UserProfile = () => {
   const defaulImg = 'https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png'
+  let tokeen;
   const token = sessionStorage.getItem("user");
-  const tokeen = JSON.parse(token);
+  if (token[0] === '"'){
+    tokeen = JSON.parse(token);
+  } else {
+    tokeen = token;
+  }
   const user = jwt.decode(tokeen);
   const userAdmin = user.isAdmin;
   const classes = useStyles();
+  console.log(user)
 
   return (
     <Container>

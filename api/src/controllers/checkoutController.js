@@ -6,24 +6,25 @@ mercadopago.configure({
 
 async function checkout(req, res, next) {
     try {
-        const { productsInCart } = req.body;
-        const items = productsInCart.map(({ price, name, quantity }) => ({
-            title: name,
-            unit_price: price,
-            quantity
-        }));
-        const preference = {
-            items,
-            back_urls: {
-                success: 'http://localhost:3000/',
-                failure: 'http://localhost:3000/',
-                pending: 'http://localhost:3000/',
-            },
-            auto_return: 'approved',
-        }
+        console.log(req.body)
+        // const { productsInCart } = req.body;
+        // const items = productsInCart.map(({ price, name, quantity }) => ({
+        //     title: name,
+        //     unit_price: price,
+        //     quantity
+        // }));
+        // const preference = {
+        //     items,
+        //     back_urls: {
+        //         success: 'http://localhost:3000/',
+        //         failure: 'http://localhost:3000/',
+        //         pending: 'http://localhost:3000/',
+        //     },
+        //     auto_return: 'approved',
+        // }
 
-        const meli = await mercadopago.preferences.create(preference)
-        res.send(meli.body)
+        // const meli = await mercadopago.preferences.create(preference)
+        // res.send(meli.body)
 
     } catch (error) {
         next(error);
