@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../redux/actions/productActions.js";
 import { getCategories } from "../redux/actions/categoryActions";
 import UploadButton from "./UploadButton";
@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Grid,
-  FormControlLabel,
   makeStyles,
   TextField,
   Typography,
@@ -38,12 +37,15 @@ export default function AddProduct() {
   const store = useSelector((store) => store);
 
   const categories = store.categories.categories;
-  const loading = store.products.loading;
-  const agregado = store.products.message;
+  const imgs = store.images.fireImg;
 
   useEffect(() => {
     dispatch(getCategories());
-  }, [dispatch]);
+    setDatos({
+      ...datos,
+      img: imgs,
+    });
+  }, [dispatch, imgs]);
 
   const [datos, setDatos] = useState({
     name: "",
@@ -51,6 +53,7 @@ export default function AddProduct() {
     price: "",
     stock: "",
     categories: [],
+    img: [],
   });
 
   const handleInputChange = (event) => {
@@ -62,6 +65,7 @@ export default function AddProduct() {
 
   const handleCat = (event) => {
     event.preventDefault();
+    console.log(event.target.options);
     const options = event.target.options;
     const seleccionadas = [];
     for (let option of options) {
@@ -76,91 +80,106 @@ export default function AddProduct() {
   };
 
   const enviarDatos = (event) => {
+    console.log(datos);
     event.preventDefault();
     dispatch(createProduct(datos));
   };
 
-  if (loading) {
-    return (
-      <div>
-        <Box justifyContent="center" alignItems="center">
-          <Typography variant="h3">Cargando...</Typography>
-        </Box>
-      </div>
-    );
-  } else {
-    return (
-      <Container>
-        <div className={classes.offset} />
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography variant="h6">Agregar Producto</Typography>
-          </Grid>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <TextField required name="name" label="Nombre" fullWidth />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField required name="price" label="Precio" fullWidth />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField required name="Stock" label="Stock" fullWidth />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <InputLabel id="categories">Categorias</InputLabel>
-              <Select
-                labelId="categories"
-                id="categories"
-                onChange={handleCat}
-                name="categories"
-                multiple
-                required
-              >
-                {categories?.map((each) => {
-                  return (
-                    <MenuItem value={each.name} key={each.uuid}>
-                      {each.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField name="description" label="Description" fullWidth />
-            </Grid>
-            <Box m={2}>
-              <CardMedia
-              // image=/* file.name */
-              />
-              <UploadButton name={"productos"} />
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box m={2}>
-              <input
-                accept="image/*"
-                className={classes.input}
-                id="guardar"
-                multiple
-                type="submit"
-              />
-              <label htmlFor="guardar">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<FontAwesomeIcon icon={faSave} />}
-                  content="span"
-                >
-                  Guardar
-                </Button>
-              </label>
-            </Box>
-          </Grid>
+  return (
+    <Container>
+      <div className={classes.offset} />
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="h6">Agregar Producto</Typography>
         </Grid>
-      </Container>
-    );
-  }
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              name="name"
+              label="Nombre"
+              fullWidth
+              onChange={handleInputChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              name="price"
+              label="Precio"
+              fullWidth
+              onChange={handleInputChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              name="stock"
+              label="Stock"
+              fullWidth
+              onChange={handleInputChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel shrink htmlFor="select-multiple-native">
+              Categorias
+            </InputLabel>
+            <Select
+              multiple
+              native
+              value={datos.categories}
+              onChange={handleCat}
+              inputProps={{
+                id: "select-multiple-native",
+              }}
+            >
+              {categories?.map((each) => {
+                return (
+                  <option value={each.name} key={each.uuid}>
+                    {each.name}
+                  </option>
+                );
+              })}
+            </Select>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              name="description"
+              label="Description"
+              fullWidth
+              onChange={handleInputChange}
+            />
+          </Grid>
+          <Box m={2}>
+            <CardMedia
+            // image=/* file.name */
+            />
+            <UploadButton name={"productos"} />
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <Box m={2}>
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="guardar"
+              multiple
+              type="submit"
+            />
+            <label htmlFor="guardar">
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<FontAwesomeIcon icon={faSave} />}
+                content="span"
+                onClick={enviarDatos}
+              >
+                Guardar
+              </Button>
+            </label>
+          </Box>
+        </Grid>
+      </Grid>
+    </Container>
+  );
 }
 
 /* 

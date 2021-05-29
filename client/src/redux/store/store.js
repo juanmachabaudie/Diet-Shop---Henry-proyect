@@ -8,6 +8,7 @@ import categoryReducers from "../reducers/categoryReducers";
 import cartReducers from "../reducers/cartReducers";
 import userReducer from "../reducers/userReducers";
 import orderReducer from "../reducers/orderReducers";
+import imagesReducer from "../reducers/imagesReducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -16,6 +17,7 @@ const cartInLocalStorage = localStorage.getItem("cart")
   : [];
 
 const rootReducer = combineReducers({
+  images: imagesReducer,
   products: productReducers,
   categories: categoryReducers,
   cart: cartReducers,

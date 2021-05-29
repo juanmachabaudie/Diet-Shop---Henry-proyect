@@ -42,6 +42,7 @@ server.post("/login/email", (req, res, next) => {
             lastName: user.lastName,
             email: user.email,
             isAdmin: user.isAdmin,
+            image: user.image,
           },
           `${SECRET_JWT}`
         )
@@ -52,7 +53,7 @@ server.post("/login/email", (req, res, next) => {
 
 server.post("/register", async (req, res) => {
   console.log(req.body)
-  const { firstName, lastName, email, password, isAdmin } = req.body;
+  const { firstName, lastName, email, password, isAdmin, image } = req.body;
   try {
     if (!firstName || !lastName || !email || !password) {
       res.status(400).json({ message: "Datos incompletos" });
@@ -60,9 +61,10 @@ server.post("/register", async (req, res) => {
       const user = await User.create({
         firstName,
         lastName,
-        email,
+        email, 
         password,
         isAdmin,
+        image,
       });
       
       return res.send(

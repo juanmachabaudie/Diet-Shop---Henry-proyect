@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserProfile = () => {
+  const defaulImg = 'https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png'
   const token = sessionStorage.getItem("user");
   const tokeen = JSON.parse(token);
   const user = jwt.decode(tokeen);
-
   const userAdmin = user.isAdmin;
   const classes = useStyles();
 
@@ -39,7 +39,7 @@ const UserProfile = () => {
           <CardMedia
             component="img"
             className={classes.media}
-            src="https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png"
+            src={user.image || defaulImg}
           />
           <Typography variant="h4">Bienvenidx {user.firstName}!</Typography>
         </Grid>

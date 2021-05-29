@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from 'react-redux';
 import firebase, { storage } from "../firebase.js";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import { uploadImg } from '../redux/actions/imagesAction.js';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -12,13 +14,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UploadButton = (props) => {
+  const dispatch=useDispatch();
   const classes = useStyles();
-
+  
   const [uploadValue, setUploadValue] = useState(0);
   const [image, setImage] = useState([]);
-  console.log("props: ", props);
+  
   const handleUpload = (event) => {
-    console.log(event.target.files);
     const file = event.target.files[0];
     const storageRef = firebase.storage().ref(`/${props.name}/${file.name}`).put(file);
 
@@ -38,7 +40,7 @@ const UploadButton = (props) => {
           .getDownloadURL()
           .then((url) => {
             setImage(url);
-            console.log(url);
+            dispatch(uploadImg(url))
           });
       }
     );

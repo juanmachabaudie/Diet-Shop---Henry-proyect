@@ -1,3 +1,5 @@
+import { sweetAlert } from "../../helpers/utils";
+
 export const getProducts = () => {
   return async function (dispatch) {
     const res = await fetch("http://localhost:3001/product");
@@ -18,6 +20,7 @@ export const createProduct = (datos) => {
       type: "POST_PRODUCT",
       payload: resJson,
     });
+    sweetAlert(datos.name, "AGREGADO", 'ACEPTAR');
   };
 };
 
@@ -33,7 +36,7 @@ export const findProduct = (uuid) => {
     };
   } catch (error) {
     console.log(error);
-  }
+  } 
 };
 
 export const editProduct = (datos) => {

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import { addUser } from "../redux/actions/userActions.js";
 import {
   Button,
@@ -32,6 +31,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddUser() {
   const dispatch = useDispatch();
+  const store = useSelector((store) => store);
+
+  const imgs = store.images.fireImg;
+  
+  useEffect(() => {
+    setDatos({
+      ...datos,
+      img: imgs,
+    });
+  }, [imgs]);
 
   const [datos, setDatos] = useState({
     firstName: "",
@@ -39,6 +48,7 @@ export default function AddUser() {
     email: "",
     password: "",
     confirmPassword: "",
+    img: [],
   });
 
   const handleInputChange = (event) => {
