@@ -5,6 +5,7 @@ import AddUser from "./AddUser.jsx";
 import { logIn, userLogout } from "../redux/actions/userActions.js";
 
 import {
+  Typography,
   AppBar,
   Backdrop,
   Badge, //LLeva un contador con la cantidad de elementos que hay en el carrito
