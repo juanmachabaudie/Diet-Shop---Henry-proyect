@@ -61,6 +61,7 @@ export const goToCheckout = (userEmail) => (dispatch, getState) => {
     productsInCart,
     userEmail,
   }
+  console.log(infoCheckOut)
   return axios.post('/checkout', { infoCheckOut })
     .then(res => window.location = res.data.init_point)
     .then(res => console.log(res))

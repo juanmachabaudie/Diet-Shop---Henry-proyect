@@ -26,7 +26,7 @@ const force = false;
 conn.sync({ force }).then(async () => {
   //server.listen(process.env.PORT, () => {
   if(force) {
-    await User.create({firstName: "Gordo", password:'FanDeLean', lastName: "Siri", email: "gordo@gmail.com", isAdmin: true})
+    await User.create({firstName: "Gordo", password:'hola123', lastName: "Siri", email: "gordo@gmail.com", isAdmin: true})
   }
     server.listen(3001, () => {
     console.log("%s listening at 3001"); // eslint-disable-line no-console
