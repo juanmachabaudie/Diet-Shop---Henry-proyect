@@ -401,7 +401,16 @@ const NavBar = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar>
+      <AppBar
+        position="static"
+        style={{
+          background: "transparent",
+          boxShadow: "none",
+          borderRadius: 15,
+          borderColor: "#4caf50",
+        }}
+        variant="outlined"
+      >
         <Toolbar>
           <IconButton
             edge="start"
