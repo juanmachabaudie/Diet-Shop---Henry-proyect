@@ -52,7 +52,7 @@ const UserProfile = () => {
         </Grid>
         <Grid Item xs={6} md={4}>
           <Box m={6} display="flex" justifyContent="center">
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" href='/user/profile/purchases'>
               Mis Compras
             </Button>
           </Box>

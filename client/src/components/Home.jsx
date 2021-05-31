@@ -2,17 +2,25 @@ import React, { useEffect } from "react";
 import Carouselmages from "./Carousel";
 import { useDispatch } from "react-redux";
 import { changeOrderStatus } from "../redux/actions/cartActions.js";
+import jwt from 'jsonwebtoken';
 
 export function Home() {
   const dispatch = useDispatch();
-
-  // userId = JSON.parse(DondeSeaQueLoGuarden.getItem('ElUuid'))
-  const userId = "153b7a39-ba64-48fc-a326-679ecdddbe04";
-
+  let userEmail;
+  if (sessionStorage.getItem("user")){
+  let tokeen;
+  const token = sessionStorage.getItem("user");
+  if (token[0] === '"'){
+    tokeen = JSON.parse(token);
+  } else {
+    tokeen = token;
+  }
+  userEmail = jwt.decode(tokeen).email;
+  }
   useEffect(() => {
     const url = window.location.href;
     if (url.includes("status")) {
-      dispatch(changeOrderStatus(userId));
+      dispatch(changeOrderStatus(userEmail));
     }
     
     if (url.includes('loginGoogle')){
@@ -20,7 +28,6 @@ export function Home() {
       window.sessionStorage.setItem('user', token)
     }
     //Aca van los if's para las autenticaciones
-  
   }, [dispatch]);
 
   return (

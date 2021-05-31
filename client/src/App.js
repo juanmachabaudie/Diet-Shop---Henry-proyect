@@ -9,12 +9,13 @@ import SearchProduct from "./components/SearchProduct.jsx";
 import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
 import Home from "./components/Home.jsx";
-import ShippingForm from "./components/ShippingForm.jsx";
+//import ShippingForm from "./components/ShippingForm.jsx";
 import Promote from './components/Promote.jsx';
 import PasswordReset from "./components/PasswordReset.jsx";
 import ProductEdit from "./components/ProductEdit.jsx";
 import UserProfile from "./components/UserProfile.jsx";
 import NotAcces from "./components/NotAcces.jsx";
+import Purchases from "./components/Purchases.jsx";
 
 const App = () => {
   return (
@@ -33,6 +34,8 @@ const App = () => {
       <Route exact path="/product/edit/:uuid" component={ProductEdit} />
       <Route exact path="/user/promote" component={Promote} />
       <Route exact path="/restricted" component={NotAcces} />
+      <Route exact path="/user/profile/purchases" component={Purchases} />
+      
     </React.Fragment>
   );
 };

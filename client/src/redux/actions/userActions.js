@@ -112,3 +112,8 @@ export const userLogout = () => {
   }
 }
 
+export const getOrders = (userEmail) => async (dispatch) => {
+  console.log(userEmail)
+    const orders = await axios.get(`/user/orders?user=${userEmail}`)
+    dispatch({ type: "GET_ORDERS", payload: orders.data })
+}

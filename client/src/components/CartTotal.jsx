@@ -2,12 +2,23 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Container, Typography, Button } from "@material-ui/core";
 import {goToCheckout} from "../redux/actions/cartActions";
+import jwt from 'jsonwebtoken';
 
 export const CartTotal = ({cartItems}) => {
   const dispatch = useDispatch();
   const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
-
-  const handleGoToCheckout = () => dispatch(goToCheckout());
+  let userEmail;
+  if(sessionStorage.getItem("user")){
+  let tokeen;
+  const token = sessionStorage.getItem("user");
+  if (token[0] === '"'){
+    tokeen = JSON.parse(token);
+  } else {
+    tokeen = token;
+  }
+  userEmail = jwt.decode(tokeen).email;
+}
+  const handleGoToCheckout = () => dispatch(goToCheckout(userEmail)); //revisar esto
 
   return (
     <Container>
