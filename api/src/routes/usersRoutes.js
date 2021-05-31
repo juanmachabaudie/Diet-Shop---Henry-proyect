@@ -8,6 +8,7 @@ const {
   login,
   deleteUser,
   sendOrder,
+  getOrders,
 } = require("../controllers/usersController");
 
 const router = Router();
@@ -19,6 +20,7 @@ router.put('/changeAdmin', changeAdmin)
 router.delete("/delete", deleteUser);
 router.get("/profile/:userUuid", userProfile);
 router.post("/login", login);
-router.post("/send-order", sendOrder)
+router.post("/send-order", sendOrder);
+router.get('/orders', getOrders);
 
 module.exports = router;
