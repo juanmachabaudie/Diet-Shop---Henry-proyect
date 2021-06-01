@@ -66,6 +66,10 @@ module.exports = (sequelize) => {
       image: {
         type: DataTypes.ARRAY(DataTypes.STRING),
       },
+      blocked: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     { timestamps: false }
   );

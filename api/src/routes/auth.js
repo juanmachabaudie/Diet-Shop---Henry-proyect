@@ -25,8 +25,8 @@ server.post("/login/email", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
     if (!user) {
+      console.log('entra sin user')
       return res
-        .status(401)
         .json({
           status: "error",
           code: "unauthorized",
@@ -43,6 +43,7 @@ server.post("/login/email", (req, res, next) => {
             email: user.email,
             isAdmin: user.isAdmin,
             image: user.image,
+            blocked: user.blocked,
           },
           `${SECRET_JWT}`
         )

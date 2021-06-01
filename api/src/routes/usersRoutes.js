@@ -11,6 +11,7 @@ const {
   getOrders,
   getShippingData,
   updateShippingData,
+  blockUser,
 } = require("../controllers/usersController");
 
 const router = Router();
@@ -26,5 +27,6 @@ router.post("/send-order", sendOrder);
 router.get('/orders', getOrders);
 router.get('/shipping', getShippingData);
 router.put('/shipping/update', updateShippingData);
+router.put('/blockUser', blockUser)
 
 module.exports = router;
