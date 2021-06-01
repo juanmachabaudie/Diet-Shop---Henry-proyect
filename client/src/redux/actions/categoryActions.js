@@ -24,9 +24,7 @@ export const getCategoryByName = (name) => {
   return async (dispatch) => {
     let categoryByName = [];
     try {
-      let result = await fetch(
-        `/category/byName?name=${name}`
-      );
+      let result = await fetch(`/category/byName?name=${name}`);
       categoryByName = await result.json();
       if (!categoryByName.error) {
         await dispatch({

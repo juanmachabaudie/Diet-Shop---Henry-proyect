@@ -7,7 +7,7 @@ import {
 } from "../actions/cartActions";
 
 const initialState = {
-  cartItems: JSON.parse(localStorage.getItem('cart') || '[]'),
+  cartItems: JSON.parse(localStorage.getItem("cart") || "[]"),
 };
 
 export default function cartReducers(state = initialState, action) {
@@ -20,8 +20,8 @@ export default function cartReducers(state = initialState, action) {
     case SET_CART_RELOAD:
       return {
         ...state,
-        cartItems: action.payload
-      }
+        cartItems: action.payload,
+      };
     case REMOVE_FROM_CART:
       return {
         ...state,
@@ -36,8 +36,8 @@ export default function cartReducers(state = initialState, action) {
       const { productId, quantity } = action.payload;
       return {
         ...state,
-        cartItems: state.cartItems.map(product => {
-          if(product.uuid === productId) return { ...product, quantity };
+        cartItems: state.cartItems.map((product) => {
+          if (product.uuid === productId) return { ...product, quantity };
           return product;
         }),
       };

@@ -6,7 +6,12 @@ import { getCategories } from "../redux/actions/categoryActions";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 
-import { makeStyles, useTheme, MobileStepper, Button } from "@material-ui/core/";
+import {
+  makeStyles,
+  useTheme,
+  MobileStepper,
+  Button,
+} from "@material-ui/core/";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronCircleLeft,
@@ -21,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "100%",
     flexGrow: 1,
-    marginTop: '10px',
-    height: 'auto',
+    marginTop: "10px",
+    height: "auto",
   },
   img: {
     maxHeight: 490,
