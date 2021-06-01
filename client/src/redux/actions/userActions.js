@@ -1,4 +1,6 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
+import { sweetAlert } from '../../helpers/utils.jsx'
 
 export const addUser = (datos) => {
   return async (dispatch) => {
@@ -42,6 +44,29 @@ export const getAllUsers = () => {
     });
   }
 };
+
+export const selectBlockUser = (uuid,act) => async (dispatch) => {
+console.log(uuid)
+console.log(act)
+let datos = {}
+    if (act) {
+      datos = {
+        "uuid": uuid,
+        "blocked": true
+      }
+    } else {
+      datos = {
+        "uuid": uuid,
+        "blocked": false
+      }
+    }
+    const res = await axios.put("http://localhost:3001/user/blockUser", datos)
+    console.log(res)
+    dispatch({
+      type: "ADMINS",
+      payload: res.data,
+    });
+}
 
 export const selectAdmins = (uuid, act) => {
   return async (dispatch) => {
@@ -99,8 +124,24 @@ export const resetUserPassword = (data) => {
 
 export const logIn = (data) => {
   return async (dispatch) => {
-    const user = await axios.post('/auth/login/email', data)
-    window.sessionStorage.setItem('user', JSON.stringify(user.data))
+    try {
+      const user = await axios.post('/auth/login/email', data)
+      if(!user.data.message){
+        const userData = jwt.decode(user.data)
+        console.log(userData)
+        if(userData.blocked){
+          sweetAlert(`${userData.firstName.toUpperCase()}`, 'SIN ACCESO', 'ACEPTAR')
+        } else {
+        sweetAlert(`BIENVENIDO ${userData.firstName.toUpperCase()}`, '', 'ACEPTAR')
+        window.sessionStorage.setItem('user', JSON.stringify(user.data))
+        }
+      }else{
+        console.log(user.data.message)
+        sweetAlert(user.data.message, "Intente nuevamente")
+      }
+    } catch (error){
+      console.log(error.status)
+    }
   }
 }
 
@@ -114,16 +155,16 @@ export const userLogout = () => {
 
 export const getOrders = (userEmail) => async (dispatch) => {
   console.log(userEmail)
-    const orders = await axios.get(`/user/orders?user=${userEmail}`)
-    dispatch({ type: "GET_ORDERS", payload: orders.data })
+  const orders = await axios.get(`/user/orders?user=${userEmail}`)
+  dispatch({ type: "GET_ORDERS", payload: orders.data })
 }
 
 export const userShipping = (userEmail) => async (dispatch) => {
   const shippingData = await axios.get(`/user/shipping?user=${userEmail}`)
-  dispatch({type: "GET_SHIPPING", payload: shippingData.data})
+  dispatch({ type: "GET_SHIPPING", payload: shippingData.data })
 }
 
-export const uploadShippingData = (userEmail, datos) => async () =>{
+export const uploadShippingData = (userEmail, datos) => async () => {
   console.log(datos)
   const uploadData = await axios.put(`/user/shipping/update?user=${userEmail}`, datos)
 }

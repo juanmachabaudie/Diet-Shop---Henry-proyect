@@ -12,21 +12,18 @@ export default function Promote() {
 
   useEffect(() => {
     dispatch(getAllUsers());
-  }, [change]);
+  }, [dispatch,change]);
 
-
-  let cosas = users.map((e) => (
+console.log(users)
+  let thing = users.map((e) => (
     <UserCard
       key={e.uuid}
-      uuid={e.uuid}
-      userName={e.userName}
-      email={e.email}
-      isAdmin={e.isAdmin}
+      data={e}
     />
   ));
   return (
       <Container>
-          {cosas}
+          {thing}
       </Container>
   )
 }

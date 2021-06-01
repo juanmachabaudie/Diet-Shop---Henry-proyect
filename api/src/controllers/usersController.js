@@ -63,9 +63,12 @@ async function getUsers(req, res, next) {
           email: values.email,
           password: values.password,
           isAdmin: values.isAdmin,
+          blocked: values.blocked,
+          image: values.image,
         };
         arrUsers.push(objUser);
       }
+      return res.send(arrUsers)
     } else {
       return res.send("base de datos vacia");
     }
@@ -194,6 +197,22 @@ async function changeAdmin(req, res, next) {
         uuid,
       },
     });
+    toEditUser.update(req.body);
+    return res.status(200).json({ message: "Usuario Actualizado" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function blockUser(req, res, next) {
+  const { uuid } = req.body;
+  try {
+    const toEditUser = await User.findOne({
+      where: {
+        uuid,
+      },
+    });
+    console.log(toEditUser)
     toEditUser.update(req.body);
     return res.status(200).json({ message: "Usuario Actualizado" });
   } catch (error) {
@@ -449,4 +468,5 @@ module.exports = {
   getOrders,
   getShippingData,
   updateShippingData,
+  blockUser,
 };

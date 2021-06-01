@@ -2,11 +2,9 @@ import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Button, Card, CardContent, Grid, Typography, Snackbar } from "@material-ui/core";
+import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
 
-import MuiAlert from "@material-ui/lab/Alert";
-
-import { selectAdmins } from "../redux/actions/userActions.js";
+import { selectAdmins, selectBlockUser } from "../redux/actions/userActions.js";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,75 +30,90 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-export default function UserCard({ uuid, email, isAdmin }) {
+export default function UserCard(user) {
+  console.log(user.data);
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
 
   const addAdmin = (uuid, act) => {
     dispatch(selectAdmins(uuid, act));
   };
 
+  const blockUser = (uuid, act) => {
+    dispatch(selectBlockUser(uuid, act));
+  };
+
   function allOnClicksTrue() {
-    addAdmin(uuid, true);
-    handleClick();
+    addAdmin(user.data.uuid, true);
   }
 
   function allOnClicksFalse() {
-    addAdmin(uuid, false);
-    handleClick();
+    addAdmin(user.data.uuid, false);
+  }
+
+  function allOnClicksBlockTrue() {
+    blockUser(user.data.uuid, true);
+  }
+
+  function allOnClicksBlockFalse() {
+    blockUser(user.data.uuid, false);
   }
 
   return (
     <Card className={classes.root}>
       <Grid item xs={3}>
         <CardContent className={classes.data}>
-          <Typography>{email}</Typography>
+          <Typography>{user.data.email}</Typography>
         </CardContent>
       </Grid>
       <Grid item xs={3}>
         <CardContent>
-          <Typography>{!isAdmin ? "" : "ADMINISTRADOR"}</Typography>
+          <Typography>{!user.data.isAdmin ? "" : "ADMINISTRADOR"}</Typography>
         </CardContent>
       </Grid>
       <Grid item xs={3} className={classes.buttons}>
-        {!isAdmin ? (
+        {!user.data.isAdmin ? (
           <>
-            <Button onClick={allOnClicksTrue} color="primary" variant="contained">
+            <Button
+              onClick={allOnClicksTrue}
+              color="primary"
+              variant="contained"
+            >
               Designar Admin
             </Button>
-            <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-              <Alert onClose={handleClose} severity="success">
-                {email} ahora es administrador
-              </Alert>
-            </Snackbar>
           </>
         ) : (
           <>
-            <Button onClick={allOnClicksFalse} color="secondary" variant="contained">
+            <Button
+              onClick={allOnClicksFalse}
+              color="secondary"
+              variant="contained"
+            >
               Descartar Admin
             </Button>
-            <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-              <Alert onClose={handleClose} severity="error">
-                {email} no es mas administrador
-              </Alert>
-            </Snackbar>
+          </>
+        )}
+      </Grid>
+      <Grid item xs={3} className={classes.buttons}>
+        {!user.data.blocked ? (
+          <>
+            <Button
+              onClick={allOnClicksBlockTrue}
+              color="primary"
+              variant="contained"
+            >
+              Bloquear Usuario
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={allOnClicksBlockFalse}
+              color="secondary"
+              variant="contained"
+            >
+              Desbloquear Usuario
+            </Button>
           </>
         )}
       </Grid>

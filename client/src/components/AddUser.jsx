@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../redux/actions/userActions.js";
+import { addUser, logIn } from "../redux/actions/userActions.js";
 import {
   Button,
   Card,
@@ -61,13 +61,7 @@ export default function AddUser() {
   const enviarDatos = (event) => {
     event.preventDefault();
     dispatch(addUser(datos));
-    setDatos({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    dispatch(logIn(datos));
   };
 
   const classes = useStyles();
