@@ -3,6 +3,7 @@ const initialState = {
   product: [],
   message: {},
   update: {},
+  reviews: []
 };
 
 export default function productReducers(state = initialState, action) {
@@ -28,6 +29,19 @@ export default function productReducers(state = initialState, action) {
         ...state,
         message: action.payload,
     };
+
+    case "ADD_REVIEW":
+      return {
+        ...state,
+        message: action.payload,
+     
+      };
+      
+    case "GET_REVIEWS_PRODUCT":
+      return {
+        ...state,
+        reviews: action.payload
+      }
 
     default:
       return state;

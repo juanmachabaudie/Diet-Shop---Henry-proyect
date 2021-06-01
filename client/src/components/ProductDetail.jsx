@@ -113,7 +113,7 @@ const ProductDetail = ({ location }) => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Box display="flex" justifyContent="center">
-            <Reviews />
+            <Reviews productUuid={uuid}/>
           </Box>
         </Grid>
       </Grid>

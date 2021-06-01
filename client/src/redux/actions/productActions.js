@@ -81,3 +81,40 @@ export const searchProducts = (name) => {
     });
   };
 };
+
+export const addReview = (data) => {
+
+  const { userMail, productUuid, text} = data;
+  return async (dispatch) => {
+    console.log(userMail + ' ' + productUuid + ' ' + text);
+    const res = await fetch('http://localhost:3001/product/addReview/', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userMail, text, productUuid
+      }),
+      mode: "cors",
+    });
+    const req = await res.json();
+    console.log('respuesta ', req);
+    dispatch({
+      type: "ADD_REVIEW",
+      payload: req,
+    });
+    
+  };
+};
+
+
+export const reviewsProduct = (productUuid) => {
+  return async (dispatch) => {
+    const res = await fetch(
+      `http://localhost:3001/product/reviews/${productUuid}`
+    );
+    const req = await res.json();
+    dispatch({
+      type: "GET_REVIEWS_PRODUCT",
+      payload: req,
+    });
+  };
+};
