@@ -36,7 +36,6 @@ const UserProfile = () => {
   const user = jwt.decode(tokeen);
   const userAdmin = user.isAdmin;
   const classes = useStyles();
-  console.log(user)
 
   return (
     <Container>

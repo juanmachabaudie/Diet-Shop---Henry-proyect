@@ -408,6 +408,34 @@ async function getOrders(req, res, next) {
   }
 }
 
+async function getShippingData (req, res, next){
+  try {
+    const userEmail = req.query.user;
+    const user = await User.findOne({where:{email:userEmail}});
+    objShipping = {
+      shippingAddress: user.shippingAddress,
+      shippingZip: user.shippingZip,
+      shippingCity: user.shippingCity,
+      shippingState: user.shippingState,
+      comments: user.comments,
+    }
+    return res.json(objShipping);
+  }catch(error){
+    next(error);
+  }
+}
+
+async function updateShippingData (req, res, next){
+try{
+  const userEmail = req.query.user;
+  const user = await User.findOne({where:{email:userEmail}});
+  user.update(req.body);
+  console.log('done')
+}catch (error){
+  next(error);
+}
+}
+
 module.exports = {
   // createUser,
   getUsers,
@@ -419,4 +447,6 @@ module.exports = {
   resetPassword,
   sendOrder,
   getOrders,
+  getShippingData,
+  updateShippingData,
 };

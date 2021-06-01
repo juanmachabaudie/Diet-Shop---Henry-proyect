@@ -9,6 +9,8 @@ const {
   deleteUser,
   sendOrder,
   getOrders,
+  getShippingData,
+  updateShippingData,
 } = require("../controllers/usersController");
 
 const router = Router();
@@ -22,5 +24,7 @@ router.get("/profile/:userUuid", userProfile);
 router.post("/login", login);
 router.post("/send-order", sendOrder);
 router.get('/orders', getOrders);
+router.get('/shipping', getShippingData);
+router.put('/shipping/update', updateShippingData);
 
 module.exports = router;

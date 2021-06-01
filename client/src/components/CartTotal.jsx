@@ -18,12 +18,13 @@ export const CartTotal = ({cartItems}) => {
   }
   userEmail = jwt.decode(tokeen).email;
 }
-  const handleGoToCheckout = () => dispatch(goToCheckout(userEmail)); //revisar esto
+  // const handleGoToCheckout = () => dispatch(goToCheckout(userEmail));
 
   return (
     <Container>
       <Typography> Total: ${`${total}`}</Typography>
-      <Button onClick={handleGoToCheckout} >Comprar</Button>
+      <Button href='/checkout/info' >Comprar</Button>
+      {/* <Button onClick={handleGoToCheckout} >Comprar</Button> */}
     </Container>
   );
 };

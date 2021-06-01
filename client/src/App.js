@@ -16,6 +16,7 @@ import ProductEdit from "./components/ProductEdit.jsx";
 import UserProfile from "./components/UserProfile.jsx";
 import NotAcces from "./components/NotAcces.jsx";
 import Purchases from "./components/Purchases.jsx";
+import ShippingForm from './components/ShippingForm.jsx';
 
 const App = () => {
   return (
@@ -35,7 +36,7 @@ const App = () => {
       <Route exact path="/user/promote" component={Promote} />
       <Route exact path="/restricted" component={NotAcces} />
       <Route exact path="/user/profile/purchases" component={Purchases} />
-      
+      <Route exact path="/checkout/info" component={ShippingForm} />
     </React.Fragment>
   );
 };

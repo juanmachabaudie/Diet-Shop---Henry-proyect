@@ -117,3 +117,13 @@ export const getOrders = (userEmail) => async (dispatch) => {
     const orders = await axios.get(`/user/orders?user=${userEmail}`)
     dispatch({ type: "GET_ORDERS", payload: orders.data })
 }
+
+export const userShipping = (userEmail) => async (dispatch) => {
+  const shippingData = await axios.get(`/user/shipping?user=${userEmail}`)
+  dispatch({type: "GET_SHIPPING", payload: shippingData.data})
+}
+
+export const uploadShippingData = (userEmail, datos) => async () =>{
+  console.log(datos)
+  const uploadData = await axios.put(`/user/shipping/update?user=${userEmail}`, datos)
+}
