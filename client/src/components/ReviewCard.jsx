@@ -35,7 +35,7 @@ const StyledRating = withStyles({
 })(Rating);
 
 const ReviewCard = ({ text, userName, userLast, rating, date }) => {
- 
+
 const day = date.split('T')[0];
 
   const classes = useStyles();
@@ -48,11 +48,12 @@ const day = date.split('T')[0];
             <Avatar>{userName[0]}</Avatar>
           </Grid>
           <Grid item xs>
-            <Typography>{userName} {userLast}</Typography>
             <Typography>{day}</Typography>
+            <Typography>{userName} {userLast}:</Typography>
             <Typography>{text}</Typography>
           </Grid>
           <Box component="fieldset" mb={3} borderColor="transparent">
+            {rating?
             <StyledRating
               name="read-only"
               defaultValue={rating}
@@ -60,6 +61,8 @@ const day = date.split('T')[0];
               readOnly
               icon={<FavoriteIcon fontSize="inherit" />}
             />
+            : <> </>
+}
           </Box>
         </Grid>
       </Paper>

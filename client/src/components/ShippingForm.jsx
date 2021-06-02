@@ -9,10 +9,10 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
-import jwt from "jsonwebtoken";
 import { userShipping } from "../redux/actions/userActions.js";
 import { uploadShippingData } from "../redux/actions/userActions.js";
 import { goToCheckout } from "../redux/actions/cartActions";
+import {decodeToken} from '../helpers/utils.jsx';
 
 const useStyles = makeStyles((theme) => ({
   shippingForm: {
@@ -27,18 +27,8 @@ export default function ShippingForm() {
 
   const shippingData = useSelector((store) => store.users.shippingData);
 
-  let userEmail;
-  if (sessionStorage.getItem("user")) {
-    let tokeen;
-    const token = sessionStorage.getItem("user");
-    if (token[0] === '"') {
-      tokeen = JSON.parse(token);
-    } else {
-      tokeen = token;
-    }
-    userEmail = jwt.decode(tokeen).email;
-  }
-
+  let userEmail = decodeToken()
+  
   const [datos, setDatos] = useState({
     shippingAddress: "",
     shippingZip: "",
