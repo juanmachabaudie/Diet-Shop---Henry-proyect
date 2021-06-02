@@ -4,40 +4,34 @@ import { useState } from "react";
 import { addUser } from "../redux/actions/userActions.js";
 import {
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
+  Grid,
   TextField,
   makeStyles,
+  Typography,
+  Box,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  textField: {
-    "& > *": {
+  root: {
+    "& .MuiTextField-root": {
       margin: theme.spacing(1),
-      display: "flex",
-      flexDirection: "column",
+      width: "25ch",
     },
-  },
-  paper: {
-    backgroundColor: "RGBA(255,255,255,0.8)",
-    borderRadius: "10px",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    margin: "1rem",
   },
 }));
 
 export default function AddUser() {
   const dispatch = useDispatch();
+  const store = useSelector((store) => store);
+
+  const added = store.users.message;
 
   const [datos, setDatos] = useState({
-    firstName: "",
-    lastName: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
+    isAdmin: "",
   });
 
   const handleInputChange = (event) => {
@@ -51,70 +45,113 @@ export default function AddUser() {
     event.preventDefault();
     dispatch(addUser(datos));
     setDatos({
-      firstName: "",
-      lastName: "",
+      userName: "",
       email: "",
       password: "",
       confirmPassword: "",
+      isAdmin: "",
     });
   };
 
   const classes = useStyles();
 
   return (
-    <div className={classes.paper}>
-      <Card className={classes.textField}>
-        <CardContent>
-          <Typography variant="h5" color="initial">
-            Registrarse
-          </Typography>
+    // <Grid
+    // // container
+    // // direction="column"
+    // // alignItems="center"
+    // // justifyContent="center"
+    // // style={{ minHeight: "100vh" }}
+    // >
+    // <Grid item>
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        onSubmit={enviarDatos}
+      >
+        <Grid item direction="column">
+          <Box textAlign="center">
+            <Typography variant="h5" color="primary">
+              Crear Usuario
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item direction="column">
           <TextField
-            id="outlined-name"
-            label="Nombre"
-            value={datos.firstName}
+            id="filled-name"
+            label="Nombre de Usuario"
+            name={datos.userName}
             onChange={handleInputChange}
             variant="outlined"
-            name="firstName"
+            className={classes.color}
           />
-          <TextField
-            id="outlined-name"
-            label="Apellido"
-            value={datos.lastName}
-            onChange={handleInputChange}
-            variant="outlined"
-            name="lastName"
-          />
+        </Grid>
+        <Grid item direction="column">
           <TextField
             id="outlined-name"
             label="Correo Electronico"
-            value={datos.email}
+            name={datos.email}
             onChange={handleInputChange}
             variant="outlined"
-            name="email"
           />
+        </Grid>
+        <Grid item direction="column">
           <TextField
-            id="outlined-name"
             label="Contraseña"
-            value={datos.password}
+            name={datos.password}
             onChange={handleInputChange}
             variant="outlined"
-            name="password"
+            autoComplete="current-password"
+            type="password"
+            id="outlined-password-input"
           />
+        </Grid>
+        <Grid item direction="column">
+          <TextField
+            label="Confirmar Contraseña"
+            name={datos.confirmPassword}
+            onChange={handleInputChange}
+            variant="outlined"
+            type="password"
+            id="outlined-password-input"
+            autoComplete="current-password"
+          />
+        </Grid>
+        <Grid item direction="column">
           <TextField
             id="outlined-name"
-            label="Confirmar Contraseña"
-            value={datos.confirmPassword}
+            label="Clave de administrador"
+            name={datos.isAdmin}
             onChange={handleInputChange}
             variant="outlined"
-            name="confirmPassword"
           />
-        </CardContent>
-        <CardActions>
-          <Button size="small" onClick={enviarDatos}>
-            Registrarse
-          </Button>
-        </CardActions>
-      </Card>
-    </div>
+        </Grid>
+        <Grid item direction="column">
+          <Box textAlign="center">
+            <Button
+              size="large"
+              variant="outlined"
+              color="primary"
+              href="#outlined-buttons"
+              onSubmit={added.message}
+              justify="center"
+              AlignItems="center"
+            >
+              Agregar
+            </Button>
+          </Box>
+        </Grid>
+      </form>
+    </Grid>
+    // </Grid>
+    // </Grid>
   );
 }

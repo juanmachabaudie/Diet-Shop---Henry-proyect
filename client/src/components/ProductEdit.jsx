@@ -4,12 +4,12 @@ import { editProduct } from "../redux/actions/productActions.js";
 import { getCategories } from "../redux/actions/categoryActions";
 import makeStyles from "./componentsStyles/AddProductsStyles";
 import {
-  FormControl,
   Select,
   TextField,
   Grid,
   Button,
   Typography,
+  Box,
 } from "@material-ui/core";
 
 export default function ProductEdit(props) {
@@ -18,7 +18,7 @@ export default function ProductEdit(props) {
   const store = useSelector((store) => store);
 
   const categories = store.categories.categories;
-  const modificado = store.products.message;
+  // const modificado = store.products.message;
 
   const uuid = props.match.params.uuid;
 
@@ -80,87 +80,105 @@ export default function ProductEdit(props) {
   };
 
   return (
-    <Grid>
-      <FormControl className={classes.root} noValidate>
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          justify="center"
-          style={{ minHeight: "100vh" }}
-        >
-          <Typography variant="h5" color="initial">
+    <Grid
+      Container
+      maxWidth="lg"
+      // style={{
+      //   borderColor: "#c8e7c9",
+      // }}
+      alignItems="center"
+      justifyContent="center"
+      // className={classes.container}
+    >
+      <Box
+        // bgcolor="primary.main"
+        className={classes.container}
+        // border={1}
+        borderRadius={15}
+        // borderColor="Gray.200"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Grid item>
+          <Typography align="center" variant="h6" color="primary">
             Modificar Producto
           </Typography>
-          <TextField
-            id="product"
-            label="Producto"
-            value={datos.name}
-            onChange={handleInputChange}
-            variant="filled"
-            className={classes.color}
-            name="name"
-            type="text"
-          />
-          <TextField
-            id="description"
-            label="Descripcion"
-            value={datos.description}
-            onChange={handleInputChange}
-            variant="filled"
-            type="text"
-            name="description"
-          />
-          <TextField
-            id="price"
-            label="Precio"
-            value={datos.price}
-            onChange={handleInputChange}
-            variant="filled"
-            type="number"
-            name="price"
-          />
-          <TextField
-            id="stock"
-            label="Stock"
-            value={datos.stock}
-            onChange={handleInputChange}
-            variant="filled"
-            type="number"
-            name="stock"
-          />
-          <Select
-            variant="filled"
-            className={classes.input}
-            multiple
-            native
-            name="categories"
-            value={datos.categories}
-            onChange={handleCat}
-            inputProps={{
-              id: "select-multiple-native",
-            }}
-          >
-            {categories?.map((each) => {
-              return (
-                <option value={each.name} key={each.uuid}>
-                  {each.name}
-                </option>
-              );
-            })}
-          </Select>
-          <Button
-            size="large"
-            variant="outlined"
-            color="primary"
-            justify="center"
-            AlignItems="center"
-            onClick={enviarDatos}
-          >
-            Editar
-          </Button>
         </Grid>
-      </FormControl>
+
+        <form onSubmit={enviarDatos}>
+          <div>
+            <section>
+              <TextField
+                className={classes.input}
+                id="product"
+                label="Producto"
+                value={datos.name}
+                onChange={handleInputChange}
+                variant="outlined"
+              />
+            </section>
+            <section>
+              <TextField
+                className={classes.input}
+                type="text"
+                placeholder="Descripción"
+                name="descripcion"
+                onChange={handleInputChange}
+                variant="outlined"
+              />
+            </section>
+            <section>
+              <TextField
+                className={classes.input}
+                id="price"
+                label="Precio"
+                value={datos.price}
+                onChange={handleInputChange}
+                variant="outlined"
+              />
+            </section>
+            <section>
+              <TextField
+                className={classes.input}
+                id="outlined-name"
+                label="Confirmar Contraseña"
+                value={datos.confirmPassword}
+                onChange={handleInputChange}
+                variant="outlined"
+              />
+            </section>
+          </div>
+          <div className={classes.input}>
+            <Grid item xs={12}>
+              <Grid item xs={12} sm={12} md={12} alignContent="center">
+                <TextField
+                  className={classes.input}
+                  id="stock"
+                  label="Stock"
+                  value={datos.stock}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
+          </div>
+
+          <br />
+          {/* <TextField className={classes.input} type="submit" value="Agregar" /> */}
+          <Box textAlign="center">
+            <Button
+              variant="outlined"
+              color="primary"
+              value="Agregar"
+              type="submit"
+              size="large"
+            >
+              Modificar
+            </Button>
+          </Box>
+          <hr />
+        </form>
+      </Box>
     </Grid>
   );
 }

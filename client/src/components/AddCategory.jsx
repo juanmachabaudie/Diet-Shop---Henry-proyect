@@ -100,15 +100,13 @@ export default function AddCategory() {
   };
 
   const handleOnChangeCategory = (event) => {
-    const urlImage = event.target.options[
-      event.target.selectedIndex
-    ].getAttribute("data-img");
+    const urlImage =
+      event.target.options[event.target.selectedIndex].getAttribute("data-img");
     const categoryImage = document.getElementById("categoryImage");
     categoryImage.setAttribute("src", urlImage);
     // Select current category on select box
-    const value = event.target.options[event.target.selectedIndex].getAttribute(
-      "value"
-    );
+    const value =
+      event.target.options[event.target.selectedIndex].getAttribute("value");
     setCurrentSelectedState({ value: value });
   };
 
@@ -124,8 +122,15 @@ export default function AddCategory() {
 
   return (
     <>
-      <Container container className={classes.container} maxWidth="md">
-        <Typography align="center" variant="h4">
+      <Container
+        container
+        className={classes.container}
+        maxWidth="md"
+        style={{
+          borderColor: "#4caf50",
+        }}
+      >
+        <Typography align="center" variant="h4" color="primary">
           Crear Categoría
         </Typography>
         <Box
@@ -200,7 +205,7 @@ export default function AddCategory() {
           <Box p={3}>
             <Grid container spacing={4}>
               <Grid item xm={12} sm={6}>
-                <Button variant="contained" color="secondary" fullWidth>
+                <Button variant="outlined" color="primary" fullWidth>
                   Eliminar Categoría
                 </Button>
               </Grid>

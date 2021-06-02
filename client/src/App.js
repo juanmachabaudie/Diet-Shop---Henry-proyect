@@ -25,8 +25,8 @@ const App = () => {
 
   return (
     <React.Fragment>
-      <Route exact path="/" component={carousel} />
       <Route path="/Home" component={NavBar} />
+      <Route exact path="/" component={carousel} />
       <Route exact path="/Home" component={Home} />
       <Route exact path="/products" component={Products} />
       <Route path="/product/detail" component={ProductDetail} />

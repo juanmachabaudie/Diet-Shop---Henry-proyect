@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createProduct } from "../redux/actions/productActions.js";
-import { getCategories } from '../redux/actions/categoryActions';
-import makeStyles from './componentsStyles/AddProductsStyles'
-import { Container, Card} from "@material-ui/core";
-
+import { getCategories } from "../redux/actions/categoryActions";
+import makeStyles from "./componentsStyles/AddProductsStyles";
+import { Box, Grid, TextField, Button } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 export default function AddProduct() {
-  const classes = makeStyles()
+  const classes = makeStyles();
   const dispatch = useDispatch();
   const store = useSelector((store) => store);
 
@@ -19,7 +19,6 @@ export default function AddProduct() {
     dispatch(getCategories());
   }, []);
 
-  
   const [datos, setDatos] = useState({
     name: "",
     description: "",
@@ -45,9 +44,9 @@ export default function AddProduct() {
       }
     }
     setDatos({
-        ...datos,
-        categories: seleccionadas
-    })
+      ...datos,
+      categories: seleccionadas,
+    });
   };
 
   const enviarDatos = (event) => {
@@ -63,70 +62,119 @@ export default function AddProduct() {
     );
   } else {
     return (
-    <Container >
-        <Card className={classes.container}> 
-        <h5 className={classes.title}>AGREGAR PRODUCTO</h5> <hr/>
-        <form onSubmit={enviarDatos}>
-          <div>
-            <section>
-              <input className={classes.input}
-                type="text"
-                placeholder="Nombre"
-                name="name"
-                onChange={handleInputChange}
-              />
-            </section>
-            <section>
-              <input className={classes.input}
-                type="text"
-                placeholder="Descripción"
-                name="descripcion"
-                onChange={handleInputChange}
-              />
-            </section>
-            <section>
-              
-              <input className={classes.input}
-                type="number"
-                placeholder="$Precio"
-                name="price"
-                onChange={handleInputChange}
-              />
-            </section>
-            <section>
-              <input className={classes.input}
-                type="number"
-                placeholder="Stock"
-                name="stock"
-                onChange={handleInputChange}
-              />
-            </section>
-          </div>
-          <div className={classes.input}>
-            <label for="mainPic">Imagenes del producto:</label>
-            <input
-              type="file"
-              id="mainPic"
-              name="mainPic"
-              accept="image/jpeg"
-            />
-          </div>
-          <select className={classes.input} multiple name="categories" onChange={handleCat} required>
-            {categories?.map((each) => {
-              return (
-                <option value={each.name} key={each.uuid}>
-                  {each.name}
-                </option>
-              );
-            })}
-          </select> <br/>
-          
-          <input className={classes.input} type="submit" value="Agregar" /> <hr/>
+      <Grid
+        Container
+        maxWidth="lg"
+        // style={{
+        //   borderColor: "#c8e7c9",
+        // }}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Box
+          // bgcolor="primary.main"
+          className={classes.container}
+          // border={1}
+          borderRadius={15}
+          // borderColor="Gray.200"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Grid item>
+            <Typography align="center" variant="h6" color="primary">
+              AGREGAR PRODUCTO
+            </Typography>
+          </Grid>
+
+          <form onSubmit={enviarDatos}>
+            <div>
+              <section>
+                <TextField
+                  className={classes.input}
+                  type="text"
+                  placeholder="Nombre"
+                  name="name"
+                  onChange={handleInputChange}
+                  variant="outlined"
+                />
+              </section>
+              <section>
+                <TextField
+                  className={classes.input}
+                  type="text"
+                  placeholder="Descripción"
+                  name="descripcion"
+                  onChange={handleInputChange}
+                  variant="outlined"
+                />
+              </section>
+              <section>
+                <TextField
+                  className={classes.input}
+                  type="number"
+                  placeholder="$Precio"
+                  name="price"
+                  onChange={handleInputChange}
+                  variant="outlined"
+                />
+              </section>
+              <section>
+                <TextField
+                  className={classes.input}
+                  type="number"
+                  placeholder="Stock"
+                  name="stock"
+                  onChange={handleInputChange}
+                  variant="outlined"
+                />
+              </section>
+            </div>
+            <div className={classes.input}>
+              <Grid item xs={12}>
+                <Grid item xs={12} sm={12} md={12} alignContent="center">
+                  <TextField
+                    type="file"
+                    id="mainPic"
+                    name="mainPic"
+                    accept="image/jpeg"
+                    variant="outlined"
+                  />
+                </Grid>
+              </Grid>
+            </div>
+            <select
+              className={classes.input}
+              multiple
+              name="categories"
+              onChange={handleCat}
+              required
+            >
+              {categories?.map((each) => {
+                return (
+                  <option value={each.name} key={each.uuid}>
+                    {each.name}
+                  </option>
+                );
+              })}
+            </select>{" "}
+            <br />
+            {/* <TextField className={classes.input} type="submit" value="Agregar" /> */}
+            <Box textAlign="center">
+              <Button
+                variant="outlined"
+                color="primary"
+                value="Agregar"
+                type="submit"
+                size="large"
+              >
+                Agregar
+              </Button>
+            </Box>
+            <hr />
             <div>{agregado.message}</div>
-        </form>
-        </Card>
-      </Container >
-     
+          </form>
+        </Box>
+      </Grid>
     );
   }
 }
