@@ -12,7 +12,7 @@ import {
 import jwt from "jsonwebtoken";
 import { userShipping } from "../redux/actions/userActions.js";
 import { uploadShippingData } from "../redux/actions/userActions.js";
-import {goToCheckout} from "../redux/actions/cartActions";
+import { goToCheckout } from "../redux/actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
   shippingForm: {
@@ -84,7 +84,7 @@ export default function ShippingForm() {
   const convinedOnClick = () => {
     enviarDatos();
     handleGoToCheckout();
-  } 
+  };
 
   return (
     <div>
