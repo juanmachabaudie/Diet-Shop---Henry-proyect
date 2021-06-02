@@ -61,7 +61,6 @@ export const goToCheckout = (userEmail) => (dispatch, getState) => {
     productsInCart,
     userEmail,
   }
-  console.log(infoCheckOut)
   return axios.post('/checkout', { infoCheckOut })
     .then(res => window.location = res.data.init_point)
     .then(res => console.log(res))
@@ -71,9 +70,13 @@ export const goToCheckout = (userEmail) => (dispatch, getState) => {
 export const changeOrderStatus = (userEmail) => () => {
   const url = window.location.href.slice(window.location.href.indexOf('?'));
   const status = url.slice(url.indexOf('&status') + 1).split('=')[1].split('&')[0];
-  console.log(userEmail) 
+  const productsInCart = JSON.parse(localStorage.getItem('cart'));
+  const infoCheckOut = {
+    productsInCart,
+    userEmail,
+  }
   if (status === 'approved' || status === 'pending') {
-    const response = axios.put('/checkout', { status, email:userEmail })
+    const response = axios.put('/checkout', { status, email:userEmail, infoCheckOut })
   } else {
     const response = axios.put('/checkout', { status:'cancelled', email:userEmail })
   }
