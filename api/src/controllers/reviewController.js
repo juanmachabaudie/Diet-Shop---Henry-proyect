@@ -4,32 +4,70 @@ const { checkUuid } = require("../helpers/utils");
 //crea una review por persona por producto
 async function createReview(req, res, next) {
   try {
-    const { userUuid, text, productUuid } = req.body;
+
+    const { userMail, text, productUuid, rating} = req.body;
+    console.log(text)
+    const comment = text.name;
     const userReviewing = await User.findOne({
       where: {
-        uuid: userUuid,
+        email: userMail,
       },
       include: [{ model: Review }],
     });
+
     const userReviews = userReviewing.dataValues.reviews;
-    if (!userReviews.length) {
-      const newReview = await Review.create({
-        userUuid,
-        text,
-        productUuid,
-      });
-    }
+
+    let flag = false
     for (let review of userReviews) {
-      if (review.productUuid === productUuid) {
-        return res.status(400).json({ message: "Usted ya comento este producto" });
-      } else {
-        const newReview = await Review.create({
-          userUuid,
-          text,
-          productUuid,
-        });
+      if (review.dataValues.productUuid === productUuid) {
+        flag = true;
       }
     }
+
+    if(flag) {
+      return res.status(400).json({ message: "Usted ya comentó este producto" });
+    } 
+
+    const orders = await Order.findAll({
+      where:{
+        userUuid: userReviewing.uuid
+      },
+      include: [
+        {
+          model: Product,
+        }
+      ],
+    });
+
+    let flagProd = false;
+    //busco las ordenes en completed y busco el producto que me mandan. 
+
+    for(var i = 0; i<orders.length;i++)
+    {
+      for(var j=0;j<orders[i].dataValues.products.length;j++)
+      {
+        if(orders[i].dataValues.orderState === 'completed' && orders[i].dataValues.products[j].order_lines.dataValues.productUuid === productUuid)
+        {
+          flagProd = true;
+        }
+      }
+    }
+    
+    if (!flagProd){
+      return res.status(200).json({ message: "Antes de opinar compre nuestro producto" });
+    }
+
+    if(flagProd){
+      const newReview = await Review.create({
+        userUuid: userReviewing.uuid,
+        text: comment,
+        productUuid,
+        rating,
+      });
+      console.log('se creo');
+      return res.status(200).json({ message: "Comentario agregado!" });
+    }
+
   } catch (error) {
     next(error);
   }
@@ -47,7 +85,29 @@ async function getReviewsByProduct(req, res, next) {
         },
       });
       if (productReviews) {
-        res.status(200).json(productReviews);
+        let arrReview = []
+        let objReview
+        for (review of productReviews){
+          objReview={
+            review: review.dataValues.text,
+            rating: review.dataValues.rating,
+            date: review.dataValues.createdAt,
+          }
+          const user = await User.findOne({
+            where: {
+              uuid: review.dataValues.userUuid,
+            }
+          })
+          objReview = {
+            ...objReview,
+            userName: user.dataValues.firstName,
+            userLast: user.dataValues.lastName,
+            photo: user.dataValues.image,
+          }
+          arrReview.push(objReview)
+        }
+        console.log(arrReview)
+        res.status(200).json(arrReview);
       } else {
         res.status(400).json({ message: "Sin comentarios" });
       }

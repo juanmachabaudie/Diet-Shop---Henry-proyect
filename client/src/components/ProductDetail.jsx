@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Reviews from "./Reviews.jsx";
+import MakeReview from "./MakeReview";
+import ProductRating from "./ProductRating";
 import { findProduct } from "../redux/actions/productActions.js";
 import { addToCart } from '../redux/actions/cartActions.js'
 import {
@@ -14,7 +16,7 @@ import {
 } from "@material-ui/core/";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faEdit, faPlusCircle, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import defaultImg from "../imgs/default.svg";
 
@@ -84,6 +86,10 @@ const ProductDetail = ({ location }) => {
                 Descripción: {detail.description}
               </Typography>
             </Box>
+           {/*  <Box m={2}>
+              <ProductRating/>
+            </Box> */}
+            
             {/* <Box m={2}>
               <Typography variant="body2" color="initial">
                 Cantidad
@@ -110,10 +116,12 @@ const ProductDetail = ({ location }) => {
               <FontAwesomeIcon size = "3x" icon={faEdit} />
             </Button>
           </Box>
+
         </Grid>
+
         <Grid item xs={12} md={6}>
           <Box display="flex" justifyContent="center">
-            <Reviews />
+            <Reviews productUuid={uuid}/>
           </Box>
         </Grid>
       </Grid>
