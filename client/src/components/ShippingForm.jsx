@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import {
   Button,
@@ -9,6 +9,10 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
+import jwt from "jsonwebtoken";
+import { userShipping } from "../redux/actions/userActions.js";
+import { uploadShippingData } from "../redux/actions/userActions.js";
+import { goToCheckout } from "../redux/actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
   shippingForm: {
@@ -19,16 +23,50 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ShippingForm() {
   const dispatch = useDispatch();
+  const classes = useStyles();
+
+  const shippingData = useSelector((store) => store.users.shippingData);
+
+  let userEmail;
+  if (sessionStorage.getItem("user")) {
+    let tokeen;
+    const token = sessionStorage.getItem("user");
+    if (token[0] === '"') {
+      tokeen = JSON.parse(token);
+    } else {
+      tokeen = token;
+    }
+    userEmail = jwt.decode(tokeen).email;
+  }
 
   const [datos, setDatos] = useState({
-    name: "",
-    lastName: "",
-    shippingAdress: "",
+    shippingAddress: "",
     shippingZip: "",
     shippingState: "",
     shippingCity: "",
     comments: "",
   });
+
+  useEffect(() => {
+    dispatch(userShipping(userEmail));
+    setDatos({
+      shippingAddress: shippingData.shippingAddress,
+      shippingZip: shippingData.shippingZip,
+      shippingState: shippingData.shippingState,
+      shippingCity: shippingData.shippingCity,
+      comments: shippingData.comments,
+    });
+  }, [
+    userEmail,
+    shippingData.shippingAddress,
+    shippingData.shippingZip,
+    shippingData.shippingState,
+    shippingData.shippingCity,
+    shippingData.comments,
+    dispatch,
+  ]);
+
+  console.log(datos);
 
   const handleInputChange = (event) => {
     setDatos({
@@ -38,20 +76,15 @@ export default function ShippingForm() {
   };
 
   const enviarDatos = (event) => {
-    event.preventDefault();
-    dispatch(ShippingForm(datos));
-    setDatos({
-      name: "",
-      lastName: "",
-      shippingAdress: "",
-      shippingZip: "",
-      shippingState: "",
-      shippingCity: "",
-      comments: "",
-    });
+    dispatch(uploadShippingData(userEmail, datos));
   };
 
-  const classes = useStyles();
+  const handleGoToCheckout = () => dispatch(goToCheckout(userEmail));
+
+  const convinedOnClick = () => {
+    enviarDatos();
+    handleGoToCheckout();
+  };
 
   return (
     <div>
@@ -66,18 +99,10 @@ export default function ShippingForm() {
         <Grid item xs={12}>
           <Box m={1} className={classes.shippingForm}>
             <TextField
-              placeholder="Ingrese su Nombre"
-              variant="outlined"
-              value={datos.name}
-              onChange={handleInputChange}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box m={1} className={classes.shippingForm}>
-            <TextField
-              placeholder="Ingrese su Apellido"
-              value={datos.lastName}
+              required
+              name="shippingAddress"
+              placeholder="Direccion"
+              value={datos.shippingAddress}
               onChange={handleInputChange}
               variant="outlined"
             />
@@ -86,46 +111,43 @@ export default function ShippingForm() {
         <Grid item xs={12}>
           <Box m={1} className={classes.shippingForm}>
             <TextField
-              placeholder="Dirección"
-              value={datos.shippingAdress}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box m={1} className={classes.shippingForm}>
-            <TextField
+              name="shippingZip"
               placeholder="Codigo Postal"
               value={datos.shippingZip}
               onChange={handleInputChange}
               variant="outlined"
+              required
             />
           </Box>
         </Grid>
         <Grid item xs={12}>
           <Box m={1} className={classes.shippingForm}>
             <TextField
+              name="shippingState"
               placeholder="Provincia"
               value={datos.shippingState}
               onChange={handleInputChange}
               variant="outlined"
+              required
             />
           </Box>
         </Grid>
         <Grid item xs={12}>
           <Box m={1} className={classes.shippingForm}>
             <TextField
+              name="shippingCity"
               placeholder="Ciudad"
               value={datos.shippingCity}
               onChange={handleInputChange}
               variant="outlined"
+              required
             />
           </Box>
         </Grid>
         <Grid item xs={12}>
           <Box m={1} className={classes.shippingForm}>
             <TextField
+              name="comments"
               placeholder="Aclaración"
               value={datos.comments}
               onChange={handleInputChange}
@@ -139,12 +161,11 @@ export default function ShippingForm() {
               size="large"
               variant="outlined"
               color="primary"
-              href="#outlined-buttons"
               justify="center"
               AlignItems="center"
-              submit={enviarDatos}
+              onClick={convinedOnClick}
             >
-              Enviar
+              CONFIRMAR
             </Button>
           </Box>
         </Grid>

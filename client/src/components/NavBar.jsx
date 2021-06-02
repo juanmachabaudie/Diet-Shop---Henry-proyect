@@ -39,12 +39,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../imgs/Healthy.png";
 import { useDispatch, useSelector } from "react-redux";
 
-//import jwt from "jsonwebtoken";
-// const token = window.sessionStorage.getItem('user');
-// console.log(token)
-// const user = jwt.decode(JSON.parse(token));
-// console.log(user)
-
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
   grow: {
@@ -165,12 +159,12 @@ const NavBar = () => {
   };
 
   function onClickLogin() {
-    handleLoginMenuClose();
     handleLoggedOpen();
+    handleLoginMenuClose();
   }
   function onClickRegister() {
-    handleRegisterMenuClose();
     handleRegisterOpen();
+    handleRegisterMenuClose();
   }
 
   const goToCart = () => {
@@ -233,7 +227,10 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText primary="Productos" className={classes.listItemText} />
+                <ListItemText
+                  primary="Productos"
+                  className={classes.listItemText}
+                />
               </ListItem>
             </Button>
             <Button>
@@ -241,7 +238,10 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText primary="Categorias" className={classes.listItemText} />
+                <ListItemText
+                  primary="Categorias"
+                  className={classes.listItemText}
+                />
               </ListItem>
             </Button>
             <Button>
@@ -249,7 +249,10 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText primary="Contacto" className={classes.listItemText} />
+                <ListItemText
+                  primary="Contacto"
+                  className={classes.listItemText}
+                />
               </ListItem>
             </Button>
             <Button>
@@ -257,7 +260,10 @@ const NavBar = () => {
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
                 </ListItemIcon>
-                <ListItemText primary="Nosotros" className={classes.listItemText} />
+                <ListItemText
+                  primary="Nosotros"
+                  className={classes.listItemText}
+                />
               </ListItem>
             </Button>
           </List>
@@ -265,6 +271,7 @@ const NavBar = () => {
       </Fade>
     </Modal>
   );
+
   const [datos, setDatos] = useState({
     email: "",
     password: "",
@@ -280,6 +287,7 @@ const NavBar = () => {
   const enviarDatos = (event) => {
     event.preventDefault();
     dispatch(logIn(datos));
+    setUserOpen(false);
     setDatos({
       email: "",
       password: "",
@@ -402,7 +410,11 @@ const NavBar = () => {
           <IconButton color="inherit">
             <Button href="/" className={classes.grow}>
               <Card>
-                <CardMedia component="img" image={logo} className={classes.media} />
+                <CardMedia
+                  component="img"
+                  image={logo}
+                  className={classes.media}
+                />
               </Card>
             </Button>
           </IconButton>
