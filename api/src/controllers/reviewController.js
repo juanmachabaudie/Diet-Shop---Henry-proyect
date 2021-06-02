@@ -6,9 +6,8 @@ async function createReview(req, res, next) {
   try {
 
     const { userMail, text, productUuid, rating} = req.body;
-
-    let ratingParse = parseInt(rating);
-    
+    console.log(text)
+    const comment = text.name;
     const userReviewing = await User.findOne({
       where: {
         email: userMail,
@@ -17,7 +16,6 @@ async function createReview(req, res, next) {
     });
 
     const userReviews = userReviewing.dataValues.reviews;
-
 
     let flag = false
     for (let review of userReviews) {
@@ -55,7 +53,6 @@ async function createReview(req, res, next) {
       }
     }
     
-
     if (!flagProd){
       return res.status(200).json({ message: "Antes de opinar compre nuestro producto" });
     }
@@ -63,9 +60,9 @@ async function createReview(req, res, next) {
     if(flagProd){
       const newReview = await Review.create({
         userUuid: userReviewing.uuid,
-        text,
+        text: comment,
         productUuid,
-        rating: ratingParse
+        rating,
       });
       console.log('se creo');
       return res.status(200).json({ message: "Comentario agregado!" });

@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core/";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faEdit, faPlusCircle, faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import defaultImg from "../imgs/default.svg";
 

@@ -87,7 +87,11 @@ export const addReview = (data) => {
 
   const { userMail, productUuid, text, rating} = data;
   return async (dispatch) => {
-    console.log(userMail + ' ' + productUuid + ' ' + text);
+    console.log(userMail)
+    console.log(productUuid)
+    console.log(text)
+    console.log(rating)
+
     const res = await fetch('http://localhost:3001/product/addReview/', {
       method: "POST",
       headers: { "Content-Type": "application/json" },

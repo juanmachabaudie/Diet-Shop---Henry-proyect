@@ -30,7 +30,7 @@ const Reviews = ({ productUuid }) => {
       return <ReviewCard text={e.review} userName={e.userName} userLast={e.userLast} rating={e.rating} date={e.date}/>;
     });
   }
-
+  
   return (
     <div>
       <div>

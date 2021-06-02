@@ -32,11 +32,16 @@ const ProductRating = () => {
   const reviews = useSelector((store) => store.products.reviews);
 
   let promRevs = 0;
+  let noRating = 0;
   if (reviews.length) {
     for (let rev of reviews) {
+      if(rev.rating !== 0){
       promRevs += rev.rating;
+    } else {
+      noRating = noRating + 1;
     }
-    promRevs = Math.ceil(promRevs / reviews.length);
+  }
+    promRevs = Math.round(promRevs / (reviews.length-noRating));
   }
 
   return (
@@ -44,10 +49,11 @@ const ProductRating = () => {
       <Grid>
         <Box component="fieldset" mb={3} borderColor="transparent">
           <StyledRating
-            name="customized-color"
+            name="read-only"
             value={promRevs}
             precision={1}
             icon={<FavoriteIcon fontSize="inherit" />}
+            readOnly
           />
         </Box>
       </Grid>

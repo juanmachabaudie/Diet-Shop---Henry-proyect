@@ -48,15 +48,16 @@ const day = date.split('T')[0];
             <Avatar>{userName[0]}</Avatar>
           </Grid>
           <Grid item xs>
-            <Typography>Usuario: {userName} {userLast}</Typography>
+            <Typography>{userName} {userLast}</Typography>
             <Typography>{day}</Typography>
             <Typography>{text}</Typography>
           </Grid>
           <Box component="fieldset" mb={3} borderColor="transparent">
             <StyledRating
-              name="customized-color"
+              name="read-only"
               defaultValue={rating}
               precision={1}
+              readOnly
               icon={<FavoriteIcon fontSize="inherit" />}
             />
           </Box>
