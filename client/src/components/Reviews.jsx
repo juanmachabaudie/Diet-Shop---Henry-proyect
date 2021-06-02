@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { reviewsProduct } from "../redux/actions/productActions.js";
 import MakeReview from "./MakeReview";
 import ReviewCard from "./ReviewCard"
+import ProductRating from "./ProductRating";
 import jwt from "jsonwebtoken";
 
 import Container from "@material-ui/core/Container";
@@ -13,12 +14,12 @@ const Reviews = ({ productUuid }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((store) => store.products.reviews);
 
-  const [rev, setRev] = useState('')
+  const [rev, Setrev] = useState([]);
 
   useEffect(() => {
     dispatch(reviewsProduct(productUuid));
-    setRev(reviews.text);
-  }, [dispatch , rev]);
+    
+  }, [dispatch]);
 
 
   let renderReviews;
@@ -33,9 +34,10 @@ const Reviews = ({ productUuid }) => {
   return (
     <div>
       <div>
+        <p>Rating:<ProductRating/></p>
+        <div>{renderReviews}</div>
         <MakeReview  productUuid={productUuid} />
       </div>
-      <div>{renderReviews}</div>
     </div>
   );
 

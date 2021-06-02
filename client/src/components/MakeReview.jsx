@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { addReview } from "../redux/actions/productActions";
+import { reviewsProduct } from "../redux/actions/productActions.js";
 import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
+import Swal from "sweetalert2";
 import {
   TextField,
   Container,
@@ -13,6 +16,7 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+
 
 const StyledRating = withStyles({
   iconFilled: {
@@ -34,8 +38,12 @@ IconContainer.propTypes = {
 
 //COMPONENT
 const MakeReview = ({productUuid}) => {
+  const message = useSelector((store) => store.products.message);
+  const history= useHistory();
   const dispatch = useDispatch();
   // Parse JSON string to object
+
+  
 
   const session = sessionStorage.getItem("user");
   let token = JSON.parse(session);
@@ -52,10 +60,14 @@ const MakeReview = ({productUuid}) => {
   const [count, setCount] = useState(1);
 
   const userRating = (e) => {
+    console.log(e.target.value)
     setCount(e.target.value);
   };
 
   const handleClick = () => {
+    if(user?.email)
+    {
+        
     let data = {
       userMail: user.email,
       productUuid,
@@ -64,7 +76,18 @@ const MakeReview = ({productUuid}) => {
     };
 
     dispatch(addReview(data));
+    dispatch(reviewsProduct(productUuid));
+    history.push(`/product/detail/${productUuid}`)
+    }
+    else{
+      Swal.fire('Inicie sesion');
+    }
+
+    
   };
+
+  useEffect(() => {
+  }, [dispatch]);
 
   return (
     <div>

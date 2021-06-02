@@ -4,8 +4,10 @@ const { checkUuid } = require("../helpers/utils");
 //crea una review por persona por producto
 async function createReview(req, res, next) {
   try {
-    const { userMail, text, productUuid } = req.body;
 
+    const { userMail, text, productUuid, rating} = req.body;
+
+    let ratingParse = parseInt(rating);
     
     const userReviewing = await User.findOne({
       where: {
@@ -16,14 +18,6 @@ async function createReview(req, res, next) {
 
     const userReviews = userReviewing.dataValues.reviews;
 
-    if (!userReviews.length) {
-      const newReview = await Review.create({
-        userUuid: userReviewing.uuid,
-        text,
-        productUuid,
-      });
-      return res.status(200).json({ message: "Comentario agregado!" });
-    }
 
     let flag = false
     for (let review of userReviews) {
@@ -31,6 +25,10 @@ async function createReview(req, res, next) {
         flag = true;
       }
     }
+
+    if(flag) {
+      return res.status(400).json({ message: "Usted ya comentó este producto" });
+    } 
 
     const orders = await Order.findAll({
       where:{
@@ -43,7 +41,8 @@ async function createReview(req, res, next) {
       ],
     });
 
-    flagProd = false;
+    let flagProd = false;
+    //busco las ordenes en completed y busco el producto que me mandan. 
 
     for(var i = 0; i<orders.length;i++)
     {
@@ -56,16 +55,20 @@ async function createReview(req, res, next) {
       }
     }
     
-    if(flag) {
-      return res.status(400).json({ message: "Usted ya comentó este producto" });
-    } 
+
+    if (!flagProd){
+      return res.status(200).json({ message: "Antes de opinar compre nuestro producto" });
+    }
+
     if(flagProd){
       const newReview = await Review.create({
         userUuid: userReviewing.uuid,
         text,
         productUuid,
+        rating: ratingParse
       });
-      return res.status(200).json({ message: "Comentario agregado a!" });
+      console.log('se creo');
+      return res.status(200).json({ message: "Comentario agregado!" });
     }
 
   } catch (error) {
