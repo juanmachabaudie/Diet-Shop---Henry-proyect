@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Reviews from "./Reviews.jsx";
 import { findProduct } from "../redux/actions/productActions.js";
 import { addToCart } from '../redux/actions/cartActions.js'
+import Swal from 'sweetalert2'
 import {
   makeStyles,
   Box,
@@ -41,7 +42,12 @@ const ProductDetail = ({ location }) => {
 
   function clickToAdd(){
     dispatch(addToCart(uuid, 1))
-    history.push('/cart')
+    Swal.fire({
+      icon: 'success',
+      title: 'Agregado a carrito',
+      showConfirmButton: false,
+      timer: 1000,
+      })
   }
 
   return (

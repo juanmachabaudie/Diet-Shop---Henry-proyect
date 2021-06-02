@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
+import Swal from 'sweetalert2'
 import {
   removeFromCart,
   changeProductQuantity,
@@ -15,6 +15,7 @@ import {
   Typography,
   makeStyles,
   TextField,
+  Card
 } from "@material-ui/core";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,6 +30,9 @@ const useStyle = makeStyles({
     marginTop: "10px",
     alignItems: "center",
     background: "#f3f6f7",
+    width: '1100px'
+
+    
   },
   image: {
     height: 150,
@@ -45,15 +49,20 @@ const CartItem = ({ product }) => {
 
   const [quantity, setQuantity] = useState(product.quantity);
 
-  const removeProductFromCart = () =>
-    dispatch(
-      removeFromCart(product.uuid),
-      history.push("/"),
-      history.push("/cart"),
-      window.scrollTo(0, 0)
-    );
-
-  const handleChangeQuantity = (e) => {
+  function removeProductFromCart() {
+   dispatch(removeFromCart(product.uuid)) 
+     history.push("/products")
+     window.scrollTo(0, 0)
+     Swal.fire({
+      icon: 'success',
+      title: 'Producto eliminado',
+      showConfirmButton: false,
+      timer: 1500,
+      })
+  
+   }
+      
+const handleChangeQuantity = (e) => {
     const { value } = e.target;
     if (quantity >= 1 && quantity <= product.stock && value >= 1 && value <= product.stock) {
       dispatch(changeProductQuantity(product.uuid, Number(value)));
@@ -70,12 +79,15 @@ const CartItem = ({ product }) => {
           alt={product.name}
         />
       </div>
-      <Typography variant="span">{product.name}</Typography>
-      <Typography variant="span">${product.price}</Typography>
-      <Typography variant="span">{product.stock}</Typography>
+      
+      <Typography variant="span">PRODUCTO<br/>{product.name}</Typography> 
+       <Typography variant="span">MONTO <br/> ${product.price}</Typography>
+      <Typography variant="span">STOCK<br/> {product.stock}</Typography>
+      <label>cantidad</label>
       <TextField
         type="number"
         value={quantity}
+        
         min={1}
         max={product.stock}
         onChange={handleChangeQuantity}
@@ -84,7 +96,7 @@ const CartItem = ({ product }) => {
         <FontAwesomeIcon size="2x" icon={faTrashAlt} />
       </Button>
     </Container>
-  );
-};
+  )
+  }
 
 export default CartItem;

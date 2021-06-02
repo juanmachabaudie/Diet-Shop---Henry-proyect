@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
 import { makeStyles } from "@material-ui/core/styles";
-
+import Swal from 'sweetalert2'
 import defaultImg from "../imgs/default.svg";
 
 import {
@@ -57,7 +57,12 @@ export default function ProductCard({ uuid, name, description, stock, image, pri
 
   function clickToAdd(){
     dispatch(addToCart(uuid, name, description, stock, image, price, 1))
-    // history.push('/cart')
+    Swal.fire({
+      icon: 'success',
+      title: 'Agregado a carrito',
+      showConfirmButton: false,
+      timer: 1000,
+      })
   }
 
   function handleClick() {

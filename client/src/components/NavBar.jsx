@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
 import AddUser from "./AddUser.jsx";
 import { logIn, userLogout } from "../redux/actions/userActions.js";
+import Swal from 'sweetalert2'
 
 import {
   AppBar,
@@ -173,21 +174,36 @@ const NavBar = () => {
     handleRegisterOpen();
   }
 
+  
+  const cartItems = useSelector(state => state.cart.cartItems);
   const goToCart = () => {
-    history.push("/cart");
-    window.scroll(0, 0);
+    
+    if(cartItems && cartItems.length > 0) {
+      history.push("/cart");
+      window.scroll(0, 0);
+      return 
+} else {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Carrito Vacio',
+    showConfirmButton: false,
+    timer: 1500,
+    }); history.push('/products')
+    return 
+}
   };
+
 
   const logout = () => {
     dispatch(userLogout());
   };
 
-  const showItems = (state) => {
-    // let count = 0;
-    // for (let item of state) {
-    //   count = count + item.quantity;
-    // }
-    // return count;
+  const showItems = () => {
+    let count = 0;
+    for (let item of cartItems) {
+      count = count + item.quantity;
+    }
+    return count;
   };
 
   const renderMobileMenu = (

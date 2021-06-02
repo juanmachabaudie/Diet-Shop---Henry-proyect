@@ -11,8 +11,9 @@ const useStyle = makeStyles({
     marginLeft: "0px",
   },
   title: {
-    color: "gray",
-  },
+    color: "#f50057"
+  }
+  
 });
 
 const Cart = () => {
@@ -26,31 +27,37 @@ const Cart = () => {
   
   //esto va a mostrar todos los productos que tiene un usuario en su carrito//y mostraremos los items cart y el total cart
   return (
-    <Container className={classes.cart}>
-      {
-        cartItems.length
-        ? (
+    <div>
+    <table>
+      <th>
+        <Container className={classes.cart}>
+          <div>
+            <h4 className={classes.title}>Mis Productos</h4>
+          </div>
+          <hr />
           <Container>
-            <div>
-              <h4 className={classes.title}>Mis Productos</h4>
-            </div>
-            <hr />
             <Container>
-              <Container>
-                {cartItems.map((product) => (
+              {
+                cartItems?.map((product) => (
                   <CartItem key={product.uuid} product={product} />
-                ))}
-              </Container>
+                )) 
+              }
             </Container>
-            <hr />
-            <CartTotal cartItems={cartItems}/>
           </Container>
-        )
-      : <Typography >No hay productos en tu carrito! Anda a comprar algo!</Typography>
-      }
-    </Container>
-   
+        </Container>
+        <hr />
+      </th>
+      <th>
+        <Container>
+          <CartTotal cartItems={cartItems}/>
+        </Container>
+      </th>
+    </table>
+  </div>
   );
 };
 
 export default Cart;
+ 
+//cartItems={cartItems}
+//key={product.uuid}
