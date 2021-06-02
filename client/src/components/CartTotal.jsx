@@ -1,18 +1,20 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { Container, Typography, Button } from "@material-ui/core";
-import {goToCheckout} from "../redux/actions/cartActions";
+import { goToCheckout } from "../redux/actions/cartActions";
+import { decodeToken } from "../helpers/utils.jsx";
 
-export const CartTotal = ({cartItems}) => {
-  const dispatch = useDispatch();
-  const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
+export const CartTotal = ({ cartItems }) => {
+  const total = cartItems.reduce(
+    (acc, product) => acc + product.price * product.quantity,
+    0
+  );
 
-  const handleGoToCheckout = () => dispatch(goToCheckout());
+  const userEmail = decodeToken();
 
   return (
     <Container>
       <Typography> Total: ${`${total}`}</Typography>
-      <Button onClick={handleGoToCheckout} >Comprar</Button>
+      <Button href="/checkout/info">Comprar</Button>
     </Container>
   );
 };

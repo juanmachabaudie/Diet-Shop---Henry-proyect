@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { addUser } from "../redux/actions/userActions.js";
+import { addUser, logIn } from "../redux/actions/userActions.js";
 import {
   Button,
   Card,
@@ -11,6 +10,7 @@ import {
   TextField,
   makeStyles,
 } from "@material-ui/core";
+import UploadButton from './UploadButton.jsx'
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -31,6 +31,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddUser() {
   const dispatch = useDispatch();
+  const store = useSelector((store) => store);
+
+  const imgs = store.images.fireImg;
+  
+  useEffect(() => {
+    setDatos({
+      ...datos,
+      img: imgs,
+    });
+  }, [imgs]);
 
   const [datos, setDatos] = useState({
     firstName: "",
@@ -38,6 +48,7 @@ export default function AddUser() {
     email: "",
     password: "",
     confirmPassword: "",
+    img: [],
   });
 
   const handleInputChange = (event) => {
@@ -50,13 +61,7 @@ export default function AddUser() {
   const enviarDatos = (event) => {
     event.preventDefault();
     dispatch(addUser(datos));
-    setDatos({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    dispatch(logIn(datos));
   };
 
   const classes = useStyles();
@@ -108,6 +113,7 @@ export default function AddUser() {
             variant="outlined"
             name="confirmPassword"
           />
+          <UploadButton name={'usuarios'}/>
         </CardContent>
         <CardActions>
           <Button size="small" onClick={enviarDatos}>

@@ -13,6 +13,7 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM(
           "processing",
           "cancelled",
+          "pending",
           "completed",
           "cart"
         ),
@@ -30,6 +31,5 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
     },
-    { timestamps: false }
   );
 };

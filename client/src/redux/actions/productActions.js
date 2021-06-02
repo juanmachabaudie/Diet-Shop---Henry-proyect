@@ -1,3 +1,6 @@
+import Swal from "sweetalert2";
+import { sweetAlert } from "../../helpers/utils";
+
 export const getProducts = () => {
   return async function (dispatch) {
     const res = await fetch("http://localhost:3001/product");
@@ -18,6 +21,7 @@ export const createProduct = (datos) => {
       type: "POST_PRODUCT",
       payload: resJson,
     });
+    sweetAlert(datos.name, "AGREGADO", 'ACEPTAR');
   };
 };
 
@@ -33,7 +37,7 @@ export const findProduct = (uuid) => {
     };
   } catch (error) {
     console.log(error);
-  }
+  } 
 };
 
 export const editProduct = (datos) => {
@@ -75,6 +79,50 @@ export const searchProducts = (name) => {
     dispatch({
       type: "GET_PRODUCTS",
       payload: resJson,
+    });
+  };
+};
+
+export const addReview = (data) => {
+
+  const { userMail, productUuid, text, rating} = data;
+  return async (dispatch) => {
+    console.log(userMail)
+    console.log(productUuid)
+    console.log(text)
+    console.log(rating)
+
+    const res = await fetch('http://localhost:3001/product/addReview/', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userMail, text, productUuid, rating
+      }),
+      mode: "cors",
+    });
+    const req = await res.json();
+    console.log('respuesta ', req);
+    dispatch({
+      type: "ADD_REVIEW",
+      payload: req,
+    });
+
+    Swal.fire(req.message)
+    
+  };
+};
+
+
+export const reviewsProduct = (productUuid) => {
+  return async (dispatch) => {
+    const res = await fetch(
+      `http://localhost:3001/product/reviews/${productUuid}`
+    );
+    const req = await res.json();
+    console.log(req)
+    dispatch({
+      type: "GET_REVIEWS_PRODUCT",
+      payload: req,
     });
   };
 };

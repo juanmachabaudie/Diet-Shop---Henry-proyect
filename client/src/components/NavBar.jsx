@@ -39,12 +39,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../imgs/Healthy.png";
 import { useDispatch, useSelector } from "react-redux";
 
-//import jwt from "jsonwebtoken";
-// const token = window.sessionStorage.getItem('user');
-// console.log(token)
-// const user = jwt.decode(JSON.parse(token));
-// console.log(user)
-
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
   grow: {
@@ -165,12 +159,12 @@ const NavBar = () => {
   };
 
   function onClickLogin() {
-    handleLoginMenuClose();
     handleLoggedOpen();
+    handleLoginMenuClose();
   }
   function onClickRegister() {
-    handleRegisterMenuClose();
     handleRegisterOpen();
+    handleRegisterMenuClose();
   }
 
   const goToCart = () => {
@@ -277,6 +271,7 @@ const NavBar = () => {
       </Fade>
     </Modal>
   );
+
   const [datos, setDatos] = useState({
     email: "",
     password: "",
@@ -292,6 +287,7 @@ const NavBar = () => {
   const enviarDatos = (event) => {
     event.preventDefault();
     dispatch(logIn(datos));
+    setUserOpen(false);
     setDatos({
       email: "",
       password: "",
@@ -453,7 +449,7 @@ const NavBar = () => {
       {mainMenu}
       {renderMobileMenu}
       {login}
-      <div className={classes.offset}></div>
+      <div className={classes.offset} />
     </div>
   );
 };

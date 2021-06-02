@@ -8,6 +8,10 @@ const {
   login,
   deleteUser,
   sendOrder,
+  getOrders,
+  getShippingData,
+  updateShippingData,
+  blockUser,
 } = require("../controllers/usersController");
 
 const router = Router();
@@ -19,6 +23,10 @@ router.put('/changeAdmin', changeAdmin)
 router.delete("/delete", deleteUser);
 router.get("/profile/:userUuid", userProfile);
 router.post("/login", login);
-router.post("/send-order", sendOrder)
+router.post("/send-order", sendOrder);
+router.get('/orders', getOrders);
+router.get('/shipping', getShippingData);
+router.put('/shipping/update', updateShippingData);
+router.put('/blockUser', blockUser)
 
 module.exports = router;

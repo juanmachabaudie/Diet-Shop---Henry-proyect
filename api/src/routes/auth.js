@@ -7,13 +7,13 @@ const { SECRET_JWT, DB_HOST, USE_PORT } = process.env;
 
 /// ESTRATEGIA GOOGLE ///
 server.get('/login/google', passport.authenticate('google', {scope: ["profile", "email"],}));
-
 server.get("/login/google/callback", (req, res, next) => {
   passport.authenticate("google", (err, user) => {    console.log("ENTRE A AUTHENTICATE: ")
     if (err) return next(err);
     if (!user) {
       res.redirect(`http://localhost:3000/login?error=401`);
     } else {
+      console.log(user) // aca tengo todos los datos del usuarios de google como para cargarlo en la db
       const token = jwt.sign(user.toJSON(), SECRET_JWT);
       res.redirect(`http://localhost:3000/?loginGoogle=true&t=${token}`);
     }
@@ -25,8 +25,8 @@ server.post("/login/email", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
     if (!user) {
+      console.log('entra sin user')
       return res
-        .status(401)
         .json({
           status: "error",
           code: "unauthorized",
@@ -42,6 +42,8 @@ server.post("/login/email", (req, res, next) => {
             lastName: user.lastName,
             email: user.email,
             isAdmin: user.isAdmin,
+            image: user.image,
+            blocked: user.blocked,
           },
           `${SECRET_JWT}`
         )
@@ -51,8 +53,7 @@ server.post("/login/email", (req, res, next) => {
 });
 
 server.post("/register", async (req, res) => {
-  console.log(req.body)
-  const { firstName, lastName, email, password, isAdmin } = req.body;
+  const { firstName, lastName, email, password, isAdmin, image } = req.body;
   try {
     if (!firstName || !lastName || !email || !password) {
       res.status(400).json({ message: "Datos incompletos" });
@@ -60,9 +61,10 @@ server.post("/register", async (req, res) => {
       const user = await User.create({
         firstName,
         lastName,
-        email,
+        email, 
         password,
         isAdmin,
+        image,
       });
       
       return res.send(

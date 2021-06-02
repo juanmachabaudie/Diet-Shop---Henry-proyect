@@ -2,6 +2,7 @@ const { Review, User, Order, Product } = require("../db");
 const { checkUuid } = require("../helpers/utils");
 const sgMail = require("@sendgrid/mail");
 const SENDGRID_API_KEY = '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'
+const jwt = require('jsonwebtoken')
 
 sgMail.setApiKey(SENDGRID_API_KEY)
 
@@ -62,9 +63,12 @@ async function getUsers(req, res, next) {
           email: values.email,
           password: values.password,
           isAdmin: values.isAdmin,
+          blocked: values.blocked,
+          image: values.image,
         };
         arrUsers.push(objUser);
       }
+      return res.send(arrUsers)
     } else {
       return res.send("base de datos vacia");
     }
@@ -200,6 +204,22 @@ async function changeAdmin(req, res, next) {
   }
 }
 
+async function blockUser(req, res, next) {
+  const { uuid } = req.body;
+  try {
+    const toEditUser = await User.findOne({
+      where: {
+        uuid,
+      },
+    });
+    console.log(toEditUser)
+    toEditUser.update(req.body);
+    return res.status(200).json({ message: "Usuario Actualizado" });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function resetPassword(req, res, next) {
   try {
     const { email } = req.body;
@@ -285,27 +305,27 @@ async function sendOrder(req, res, next) {
   // } catch (error) {
   //   next(error)
   // }
-//}
+  //}
 
-const { order, userId } = req.body;
-const user = await User.findOne({
-  where: {
-            uuid: userId
+  const { order, userId } = req.body;
+  const user = await User.findOne({
+    where: {
+      uuid: userId
+    },
+    include: [
+      {
+        model: Order,
+        where: {
+          orderState: 'cart',
         },
-        include: [
-            {
-                model: Order,
-                where: {
-                    orderState: 'cart',
-                  }, 
-                  attributes: ['uuid']
-              }
-          ]
-        });
-        //console.log("USER WITH ORDER: ", user.dataValues.orders[0].dataValues.id);
-      
-    const orderId = user.dataValues.orders[0].dataValues.uuid;
-    const html = `
+        attributes: ['uuid']
+      }
+    ]
+  });
+  //console.log("USER WITH ORDER: ", user.dataValues.orders[0].dataValues.id);
+
+  const orderId = user.dataValues.orders[0].dataValues.uuid;
+  const html = `
         <div>
             <h1>Order</h1>
             <table>
@@ -316,9 +336,9 @@ const user = await User.findOne({
                     <th> | </th>
                     <th>Precio</th>
                 </tr>
-                ${ order.map(({ name, order_line, price, discount }) => {
-                    return (
-                        `
+                ${order.map(({ name, order_line, price, discount }) => {
+    return (
+      `
                         <tr>
                             <td>${name}</td>
                             <td> | </td>
@@ -327,8 +347,8 @@ const user = await User.findOne({
                             <td>${price - (price * (discount / 100))}</td>
                         </tr>
                         `
-                    )
-                })}
+    )
+  })}
             </table>
             <hr />
             <table>
@@ -337,7 +357,7 @@ const user = await User.findOne({
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>${order.reduce((acc, {order_line, price, discount}) => acc + ((price - (price * (discount / 100))) * order_line.quantity), 0)}</td>
+                    <td>${order.reduce((acc, { order_line, price, discount }) => acc + ((price - (price * (discount / 100))) * order_line.quantity), 0)}</td>
                 </tr>
             </table>
             <br />
@@ -347,18 +367,93 @@ const user = await User.findOne({
         </div>
     `;
 
-    const message = {
-        to: user.email,
-        from: 'dager2115@gmail.com',
-        subject: 'Ésta es su orden de Un Jardin Especial',
-        text: 'Ésta es su orden de Un Jardin Especial',
-        html: html
-    };
+  const message = {
+    to: user.email,
+    from: 'dager2115@gmail.com',
+    subject: '',
+    text: '',
+    html: html
+  };
 
-    sgMail.send(message)
+  sgMail.send(message)
     .then(response => res.send(response))
     .catch(err => console.log("ERROR ENVIANDO ORDEN: ", err));
 };
+
+async function getOrders(req, res, next) {
+  try {
+    userEmail = req.query.user;
+    const arrOrders = [];
+    const userOrders = await Order.findAll({
+      include: [
+        {
+          model: Product,
+        },
+        {
+          model: User,
+          attributes: ["uuid", "email"],
+        },
+      ],
+    });
+    for (userOrder of userOrders) {
+      if (userOrder.user.email === userEmail) {
+        let objOrder = {
+          user: userOrder.user.email,
+          order_state: userOrder.orderState,
+          shipping_state: userOrder.shippingState,
+          date: userOrder.createdAt,
+        }
+        let arrProducts = [];
+        for (product of userOrder.products) {
+          let objProduct = {
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            quantity: product.order_lines.quantity,
+          }
+          arrProducts.push(objProduct);
+          console.log(arrProducts);
+        }
+        objOrder = {
+          ...objOrder,
+          products: arrProducts,
+        }
+        arrOrders.push(objOrder)
+      }
+    }
+    res.status(200).json({ arrOrders })
+  } catch (error){
+    next(error);
+  }
+}
+
+async function getShippingData (req, res, next){
+  try {
+    const userEmail = req.query.user;
+    const user = await User.findOne({where:{email:userEmail}});
+    objShipping = {
+      shippingAddress: user.shippingAddress,
+      shippingZip: user.shippingZip,
+      shippingCity: user.shippingCity,
+      shippingState: user.shippingState,
+      comments: user.comments,
+    }
+    return res.json(objShipping);
+  }catch(error){
+    next(error);
+  }
+}
+
+async function updateShippingData (req, res, next){
+try{
+  const userEmail = req.query.user;
+  const user = await User.findOne({where:{email:userEmail}});
+  user.update(req.body);
+  console.log('done')
+}catch (error){
+  next(error);
+}
+}
 
 module.exports = {
   // createUser,
@@ -370,4 +465,8 @@ module.exports = {
   login,
   resetPassword,
   sendOrder,
+  getOrders,
+  getShippingData,
+  updateShippingData,
+  blockUser,
 };

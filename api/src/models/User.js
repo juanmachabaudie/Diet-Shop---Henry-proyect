@@ -29,22 +29,26 @@ module.exports = (sequelize) => {
       },
       isAdmin: {
         type: DataTypes.BOOLEAN,
-        default: false,
+        defaultValue: false,
       },
       shippingCost: {
         type: DataTypes.FLOAT,
       },
       shippingAddress: {
         type: DataTypes.STRING,
+        defaultValue: 'Direccion',
       },
       shippingZip: {
         type: DataTypes.STRING,
+        defaultValue: 'Codigo Postal',
       },
       shippingCity: {
         type: DataTypes.STRING,
+        defaultValue: 'Ciudad',
       },
       shippingState: {
         type: DataTypes.STRING,
+        defaultValue: 'Provincia',
       },
       firstName: {
         type: DataTypes.STRING,
@@ -54,9 +58,17 @@ module.exports = (sequelize) => {
       },
       comments: {
         type: DataTypes.STRING,
+        defaultValue: 'Aclaracion'
       },
       paymentDetails: {
         type: DataTypes.STRING,
+      },
+      image: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
+      blocked: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     { timestamps: false }
