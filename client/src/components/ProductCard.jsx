@@ -4,23 +4,10 @@ import { useDispatch } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { sweetAlert } from '../helpers/utils.jsx'; 
 import defaultImg from "../imgs/default.svg";
-
-import {
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Collapse,
-  Avatar,
-  IconButton,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
@@ -57,7 +44,7 @@ export default function ProductCard({ uuid, name, description, stock, image, pri
 
   function clickToAdd(){
     dispatch(addToCart(uuid, name, description, stock, image, price, 1))
-    // history.push('/cart')
+    sweetAlert({ icon: 'success', title: `${name} agregado al carrito`, showConfirmButton: false, timer: 1000})
   }
 
   function handleClick() {

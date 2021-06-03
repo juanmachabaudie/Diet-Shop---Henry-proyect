@@ -3,38 +3,9 @@ import { useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
 import AddUser from "./AddUser.jsx";
 import { logIn, userLogout } from "../redux/actions/userActions.js";
-
-import {
-  AppBar,
-  Backdrop,
-  Badge, //LLeva un contador con la cantidad de elementos que hay en el carrito
-  Button,
-  Fade,
-  fade,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  MenuItem,
-  Menu,
-  Modal,
-  Card,
-  CardMedia,
-  CardContent,
-  CardActions,
-  TextField,
-  makeStyles,
-} from "@material-ui/core";
-
-import {
-  faBars,
-  faUser,
-  faCartPlus,
-  faEllipsisV,
-  faSeedling,
-} from "@fortawesome/free-solid-svg-icons";
+import Swal from 'sweetalert2';
+import { AppBar, Backdrop, Badge, Button, Fade, fade, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, MenuItem, Menu, Modal, Card, CardMedia, CardContent, CardActions, TextField, makeStyles } from "@material-ui/core";
+import { faBars, faUser, faCartPlus, faEllipsisV, faSeedling } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../imgs/Healthy.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -167,9 +138,21 @@ const NavBar = () => {
     handleRegisterMenuClose();
   }
 
-  const goToCart = () => {
-    history.push("/cart");
-    window.scroll(0, 0);
+  const cartItems = useSelector(state => state.cart.cartItems);
+  const goToCart = () => {   
+    if(cartItems && cartItems.length > 0) {
+      history.push("/cart");
+      window.scroll(0, 0);
+      return 
+} else {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Carrito Vacio',
+    showConfirmButton: false,
+    timer: 1500,
+    }); history.push('/products')
+    return 
+}
   };
 
   const logout = () => {
@@ -177,11 +160,11 @@ const NavBar = () => {
   };
 
   const showItems = (state) => {
-    // let count = 0;
-    // for (let item of state) {
-    //   count = count + item.quantity;
-    // }
-    // return count;
+    let count = 0;
+    for (let item of state) {
+      count = count + item.quantity;
+    }
+    return count;
   };
 
   const renderMobileMenu = (

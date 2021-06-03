@@ -8,7 +8,7 @@ import {
   makeStyles,
   Container,
 } from "@material-ui/core";
-import jwt from "jsonwebtoken";
+import {decodeToken} from "../helpers/utils.jsx";
 
 const useStyles = makeStyles((theme) => ({
   description: {
@@ -26,14 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserProfile = () => {
   const defaulImg = 'https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png'
-  let tokeen;
-  const token = sessionStorage.getItem("user");
-  if (token[0] === '"'){
-    tokeen = JSON.parse(token);
-  } else {
-    tokeen = token;
-  }
-  const user = jwt.decode(tokeen);
+  const user = decodeToken();
   const userAdmin = user.isAdmin;
   const classes = useStyles();
 

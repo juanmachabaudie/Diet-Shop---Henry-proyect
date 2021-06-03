@@ -41,6 +41,11 @@ export default function cartReducers(state = initialState, action) {
           return product;
         }),
       };
+        case 'DELETE_CART': 
+        return {
+          ...state,
+          cartItems: [],
+        }
     default:
       return state;
   }

@@ -1,21 +1,21 @@
 import React from "react";
-import { Container, Typography, Button } from "@material-ui/core";
-import { goToCheckout } from "../redux/actions/cartActions";
-import { decodeToken } from "../helpers/utils.jsx";
+import { Container, Typography, Button, Card } from "@material-ui/core";
+import makeStyles from './componentsStyles/CartTotalStyles';
 
 export const CartTotal = ({ cartItems }) => {
-  const total = cartItems.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
-  );
 
-  const userEmail = decodeToken();
+  const classes = makeStyles()
+
+  const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity,0);
 
   return (
     <Container>
-      <Typography> Total: ${`${total}`}</Typography>
-      <Button href="/checkout/info">Comprar</Button>
-    </Container>
+    <Card className={classes.card}>
+      <Typography variant="div" className={classes.title} color="secondary">SUBTOTAL</Typography> <hr/>
+      <Typography variant='h4' className={classes.title}> ${total}</Typography> 
+      <Button variant='contained' color='primary' className={classes.button} href="/checkout/info">Comprar</Button>
+    </Card>
+  </Container>
   );
 };
 

@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from 'react-router-dom';
 import Reviews from "./Reviews.jsx";
-import MakeReview from "./MakeReview";
-import ProductRating from "./ProductRating";
+import { sweetAlert } from '../helpers/utils.jsx'
 import { findProduct } from "../redux/actions/productActions.js";
 import { addToCart } from '../redux/actions/cartActions.js'
-import {
-  makeStyles,
-  Box,
-  Grid,
-  CardMedia,
-  Typography,
-  Button,
-} from "@material-ui/core/";
-
+import { makeStyles, Box, Grid, CardMedia, Typography, Button } from "@material-ui/core/";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
-
 import defaultImg from "../imgs/default.svg";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductDetail = ({ location }) => {
   const classes = useStyles();
-  let history = useHistory();
   const detail = useSelector((store) => store.products.product);
   const dispatch = useDispatch();
 
@@ -43,7 +31,7 @@ const ProductDetail = ({ location }) => {
 
   function clickToAdd(){
     dispatch(addToCart(detail.uuid, detail.name, detail.description, detail.stock, detail.image, detail.price, 1))
-    history.push('/cart')
+    sweetAlert({ icon: 'success', title: `${detail.name} agregado al carrito`, showConfirmButton: false, timer: 1000}) 
   }
 
   return (
@@ -86,29 +74,6 @@ const ProductDetail = ({ location }) => {
                 Descripción: {detail.description}
               </Typography>
             </Box>
-           {/*  <Box m={2}>
-              <ProductRating/>
-            </Box> */}
-            
-            {/* <Box m={2}>
-              <Typography variant="body2" color="initial">
-                Cantidad
-              </Typography>
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={clickToMin}
-              >
-                <FontAwesomeIcon size="2x" icon={faMinusCircle} />
-              </Button>
-              <Typography variant="span"> 0 {refres}</Typography>
-              <Button
-                color="primary"
-                variant="contained" onClick={clickToAdd}
-              >
-                <FontAwesomeIcon size="2x" icon={faPlusCircle} />
-              </Button>
-            </Box> */}
             <Button onClick={clickToAdd}><FontAwesomeIcon icon={faCartPlus}/>Agregar al Carrito </Button>
           </Box>
           <Box>

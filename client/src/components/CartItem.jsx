@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import {sweetAlert} from "../helpers/utils.jsx";
 import {
   removeFromCart,
   changeProductQuantity,
 } from "../redux/actions/cartActions";
-
 import defaultImg from "../imgs/default.svg";
-
 import {
   Button,
   Container,
@@ -16,7 +14,6 @@ import {
   makeStyles,
   TextField,
 } from "@material-ui/core";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -29,6 +26,7 @@ const useStyle = makeStyles({
     marginTop: "10px",
     alignItems: "center",
     background: "#f3f6f7",
+    width: "800px",
   },
   image: {
     height: 150,
@@ -45,14 +43,20 @@ const CartItem = ({ product }) => {
 
   const [quantity, setQuantity] = useState(product.quantity);
 
-  const removeProductFromCart = () =>
-    dispatch(
-      removeFromCart(product.uuid),
-      history.push("/"),
-      history.push("/cart"),
-      window.scrollTo(0, 0)
-    );
+  const cartItems = useSelector(state => state.cart.cartItems);
 
+  const removeProductFromCart = () =>{
+    dispatch(removeFromCart(product.uuid));
+    history.push("/")
+    history.push("/cart")
+    window.scrollTo(0, 0)
+    sweetAlert({icon: "error", title: "Producto eliminado", showConfirmButton: false, timer: 1500})
+    if(cartItems && cartItems.length > 0) {
+      history.push("/products");
+      window.scroll(0, 0);
+      } 
+    }
+    
   const handleChangeQuantity = (e) => {
     const { value } = e.target;
     if (quantity >= 1 && quantity <= product.stock && value >= 1 && value <= product.stock) {

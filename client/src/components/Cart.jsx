@@ -1,10 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCartReload } from '../redux/actions/cartActions.js'
+import { setCartReload, deleteCart } from "../redux/actions/cartActions.js";
 import CartItem from "../components/CartItem";
 import CartTotal from "../components/CartTotal";
-
-import { Container, makeStyles, Typography } from "@material-ui/core";
+import { Button, Container, makeStyles, Typography } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const useStyle = makeStyles({
   cart: {
@@ -13,43 +14,52 @@ const useStyle = makeStyles({
   title: {
     color: "gray",
   },
+  container: {
+    display: "flex",
+  },
 });
 
 const Cart = () => {
+
   const classes = useStyle();
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const cartItems = useSelector(state => state.cart.cartItems);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   useEffect(() => {
     dispatch(setCartReload());
-  }, [dispatch])
-  
-  //esto va a mostrar todos los productos que tiene un usuario en su carrito//y mostraremos los items cart y el total cart
+  }, [dispatch]);
+
+  const deleteAllCart = () => {
+    dispatch(deleteCart())
+    Swal.fire({
+      icon: 'error',
+      title: 'Carrito Vacio',
+      showConfirmButton: false,
+      timer: 1500,
+      }); 
+      history.push('/products') 
+  }
+
   return (
     <Container className={classes.cart}>
-      {
-        cartItems.length
-        ? (
-          <Container>
-            <div>
-              <h4 className={classes.title}>Mis Productos</h4>
-            </div>
-            <hr />
+        <Container>
+          <div>
+            <h4 className={classes.title}>Mis Productos</h4>
+          </div>
+          <hr />
+          <Container className={classes.container}>
             <Container>
-              <Container>
-                {cartItems.map((product) => (
-                  <CartItem key={product.uuid} product={product} />
-                ))}
-              </Container>
+              {cartItems.map((product) => (
+                <CartItem key={product.uuid} product={product} />
+              ))}
             </Container>
-            <hr />
-            <CartTotal cartItems={cartItems}/>
+            <CartTotal cartItems={cartItems} />
           </Container>
-        )
-      : <Typography >No hay productos en tu carrito! Anda a comprar algo!</Typography>
-      }
+          <hr />
+        </Container>
+        <Button variant='contained' color='primary' onClick={deleteAllCart}>VACIAR CARRITO</Button>
     </Container>
-   
   );
 };
 

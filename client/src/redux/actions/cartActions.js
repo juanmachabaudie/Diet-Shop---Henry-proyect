@@ -32,12 +32,19 @@ export const setCartReload = (local = JSON.parse(localStorage.getItem("cart") ||
   })
 }
 
+export const deleteCart = (uuid) => (dispatch, getState) => {
+  dispatch({
+    type: 'DELETE_CART',
+    payload: uuid,
+  });
+  localStorage.setItem("cart", JSON.stringify([]));
+};
+
 export const removeFromCart = (uuid) => (dispatch, getState) => {
   dispatch({
     type: REMOVE_FROM_CART,
     payload: uuid,
   });
-  sweetAlert("Eliminado", "success", "OK", 1000);
   localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
 };
 
