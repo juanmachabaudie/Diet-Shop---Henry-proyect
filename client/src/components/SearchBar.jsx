@@ -1,15 +1,24 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { searchProducts } from "../redux/actions/productActions";
 //----------- ↓ Import Styles ↓ -----------
-import { IconButton, Input, InputAdornment, makeStyles } from "@material-ui/core";
+import {
+  IconButton,
+  Input,
+  InputAdornment,
+  makeStyles,
+  TextField,
+} from "@material-ui/core";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyle = makeStyles();
 
 export default function SearchBar() {
+  const products = useSelector((store) => store.products.products);
+
   const classes = useStyle();
 
   const [product, setProduct] = useState("");
@@ -34,18 +43,33 @@ export default function SearchBar() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Input
-        placeholder="Buscar..."
+    <div style={{ width: 300 }}>
+      <Autocomplete
         onChange={(event) => handleChange(event)}
-        endAdornment={
+        id="free-solo-demo"
+        freeSolo
+        options={products.map((option) => option.name)}
+        renderInput={(params) => (
           <InputAdornment position="end">
-            <IconButton type="submit">
               <FontAwesomeIcon icon={faSearch} color="#404040" />
-            </IconButton>
+              <TextField {...params} label="Buscar..." variant="outlined" />
           </InputAdornment>
-        }
+        )}
       />
-    </form>
+    </div>
   );
 }
+
+// <form onSubmit={handleSubmit}>
+//   <Input
+//     placeholder="Buscar..."
+//     onChange={(event) => handleChange(event)}
+//     endAdornment={
+//       <InputAdornment position="end">
+//         <IconButton type="submit">
+//           <FontAwesomeIcon icon={faSearch} color="#404040" />
+//         </IconButton>
+//       </InputAdornment>
+//     }
+//   />
+// </form>
