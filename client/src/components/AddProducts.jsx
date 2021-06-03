@@ -142,7 +142,7 @@ export default function AddProduct() {
                 </Grid>
               </Grid>
             </div>
-            <select
+            {/* <select
               className={classes.input}
               multiple
               name="categories"
@@ -156,7 +156,7 @@ export default function AddProduct() {
                   </option>
                 );
               })}
-            </select>{" "}
+            </select>{" "} */}
             <br />
             {/* <TextField className={classes.input} type="submit" value="Agregar" /> */}
             <Box textAlign="center">
