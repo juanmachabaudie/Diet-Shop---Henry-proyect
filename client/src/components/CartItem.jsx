@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
+import {sweetAlert} from "../helpers/utils.jsx";
 import {
   removeFromCart,
   changeProductQuantity,
@@ -29,6 +29,7 @@ const useStyle = makeStyles({
     marginTop: "10px",
     alignItems: "center",
     background: "#f3f6f7",
+    width: "800px",
   },
   image: {
     height: 150,
@@ -45,17 +46,22 @@ const CartItem = ({ product }) => {
 
   const [quantity, setQuantity] = useState(product.quantity);
 
-  const removeProductFromCart = () =>
-    dispatch(
-      removeFromCart(product.uuid),
-      history.push("/"),
-      history.push("/cart"),
-      window.scrollTo(0, 0)
-    );
+  const removeProductFromCart = () => {
+    dispatch(removeFromCart(product.uuid));
+    history.push("/");
+    history.push("/cart");
+    window.scrollTo(0, 0);
+    sweetAlert({icon: "error", title: "Producto eliminado", showConfirmButton: false, timer: 1500});
+  };
 
   const handleChangeQuantity = (e) => {
     const { value } = e.target;
-    if (quantity >= 1 && quantity <= product.stock && value >= 1 && value <= product.stock) {
+    if (
+      quantity >= 1 &&
+      quantity <= product.stock &&
+      value >= 1 &&
+      value <= product.stock
+    ) {
       dispatch(changeProductQuantity(product.uuid, Number(value)));
       setQuantity(value);
     }

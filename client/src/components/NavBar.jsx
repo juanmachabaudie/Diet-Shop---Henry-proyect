@@ -177,11 +177,11 @@ const NavBar = () => {
   };
 
   const showItems = (state) => {
-    // let count = 0;
-    // for (let item of state) {
-    //   count = count + item.quantity;
-    // }
-    // return count;
+    let count = 0;
+    for (let item of state) {
+      count = count + item.quantity;
+    }
+    return count;
   };
 
   const renderMobileMenu = (
