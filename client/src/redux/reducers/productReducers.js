@@ -3,11 +3,17 @@ const initialState = {
   product: [],
   message: {},
   update: {},
-  reviews: []
+  reviews: [],
+  search: [],
 };
 
 export default function productReducers(state = initialState, action) {
   switch (action.type) {
+    case "SEARCH_PRODUCTS":
+      return {
+        ...state,
+        search: action.payload
+      }
     case "GET_PRODUCTS":
       return {
         ...state,

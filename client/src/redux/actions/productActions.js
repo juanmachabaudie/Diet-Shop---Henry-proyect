@@ -77,7 +77,7 @@ export const searchProducts = (name) => {
     );
     const resJson = await res.json();
     dispatch({
-      type: "GET_PRODUCTS",
+      type: "SEARCH_PRODUCTS",
       payload: resJson,
     });
   };

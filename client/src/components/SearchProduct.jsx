@@ -2,7 +2,7 @@ import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
 
 const SearchProducts = () => {
-  const searchProducts = useSelector((store) => store.products.products);
+  const searchProducts = useSelector((store) => store.products.search);
 
   return searchProducts.map((e) => {
     return (

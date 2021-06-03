@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { searchProducts } from "../redux/actions/productActions";
+import { getProducts } from "../redux/actions/productActions";
 //----------- ↓ Import Styles ↓ -----------
 import {
   IconButton,
@@ -20,43 +21,52 @@ export default function SearchBar() {
   const products = useSelector((store) => store.products.products);
 
   const classes = useStyle();
-
-  const [product, setProduct] = useState("");
-
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+  // const [product, setProduct] = useState("");
+
 
   const history = useHistory();
 
-  function handleChange(event) {
-    event.preventDefault();
-    setProduct(event.target.value);
-  }
+  // function handleChange(event) {
+  //   event.preventDefault();
+  //   setProduct(event.target.value);
+  //   console.log(product);
+  // }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (product === "") {
-      return;
-    }
-    dispatch(searchProducts(product));
-    history.push(`/products/search?name=${product}`);
-    setProduct("");
-  }
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   if (product === "") {
+  //     return;
+  //   }
+  //   dispatch(searchProducts(product));
+  //   history.push(`/products/search?name=${product}`);
+  // }
+
+  // setProduct(newValue);
 
   return (
     <div style={{ width: 300 }}>
       <Autocomplete
-        onChange={(event) => handleChange(event)}
+        onChange={(event, product) => {
+          if (product === null) {
+            history.push(`/products`);
+                return;
+              }
+          dispatch(searchProducts(product));
+          history.push(`/products/search?name=${product}`);
+        }}
         id="free-solo-demo"
         freeSolo
         options={products.map((option) => option.name)}
         renderInput={(params) => (
-          <InputAdornment position="end">
-              <FontAwesomeIcon icon={faSearch} color="#404040" />
               <TextField {...params} label="Buscar..." variant="outlined" />
-          </InputAdornment>
         )}
       />
-    </div>
+      </div>
   );
 }
 

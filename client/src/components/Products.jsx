@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "./ProductCard";
 import ProductsByCategory from "./ProductsByCategory";
-import { getProducts } from "../redux/actions/productActions";
+// import { getProducts } from "../redux/actions/productActions";
 import { Box, Grid, Typography } from "@material-ui/core";
 
 export default function Products() {
   const dispatch = useDispatch();
   const products = useSelector((store) => store.products.products);
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getProducts());
+  // }, [dispatch]);
 
   //const product= products.map(e => e.name
   //aca tengo que iterar, y mandale a product card por props la data y desde product card
