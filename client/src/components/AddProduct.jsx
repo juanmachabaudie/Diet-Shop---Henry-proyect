@@ -1,13 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createProduct } from "../redux/actions/productActions.js";
-import { getCategories } from '../redux/actions/categoryActions';
-import makeStyles from './componentsStyles/AddProductsStyles'
-import { Container, Card} from "@material-ui/core";
+import { getCategories } from "../redux/actions/categoryActions";
+import { sweetAlert } from "../helpers/utils";
 
+/* {
+  "name": "vit z",
+  "description": "sups",
+  "image": ["https://www.crhoy.com/wp-content/uploads/2014/11/suplementos-medicamentos.jpg"],
+  "thumbnail": ["https://www.crhoy.com/wp-content/uploads/2014/11/suplementos-medicamentos.jpg"],
+  "price": 123,
+  "stock": 0,
+  "categories": ["suplementos"]
+} */
 
 export default function AddProduct() {
-  const classes = makeStyles()
   const dispatch = useDispatch();
   const store = useSelector((store) => store);
 
@@ -19,13 +26,15 @@ export default function AddProduct() {
     dispatch(getCategories());
   }, []);
 
-  
   const [datos, setDatos] = useState({
     name: "",
     description: "",
+    image: [],
+    thumbnail: [],
     price: "",
     stock: "",
     categories: [],
+    url: "",
   });
 
   const handleInputChange = (event) => {
@@ -45,14 +54,41 @@ export default function AddProduct() {
       }
     }
     setDatos({
+      ...datos,
+      categories: seleccionadas,
+    });
+  };
+
+  const handleImgs = (event) => {
+    event.preventDefault();
+    if (datos.image.includes(datos.url)) {
+      sweetAlert(
+        "Atención",
+        "La Url que intentas añadir ya existe",
+        "warning",
+        "OK",
+        5000
+      );
+      return;
+    } else {
+      setDatos({
         ...datos,
-        categories: seleccionadas
-    })
+        image: [...datos.image, datos.url],
+        thumbnail: [...datos.thumbnail, datos.url],
+      });
+    }
   };
 
   const enviarDatos = (event) => {
     event.preventDefault();
     dispatch(createProduct(datos));
+    sweetAlert(
+      "Atención",
+      "Producto Agregado a la Base de Datos",
+      "success",
+      "OK",
+      5000
+    );
   };
 
   if (loading) {
@@ -63,13 +99,11 @@ export default function AddProduct() {
     );
   } else {
     return (
-    <Container >
-        <Card className={classes.container}> 
-        <h5 className={classes.title}>AGREGAR PRODUCTO</h5> <hr/>
+      <div>
         <form onSubmit={enviarDatos}>
           <div>
             <section>
-              <input className={classes.input}
+              <input
                 type="text"
                 placeholder="Nombre"
                 name="name"
@@ -77,24 +111,24 @@ export default function AddProduct() {
               />
             </section>
             <section>
-              <input className={classes.input}
+              <input
                 type="text"
                 placeholder="Descripción"
-                name="descripcion"
+                name="description"
                 onChange={handleInputChange}
               />
             </section>
             <section>
-              
-              <input className={classes.input}
+              $
+              <input
                 type="number"
-                placeholder="$Precio"
+                placeholder="Precio"
                 name="price"
                 onChange={handleInputChange}
               />
             </section>
             <section>
-              <input className={classes.input}
+              <input
                 type="number"
                 placeholder="Stock"
                 name="stock"
@@ -102,16 +136,19 @@ export default function AddProduct() {
               />
             </section>
           </div>
-          <div className={classes.input}>
-            <label for="mainPic">Imagenes del producto:</label>
-            <input
-              type="file"
-              id="mainPic"
-              name="mainPic"
-              accept="image/jpeg"
-            />
+          <div>
+            <label>Imagenes del Producto:</label>
+            <section>
+              <input
+                type="text"
+                placeholder="Inserta Urls"
+                name="url"
+                onChange={handleInputChange}
+              />
+              <button onClick={handleImgs}>Insertar Url</button>
+            </section>
           </div>
-          <select className={classes.input} multiple name="categories" onChange={handleCat} required>
+          <select multiple name="categories" onChange={handleCat} required>
             {categories?.map((each) => {
               return (
                 <option value={each.name} key={each.uuid}>
@@ -119,14 +156,11 @@ export default function AddProduct() {
                 </option>
               );
             })}
-          </select> <br/>
-          
-          <input className={classes.input} type="submit" value="Agregar" /> <hr/>
-            <div>{agregado.message}</div>
+          </select>
+          <input type="submit" value="Agregar" />
+          <div>{agregado.message}</div>
         </form>
-        </Card>
-      </Container >
-     
+      </div>
     );
   }
 }

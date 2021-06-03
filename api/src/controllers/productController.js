@@ -69,29 +69,19 @@ async function updateProduct(req, res, next) {
           uuid,
         },
       });
-      if (req.body.categories) {
-        for (eachCategory of req.body.categories) {
-          const categoryToAdd = await Category.findOne({
-            //Recibir arreglos de uuid y armarlo con eso
-            where: { name: eachCategory },
-          });
-          toEditProduct.addCategory(categoryToAdd);
-        }
-      }
       if (toEditProduct) {
         toEditProduct.update(req.body); //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
-        return res.status(200).json({ message: "Producto Actualizado" });
+        return res.status(200).send("Producto Actualizado");
       } else {
-        return res.status(400).json({ message: "Producto no encontrado" });
+        return res.status(400).send("Producto no encontrado");
       }
     } else {
-      return res.status(500).json({ message: "Id Invalido" });
+      return res.status(500).send("Id Invalido");
     }
   } catch (error) {
     next(error);
   }
 }
-
 
 async function deleteProduct(req, res, next) {
   //Borramos producto llamandolo por su id
@@ -217,31 +207,9 @@ async function searchProduct(req, res, next) {
         },
       },
     });
-    res.send(all);
-  } catch (error) {
-    next(error);
-  }
-}
-
-async function updateStock(req, res, next) {
-  // Editamos el producto aún teniendo el mismo id
-  try {
-    const { uuid } = req.body.form;
-    if (checkUuid(uuid)) {
-      const toEditProduct = await Product.findOne({
-        where: {
-          uuid,
-        },
-      });
-      if (toEditProduct) {
-        toEditProduct.update(req.body); //HAY QUE ESTAR SEGURO DE QUE LLEGA UN UUID
-        return res.status(200).json({ message: "Stock Actualizado" });
-      } else {
-        return res.status(400).json({ message: "Producto no encontrado" });
-      }
-    } else {
-      return res.status(500).json({ message: "Id Invalido" });
-    }
+    return all.length > 0
+      ? res.json(all)
+      : res.json({ message: "No hubo coincidencia alguna en la busqueda" });
   } catch (error) {
     next(error);
   }
@@ -255,5 +223,4 @@ module.exports = {
   updateProduct,
   productsByCategory,
   searchProduct,
-  updateStock
 };

@@ -1,34 +1,44 @@
 const initialState = {
-  message: {},
-  users: [],
-  change: false,
+  user: {},
+  loggedIn: false,
+  fetching: false,
 };
 
-export default function productReducers(state = initialState, action) {
+export default function userReducers(state = initialState, action) {
   switch (action.type) {
     case "ADD_USER":
       return {
         ...state,
-        message: action.payload,
+        user: action.payload,
       };
-
-    case "GET_USERS":
+    case "USER_LOGIN":
       return {
         ...state,
-        users: action.payload,
-        change: false,
+        user: action.payload,
       };
-
-    case "ADMINS":
+    case "LOGIN":
       return {
         ...state,
-        message: action.payload,
-        change: true,
+        fetching: true,
       };
-    case "RESET_PASSWORD":
+    case "LOGIN_SUCCESS":
       return {
         ...state,
-        message: action.payload,
+        fetching: false,
+        ...action.payload,
+        loggedIn: true,
+      };
+    case "LOGIN_ERROR":
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload,
+      };
+    case "LOG_OUT":
+      return {
+        loggedIn: false,
+        fetching: false,
+        //quedaria todo en false
       };
     default:
       return state;

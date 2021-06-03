@@ -20,6 +20,9 @@ module.exports = (sequelize) => {
       image: {
         type: DataTypes.ARRAY(DataTypes.STRING),
       },
+      thumbnail: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -28,6 +31,10 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+    },
+
+    {
+      freezeTableName: true,
     },
     { timestamps: false }
   );

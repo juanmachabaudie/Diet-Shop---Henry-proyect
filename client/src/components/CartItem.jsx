@@ -1,26 +1,21 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import {
+  Button,
+  Container,
+  IconButton,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
-
 import {
   removeFromCart,
   changeProductQuantity,
 } from "../redux/actions/cartActions";
 
-import defaultImg from "../imgs/default.svg";
-
-import {
-  Button,
-  Container,
-  Typography,
-  makeStyles,
-  TextField,
-} from "@material-ui/core";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
-//styles
+//estilos
 const useStyle = makeStyles({
   item: {
     marginLeft: "auto",
@@ -39,11 +34,16 @@ const useStyle = makeStyles({
 
 //function
 const CartItem = ({ product }) => {
-  const dispatch = useDispatch();
   const classes = useStyle();
+  const dispatch = useDispatch();
   const history = useHistory();
+  const [productQuantity, setProductQuantity] = useState(product.qty);
 
-  const [quantity, setQuantity] = useState(product.quantity);
+  const handleChangeQuantity = (e) => {
+    const { value } = e.target;
+    setProductQuantity(value);
+    dispatch(changeProductQuantity(product.uuid, productQuantity));
+  };
 
   const removeProductFromCart = () =>
     dispatch(
@@ -53,35 +53,24 @@ const CartItem = ({ product }) => {
       window.scrollTo(0, 0)
     );
 
-  const handleChangeQuantity = (e) => {
-    const { value } = e.target;
-    if (quantity >= 1 && quantity <= product.stock && value >= 1 && value <= product.stock) {
-      dispatch(changeProductQuantity(product.uuid, Number(value)));
-      setQuantity(value);
-    }
-  };
-
   return (
     <Container className={classes.item}>
       <div>
-        <img
-          className={classes.image}
-          src={product.image || defaultImg}
-          alt={product.name}
-        />
+        <img className={classes.image} src={product.image} alt={product.name} />
       </div>
+
       <Typography variant="span">{product.name}</Typography>
       <Typography variant="span">${product.price}</Typography>
-      <Typography variant="span">{product.stock}</Typography>
       <TextField
         type="number"
-        value={quantity}
-        min={1}
-        max={product.stock}
+        label="cantidad"
+        value={productQuantity}
         onChange={handleChangeQuantity}
       />
       <Button variant="contained" onClick={removeProductFromCart}>
-        <FontAwesomeIcon size="2x" icon={faTrashAlt} />
+        <IconButton>
+          <DeleteForeverIcon />
+        </IconButton>
       </Button>
     </Container>
   );

@@ -10,13 +10,7 @@ module.exports = (sequelize) => {
         primaryKey: true,
       },
       orderState: {
-        type: DataTypes.ENUM(
-          "processing",
-          "cancelled",
-          "completed",
-          "cart"
-        ),
-        defaultValue: "cart",
+        type: DataTypes.ENUM("processing", "cancelled", "completed"),
         allowNull: true,
       },
       shippingState: {
@@ -29,6 +23,13 @@ module.exports = (sequelize) => {
         ),
         allowNull: true,
       },
+      purchasePrice: {
+        type: DataTypes.FLOAT,
+      },
+    },
+
+    {
+      freezeTableName: true,
     },
     { timestamps: false }
   );

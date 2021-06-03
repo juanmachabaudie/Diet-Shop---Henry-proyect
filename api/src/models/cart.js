@@ -15,6 +15,9 @@ module.exports = (sequelize) => {
         type: DataTypes.ARRAY(DataTypes.JSON),
       },
     },
+    {
+      freezeTableName: true,
+    },
     { timestamps: false }
   );
 };

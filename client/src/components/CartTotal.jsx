@@ -1,18 +1,27 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { Container, Typography, Button } from "@material-ui/core";
-import {goToCheckout} from "../redux/actions/cartActions";
+import { useSelector } from "react-redux";
 
-export const CartTotal = ({cartItems}) => {
-  const dispatch = useDispatch();
-  const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
+export const CartTotal = () => {
+  const [total, setTotal] = useState(0);
 
-  const handleGoToCheckout = () => dispatch(goToCheckout());
+  //const dispatch = useDispatch();
+  // Retrieve the JSON string
+  let cartInLocal = localStorage.getItem("cart");
+  // Parse JSON string to object
+  let cartItems = JSON.parse(cartInLocal);
+
+  let sumProduct = 0;
+  for (let item of cartItems) {
+    sumProduct += item.price * item.qty;
+  }
+  useEffect(() => {
+    setTotal(sumProduct);
+  }, [cartItems]);
 
   return (
     <Container>
-      <Typography> Total: ${`${total}`}</Typography>
-      <Button onClick={handleGoToCheckout} >Comprar</Button>
+      <Typography> total: {total}</Typography>
     </Container>
   );
 };

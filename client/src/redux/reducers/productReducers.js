@@ -1,8 +1,10 @@
 const initialState = {
   products: [],
   product: [],
+  productReviews: [],
+  search: [],
+  productReviewsMsg: {},
   message: {},
-  update: {},
 };
 
 export default function productReducers(state = initialState, action) {
@@ -11,6 +13,11 @@ export default function productReducers(state = initialState, action) {
       return {
         ...state,
         products: action.payload,
+      };
+    case "SEARCH_PRODUCTS":
+      return {
+        ...state,
+        search: action.payload,
       };
     case "POST_PRODUCT":
       return {
@@ -22,13 +29,16 @@ export default function productReducers(state = initialState, action) {
         ...state,
         product: action.payload,
       };
-
-    case "PUT_PRODUCT":
+    case "GET_PRODUCT_REVIEWS":
       return {
         ...state,
-        message: action.payload,
-    };
-
+        productReviews: action.payload,
+      };
+    case "ADD_REVIEW":
+      return {
+        ...state,
+        productReviewsMsg: action.payload,
+      };
     default:
       return state;
   }

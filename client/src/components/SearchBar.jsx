@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { searchProducts } from "../redux/actions/productActions";
 //----------- ↓ Import Styles ↓ -----------
-import { IconButton, Input, InputAdornment, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { form, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -41,7 +42,7 @@ export default function SearchBar() {
         endAdornment={
           <InputAdornment position="end">
             <IconButton type="submit">
-              <FontAwesomeIcon icon={faSearch} color="#404040" />
+              <FontAwesomeIcon icon={faSearch} />
             </IconButton>
           </InputAdornment>
         }

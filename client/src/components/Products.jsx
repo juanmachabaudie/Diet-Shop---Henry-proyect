@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "./ProductCard";
-import ProductsByCategory from "./ProductsByCategory";
 import { getProducts } from "../redux/actions/productActions";
-import { Box, Grid, Typography } from "@material-ui/core";
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -13,47 +11,30 @@ export default function Products() {
     dispatch(getProducts());
   }, [dispatch]);
 
-  //const product= products.map(e => e.name
-  //aca tengo que iterar, y mandale a product card por props la data y desde product card
-  // al hacer click al nombre, mandar el /detail para ver en detalle mas la informacion
-  // del producto
+  //CREATE A VARIABLE IN ORDER TO RENDER THE DATA FROM THE STORE
   let renderProducts = [];
-  !products ? (
-    <Typography variant="h4" justifyContent="center">
-      No se encontraron Productos en esta Categoria
-    </Typography>
-  ) : (
-    (renderProducts = products.map((e) => {
+  if (products.message) {
+    renderProducts = <h1>No se encontraron Productos en esta Categoria</h1>;
+  } else {
+    renderProducts = products.map((e) => {
       return (
-        <Grid item xs={12} md={6} lg={4}>
-          <Box m={2}>
-            <ProductCard
-              key={e.uuid}
-              uuid={e.uuid}
-              name={e.name}
-              description={e.description}
-              image={e.image}
-              price={e.price}
-              stock={e.stock}
-            />
-          </Box>
-        </Grid>
+        <ProductCard
+          key={e.uuid}
+          uuid={e.uuid}
+          name={e.name}
+          description={e.description}
+          image={e.image}
+          price={e.price}
+          stock={e.stock}
+        />
       );
-    }))
-  );
+    });
+  }
+
   return (
     <div>
-      <Box m={2}>
-        <ProductsByCategory />
-      </Box>
-      <Grid
-        container
-        direction="row"
-        justify="space-between"
-        alignItems="center"
-      >
-        {renderProducts}
-      </Grid>
+      <h1>Products</h1>
+      {renderProducts}
     </div>
   );
 }

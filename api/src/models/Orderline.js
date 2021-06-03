@@ -2,8 +2,14 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "order_lines",
+    "orderline",
+
     {
+      uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
       price: {
         type: DataTypes.FLOAT,
         allowNull: false,

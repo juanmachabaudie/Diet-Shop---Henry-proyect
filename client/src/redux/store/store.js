@@ -6,9 +6,9 @@ import thunk from "redux-thunk"; //nos ayuda a trabajar con promesas con redux
 import productReducers from "../reducers/productReducers";
 import categoryReducers from "../reducers/categoryReducers";
 import cartReducers from "../reducers/cartReducers";
-import userReducer from "../reducers/userReducers";
-import orderReducer from "../reducers/orderReducers";
-
+import userReducers from "../reducers/userReducers";
+import orderReducers from "../reducers/orderReducers";
+import locationReducers from "../reducers/locationReducers";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const cartInLocalStorage = localStorage.getItem("cart")
@@ -20,11 +20,21 @@ const rootReducer = combineReducers({
   categories: categoryReducers,
   cart: cartReducers,
   cartInLocalStorage: cartInLocalStorage,
-  users: userReducer,
-  orders: orderReducer,
+  user: userReducers,
+  orders: orderReducers,
+  locations: locationReducers,
 });
 
 export const store = createStore(
   rootReducer, // --->>  persistedReducer
   composeEnhancers(applyMiddleware(thunk))
 );
+
+/* export default function generatorStore() {
+  let store = createStore(
+    rootReducer, // --->>  persistedReducer
+    composeEnhancers(applyMiddleware(thunk))
+  );
+  restoreSessionAction()(store.dispatch);
+  return store;
+} */

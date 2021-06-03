@@ -2,119 +2,165 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addUser } from "../redux/actions/userActions.js";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-  TextField,
-  makeStyles,
-} from "@material-ui/core";
+import Swal from "sweetalert2";
+import { Button, Grid, TextField, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  textField: {
-    "& > *": {
+  root: {
+    "& .MuiTextField-root": {
       margin: theme.spacing(1),
-      display: "flex",
-      flexDirection: "column",
+      width: "25ch",
     },
-  },
-  paper: {
-    backgroundColor: "RGBA(255,255,255,0.8)",
-    borderRadius: "10px",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    margin: "1rem",
   },
 }));
 
 export default function AddUser() {
   const dispatch = useDispatch();
+  const store = useSelector((store) => store);
+  const msg = store.user.user;
 
-  const [datos, setDatos] = useState({
-    firstName: "",
-    lastName: "",
+  const [data, setData] = useState({
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
+    isAdmin: "",
+  });
+  const [box, setBox] = useState({
+    checkedA: false,
   });
 
   const handleInputChange = (event) => {
-    setDatos({
-      ...datos,
+    setData({
+      ...data,
       [event.target.name]: event.target.value,
     });
   };
+  const boxChangeState = (event) => {
+    setBox({ ...box, [event.target.name]: event.target.checked });
+  };
 
-  const enviarDatos = (event) => {
+  /*  setData({
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    isAdmin: "",
+  }); */
+
+  let showAdminInput;
+  if (box.checkedA === true) {
+    showAdminInput = (
+      <TextField
+        id="outlined-name"
+        label="Clave de administrador"
+        name="isAdmin"
+        onChange={handleInputChange}
+        variant="outlined"
+      />
+    );
+  } else {
+    showAdminInput = <p></p>;
+  }
+
+  const sendData = (event) => {
     event.preventDefault();
-    dispatch(addUser(datos));
-    setDatos({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    if (data.userName.length < 6) {
+      Swal.fire("usuario vacio o menor a 6 caracteres");
+      return;
+    }
+    /*    if (!data.email.includes("@") || !data.email.includes(".com")) {
+      Swal.fire("email invalido");
+      return;
+    } */
+    if (data.password.length < 6) {
+      Swal.fire("la clave debe contener mas de 6 caracteres");
+      return;
+    }
+    if (data.password !== data.confirmPassword) {
+      Swal.fire("la clave no coincide");
+      return;
+    }
+    dispatch(addUser(data));
+    document.getElementById("addForm").reset();
   };
 
   const classes = useStyles();
 
   return (
-    <div className={classes.paper}>
-      <Card className={classes.textField}>
-        <CardContent>
-          <Typography variant="h5" color="initial">
-            Registrarse
-          </Typography>
+    <div>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: "100vh" }}
+      >
+        <form id="addForm" onSubmit={sendData}>
+          {/* USERNAME */}
           <TextField
             id="outlined-name"
-            label="Nombre"
-            value={datos.firstName}
+            label="Usuario"
+            name="userName"
             onChange={handleInputChange}
             variant="outlined"
-            name="firstName"
           />
+          {/* EMAIL */}
           <TextField
-            id="outlined-name"
-            label="Apellido"
-            value={datos.lastName}
-            onChange={handleInputChange}
-            variant="outlined"
-            name="lastName"
-          />
-          <TextField
-            id="outlined-name"
+            id="emailAddress"
+            type="email"
             label="Correo Electronico"
-            value={datos.email}
+            name="email"
             onChange={handleInputChange}
             variant="outlined"
-            name="email"
           />
+          {/* PASSWORD */}
           <TextField
             id="outlined-name"
             label="Contraseña"
-            value={datos.password}
+            name="password"
+            type="password"
             onChange={handleInputChange}
             variant="outlined"
-            name="password"
           />
+
+          {/* PASSWORD CONFIRM */}
           <TextField
             id="outlined-name"
             label="Confirmar Contraseña"
-            value={datos.confirmPassword}
+            name="confirmPassword"
+            type="password"
             onChange={handleInputChange}
             variant="outlined"
-            name="confirmPassword"
           />
-        </CardContent>
-        <CardActions>
-          <Button size="small" onClick={enviarDatos}>
-            Registrarse
+
+          {/* CHECKBOX ADMIN TRUE? */}
+          {/* <FormControlLabel
+          control={
+            <Checkbox
+              checked={box.checkedA}
+              onChange={boxChangeState}
+              name="checkedA"
+            />
+          }
+          label="cuenta de administrador"
+        />
+
+        {showAdminInput} */}
+
+          {/* BUTTON SEND DATA */}
+          <Button
+            size="large"
+            variant="outlined"
+            color="primary"
+            type="submit"
+            justify="center"
+            AlignItems="center"
+          >
+            Agregar
           </Button>
-        </CardActions>
-      </Card>
+        </form>
+      </Grid>
     </div>
   );
 }
