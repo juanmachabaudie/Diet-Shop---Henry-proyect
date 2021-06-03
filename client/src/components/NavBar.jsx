@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
 import AddUser from "./AddUser.jsx";
 import { logIn, userLogout } from "../redux/actions/userActions.js";
-
 import {
   AppBar,
   Backdrop,
@@ -177,11 +176,11 @@ const NavBar = () => {
   };
 
   const showItems = (state) => {
-    // let count = 0;
-    // for (let item of state) {
-    //   count = count + item.quantity;
-    // }
-    // return count;
+    let count = 0;
+    for (let item of state) {
+      count = count + item.quantity;
+    }
+    return count;
   };
 
   const renderMobileMenu = (
@@ -255,7 +254,7 @@ const NavBar = () => {
                 />
               </ListItem>
             </Button>
-            <Button>
+            <Button href="/aboutus">
               <ListItem button className={classes.paper}>
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />

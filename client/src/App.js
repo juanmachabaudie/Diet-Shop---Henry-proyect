@@ -9,7 +9,6 @@ import SearchProduct from "./components/SearchProduct.jsx";
 import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
 import Home from "./components/Home.jsx";
-//import ShippingForm from "./components/ShippingForm.jsx";
 import Promote from './components/Promote.jsx';
 import PasswordReset from "./components/PasswordReset.jsx";
 import ProductEdit from "./components/ProductEdit.jsx";
@@ -19,6 +18,8 @@ import Purchases from "./components/Purchases.jsx";
 import ShippingForm from './components/ShippingForm.jsx';
 import Choose from "./components/Choose";
 import Checkout from './components/Checkout'
+import AboutUs from './components/AboutUs.jsx';
+
 const App = () => {
   return (
     <React.Fragment>
@@ -40,6 +41,8 @@ const App = () => {
       <Route exact path="/checkout/info" component={ShippingForm} />
       <Route exact path='/delivery' component={Choose} />
       <Route exact path='/checkout' component={Checkout} />
+      <Route exact path='/aboutus' component={AboutUs} />
+
     </React.Fragment>
   );
 };

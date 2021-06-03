@@ -1,15 +1,13 @@
 import Swal from "sweetalert2";
 import jwt from 'jsonwebtoken';
 
-export const sweetAlert = (
-  title = "Wargning",
-  text,
-  confirmButtonText = "OK",
-) => {
+export const sweetAlert = (props) => {
+  console.log(props)
   Swal.fire({
-    title: title,
-    text: text,
-    confirmButtonText: confirmButtonText,
+    icon: props.icon,
+    title: props.title,
+    showConfirmButton: props.showConfirmButton,
+    timer: props.timer,
   });
 };
 
