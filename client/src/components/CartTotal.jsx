@@ -14,7 +14,7 @@ export const CartTotal = ({ cartItems }) => {
   return (
     <Container>
       <Typography> Total: ${`${total}`}</Typography>
-      <Button href="/checkout/info">Comprar</Button>
+      <Button href="/delivery">Comprar</Button>
     </Container>
   );
 };
