@@ -18,12 +18,10 @@ export const CartTotal = ({ cartItems }) => {
     //   <Button href="/checkout/info">Comprar</Button>
     // </Container>
     <Container>
-    <Card className={classes.card}>
-      <Typography variant="div" className={classes.title} color="secondary">SUBTOTAL</Typography> <hr/>
-      <Typography variant='h4' className={classes.title}> ${total}</Typography> 
-      <Button variant='contained' color='primary' className={classes.button} href="/checkout/info">Comprar</Button>
-    </Card>
-  </Container>
+      <Typography> Total: ${`${total}`}</Typography>
+      <Button href="/delivery">Comprar</Button>
+    </Container>
+
   );
 };
 
