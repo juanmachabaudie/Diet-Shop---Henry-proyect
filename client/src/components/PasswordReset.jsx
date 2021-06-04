@@ -19,10 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PasswordReset({ uuid }) {
+export default function PasswordReset(props) {
+  const {uuid} = props.match.params
+  console.log(uuid)
   const classes = useStyles();
 
   const dispatch = useDispatch();
+
 
   const [datos, setDatos] = useState({
     uuid,
@@ -39,6 +42,7 @@ export default function PasswordReset({ uuid }) {
 
   const enviarDatos = (event) => {
     event.preventDefault();
+    console.log(datos)
     dispatch(resetUserPassword(datos));
     setDatos({
       newPassword: "",

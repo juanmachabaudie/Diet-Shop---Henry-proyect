@@ -3,12 +3,41 @@ import { useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar.jsx";
 import AddUser from "./AddUser.jsx";
 import { logIn, userLogout } from "../redux/actions/userActions.js";
-import Swal from 'sweetalert2';
-import { AppBar, Backdrop, Badge, Button, Fade, fade, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, MenuItem, Menu, Modal, Card, CardMedia, CardContent, CardActions, TextField, makeStyles } from "@material-ui/core";
-import { faBars, faUser, faCartPlus, faEllipsisV, faSeedling } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+import {
+  AppBar,
+  Backdrop,
+  Badge,
+  Button,
+  Fade,
+  fade,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  MenuItem,
+  Menu,
+  Modal,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  TextField,
+  makeStyles,
+} from "@material-ui/core";
+import {
+  faBars,
+  faUser,
+  faCartPlus,
+  faEllipsisV,
+  faSeedling,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../imgs/Healthy.png";
 import { useDispatch, useSelector } from "react-redux";
+import ForgotPassword from "./ForgotPassword";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -138,21 +167,22 @@ const NavBar = () => {
     handleRegisterMenuClose();
   }
 
-  const cartItems = useSelector(state => state.cart.cartItems);
-  const goToCart = () => {   
-    if(cartItems && cartItems.length > 0) {
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const goToCart = () => {
+    if (cartItems && cartItems.length > 0) {
       history.push("/cart");
       window.scroll(0, 0);
-      return 
-} else {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Carrito Vacio',
-    showConfirmButton: false,
-    timer: 1500,
-    }); history.push('/products')
-    return 
-}
+      return;
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Carrito Vacio",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      history.push("/products");
+      return;
+    }
   };
 
   const logout = () => {
@@ -314,16 +344,20 @@ const NavBar = () => {
             </CardContent>
             <CardActions>
               <Button size="small" onClick={enviarDatos}>
-                Iniciar Sesión
+                {" "}
+                Iniciar Sesión{" "}
               </Button>
               <Button
                 class="g-signin2"
                 data-onsuccess="onSignIn"
                 href="http://localhost:3001/auth/login/google"
               >
-                Iniciar sesion con Google
+                {" "}
+                Iniciar sesion con Google{" "}
               </Button>
-              <Button size="small">Olvidé Mi Contraseña</Button>
+              <Button href="/forgotPassword" size="small">
+                Olvidé Mi Contraseña
+              </Button>
             </CardActions>
           </Card>
         </div>

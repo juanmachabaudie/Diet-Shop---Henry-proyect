@@ -9,14 +9,16 @@ import SearchProduct from "./components/SearchProduct.jsx";
 import AddUser from "./components/AddUser.jsx";
 import Cart from "./components/Cart.jsx";
 import Home from "./components/Home.jsx";
-//import ShippingForm from "./components/ShippingForm.jsx";
 import Promote from './components/Promote.jsx';
-import PasswordReset from "./components/PasswordReset.jsx";
 import ProductEdit from "./components/ProductEdit.jsx";
 import UserProfile from "./components/UserProfile.jsx";
-import NotAcces from "./components/NotAcces.jsx";
 import Purchases from "./components/Purchases.jsx";
 import ShippingForm from './components/ShippingForm.jsx';
+import MapSelector from "./components/MapSelector";
+import MapLocationAdd from "./components/MapLocationAdd";
+import MapLocationAdmin from "./components/MapLocationAdmin";
+import ForgotPassword from './components/ForgotPassword';
+import PasswordReset from './components/PasswordReset';
 
 const App = () => {
   return (
@@ -31,12 +33,15 @@ const App = () => {
       <Route exact path="/cart" component={Cart} />
       <Route exact path="/user/add" component={AddUser} />
       <Route exact path="/user/profile" component={UserProfile} />
-      <Route exact path="/user/resetPassword" component={PasswordReset} />
       <Route exact path="/product/edit/:uuid" component={ProductEdit} />
       <Route exact path="/user/promote" component={Promote} />
-      <Route exact path="/restricted" component={NotAcces} />
       <Route exact path="/user/profile/purchases" component={Purchases} />
       <Route exact path="/checkout/info" component={ShippingForm} />
+      <Route exact path="/location" component={MapSelector} />
+      <Route exact path="/location/add" component={MapLocationAdd} />
+      <Route exact path="/location/admin" component={MapLocationAdmin} />
+      <Route exact path="/forgotPassword/:uuid" component={PasswordReset} />
+      <Route exact path="/forgotPassword/" component={ForgotPassword} />
     </React.Fragment>
   );
 };

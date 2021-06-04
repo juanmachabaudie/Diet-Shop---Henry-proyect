@@ -98,11 +98,13 @@ export const selectAdmins = (uuid, act) => {
 
 export const resetUserPassword = (data) => {
   return async (dispatch) => {
+        console.log(data)
     if (data.newPassword === data.confirmPassword) {
       const toChange = {
         "uuid": data.uuid,
         "password": data.newPassword
       }
+      console.log(toChange)
       const res = await fetch("http://localhost:3001/user/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -167,4 +169,9 @@ export const userShipping = (userEmail) => async (dispatch) => {
 export const uploadShippingData = (userEmail, datos) => async () => {
   console.log(datos)
   const uploadData = await axios.put(`/user/shipping/update?user=${userEmail}`, datos)
+}
+
+export const makeReset = (forgotEmail) => async () => {
+ const email = forgotEmail.email
+ const axiosRes = await axios.post(`/user/forgotPassword?email=${email}`)
 }
