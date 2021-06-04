@@ -3,6 +3,7 @@ import Carouselmages from "./Carousel";
 import { useDispatch } from "react-redux";
 import { changeOrderStatus } from "../redux/actions/cartActions.js";
 import {decodeToken} from "../helpers/utils.jsx";
+import StoreSelector from './MapSelector';
 
 export function Home() {
   const dispatch = useDispatch();
@@ -23,7 +24,8 @@ export function Home() {
 
   return (
     <div>
-      <Carouselmages />
+      <StoreSelector/>
+      {/* <Carouselmages /> */}
     </div>
   );
 }

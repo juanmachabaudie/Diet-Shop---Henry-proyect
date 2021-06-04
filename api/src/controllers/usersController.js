@@ -3,51 +3,7 @@ const { checkUuid } = require("../helpers/utils");
 const sgMail = require("@sendgrid/mail");
 const SENDGRID_API_KEY = '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'
 const jwt = require('jsonwebtoken')
-
-sgMail.setApiKey(SENDGRID_API_KEY)
-
-
-// async function createUser(req, res, next) {
-//   const { userName, email, password, isAdmin } = req.body; //true
-//   const passAdmin = "henry";
-//   try {
-//     const userNameExist = await User.findOne({
-//       where: { userName },
-//     });
-//     if (userNameExist) {
-//       return res.json({ message: "nombre de usuario ya existente" });
-//     }
-//     const emailExist = await User.findOne({
-//       where: { email },
-//     });
-//     if (emailExist) {
-//       return res.json({ message: "mail ya existente" });
-//     }
-//     if (isAdmin) {
-//       if (isAdmin === passAdmin) {
-//         const newUser = await User.create({
-//           userName,
-//           email,
-//           password,
-//           isAdmin: true,
-//         });
-//         return res.json({ message: "administrador creado" });
-//       } else {
-//         return res.json({ message: "clave de administrador invalida" });
-//       }
-//     } else {
-//       const newUser = await User.create({
-//         userName,
-//         email,
-//         password,
-//         isAdmin: false,
-//       });
-//       return res.json({ message: "usuario creado" });
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+const nodemailer = require('nodemailer');
 
 //trae todos los usuarios
 async function getUsers(req, res, next) {
@@ -80,8 +36,8 @@ async function getUsers(req, res, next) {
 
 //actualiza datos de Un Usuario
 async function updateUser(req, res, next) {
-  const { uuid, userName, email, password, isAdmin } = req.body;
-  const passAdmin = "henry";
+  const { uuid } = req.body;
+  console.log(uuid)
   try {
     const toEditUser = await User.findOne({
       where: {
@@ -89,21 +45,8 @@ async function updateUser(req, res, next) {
       },
     });
     if (toEditUser) {
-      const userNameExist = await User.findOne({
-        where: { userName },
-      });
-      if (userNameExist) {
-        return res.json({ message: "el nombre de usuario ya existe" });
-      }
-      const emailExist = await User.findOne({
-        where: { email },
-      });
-      if (emailExist) {
-        return res.json({ message: "el mail ya existe" });
-      } else {
         toEditUser.update(req.body);
         return res.status(200).json({ message: "Usuario Actualizado" });
-      }
     }
     return res.status(400).json({ message: "Usuario no encontrado" });
   } catch (error) {
@@ -422,15 +365,15 @@ async function getOrders(req, res, next) {
       }
     }
     res.status(200).json({ arrOrders })
-  } catch (error){
+  } catch (error) {
     next(error);
   }
 }
 
-async function getShippingData (req, res, next){
+async function getShippingData(req, res, next) {
   try {
     const userEmail = req.query.user;
-    const user = await User.findOne({where:{email:userEmail}});
+    const user = await User.findOne({ where: { email: userEmail } });
     objShipping = {
       shippingAddress: user.shippingAddress,
       shippingZip: user.shippingZip,
@@ -439,20 +382,62 @@ async function getShippingData (req, res, next){
       comments: user.comments,
     }
     return res.json(objShipping);
-  }catch(error){
+  } catch (error) {
     next(error);
   }
 }
 
-async function updateShippingData (req, res, next){
-try{
-  const userEmail = req.query.user;
-  const user = await User.findOne({where:{email:userEmail}});
-  user.update(req.body);
-  console.log('done')
-}catch (error){
-  next(error);
+async function updateShippingData(req, res, next) {
+  try {
+    const userEmail = req.query.user;
+    const user = await User.findOne({ where: { email: userEmail } });
+    user.update(req.body);
+    console.log('done')
+  } catch (error) {
+    next(error);
+  }
 }
+
+async function forgotPassword(req,res,next) {
+  try{
+    const email = req.query.email;
+    const uuidUser = await User.findOne({where: { email: email }})
+    console.log(uuidUser.dataValues.uuid)
+    const smtpTransport = nodemailer.createTransport({
+      service: 'Gmail',
+      host: 'smtp.gmail.com',
+      auth: {
+          user: 'healthyhenry99@gmail.com',
+          pass: 'soyhenry123'
+      }
+  });
+
+  const mailOptions = {
+      from: 'healthy henry',
+      to: `${email}`,
+      html: 
+      `
+      <div> HEALTHY HENRY
+        <h2 style='color:#ffd118'>En este link podes recuperar tu contraceña papa frita: </h2>
+        <h3 style='color:#acff59'> <a href="http://localhost:3000/forgotPassword/${uuidUser.dataValues.uuid}" target="_blank"> Recuperar contraceña </a> </h3>
+      <div>
+      `
+  };
+
+  smtpTransport.sendMail(mailOptions, (error, res) => {
+      if (error) {
+          res.send(error)
+      }
+      else {
+          res.send('Success')
+      }
+  })
+
+  smtpTransport.close();
+
+  } catch (error) {
+    next(error);
+  }
 }
 
 module.exports = {
@@ -469,4 +454,5 @@ module.exports = {
   getShippingData,
   updateShippingData,
   blockUser,
+  forgotPassword,
 };

@@ -12,6 +12,7 @@ const {
   getShippingData,
   updateShippingData,
   blockUser,
+  forgotPassword,
 } = require("../controllers/usersController");
 
 const router = Router();
@@ -27,6 +28,7 @@ router.post("/send-order", sendOrder);
 router.get('/orders', getOrders);
 router.get('/shipping', getShippingData);
 router.put('/shipping/update', updateShippingData);
-router.put('/blockUser', blockUser)
+router.put('/blockUser', blockUser);
+router.post('/forgotPassword', forgotPassword);
 
 module.exports = router;
