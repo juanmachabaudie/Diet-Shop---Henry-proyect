@@ -48,6 +48,13 @@ export default function SearchBar() {
 
   // setProduct(newValue);
 
+  if(!products[0]){
+    return (
+      <div>SIN PRODUCTOS</div>
+    )
+  }
+
+
   return (
     <div style={{ width: 300 }}>
       <Autocomplete
@@ -61,7 +68,7 @@ export default function SearchBar() {
         }}
         id="free-solo-demo"
         freeSolo
-        options={products.map((option) => option.name)}
+        options={products?.map((option) => option.name)}
         renderInput={(params) => (
               <TextField {...params} label="Buscar..." variant="outlined" />
         )}

@@ -72,4 +72,3 @@ function ProductsByCategory() {
 }
 
 export default ProductsByCategory;
-

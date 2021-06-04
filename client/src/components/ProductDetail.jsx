@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Reviews from "./Reviews.jsx";
-import { sweetAlert } from '../helpers/utils.jsx'
+import { sweetAlert, decodeToken } from '../helpers/utils.jsx'
 import { findProduct } from "../redux/actions/productActions.js";
 import { addToCart } from '../redux/actions/cartActions.js'
 import { makeStyles, Box, Grid, CardMedia, Typography, Button } from "@material-ui/core/";
@@ -20,6 +20,11 @@ const ProductDetail = ({ location }) => {
   const classes = useStyles();
   const detail = useSelector((store) => store.products.product);
   const dispatch = useDispatch();
+
+  const user = decodeToken();
+  let userAdmin
+  if(user){ userAdmin = user.isAdmin; }
+  
 
   const { pathname } = location;
 
@@ -76,12 +81,13 @@ const ProductDetail = ({ location }) => {
             </Box>
             <Button onClick={clickToAdd}><FontAwesomeIcon icon={faCartPlus}/>Agregar al Carrito </Button>
           </Box>
+          { userAdmin?
           <Box>
             <Button href={`/product/edit/${uuid}`}>
               <FontAwesomeIcon size = "3x" icon={faEdit} />
             </Button>
           </Box>
-
+: <></>}
         </Grid>
 
         <Grid item xs={12} md={6}>

@@ -3,6 +3,7 @@ const initialState = {
   response: {},
   success: {},
   error: "",
+  change: false,
 };
 
 export default function categoryReducers(state = initialState, action) {
@@ -11,6 +12,7 @@ export default function categoryReducers(state = initialState, action) {
       return {
         ...state,
         categories: action.payload,
+        change: false,
       };
 
     case "GET_CATEGORY_BY_NAME":
@@ -47,6 +49,13 @@ export default function categoryReducers(state = initialState, action) {
       return {
         ...state,
         error: "",
+      };
+
+    case "DELETE_CATEGORY":
+      return {
+        ...state,
+        categories: state.categories.filter(cate => cate.uuid !== action.payload.uuid),
+        chage: true,
       };
     default:
       return state;

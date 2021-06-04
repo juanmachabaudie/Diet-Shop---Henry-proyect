@@ -194,10 +194,8 @@ async function productsByCategory(req, res, next) {
         name: product.dataValues.name,
         description: product.dataValues.description,
         image: product.dataValues.image,
-        thumbnail: product.dataValues.thumbnail,
         price: product.dataValues.price,
         stock: product.dataValues.stock,
-        image: dataValues.img,
       };
       toSendProducts.push(objProduct);
     }

@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
-import { CardContent, TextField, Button } from '@material-ui/core';
+import { CardContent, TextField, Button, makeStyles } from '@material-ui/core';
 import { makeReset } from '../redux/actions/userActions.js';
 
-const ForgotPassword = () => {
+const useStyles = makeStyles((theme) => ({
+  offset: theme.mixins.toolbar,
+}))
 
+const ForgotPassword = () => {
+const classes = useStyles();
   const [email, setEmail] = useState('');
 
   const dispatch = useDispatch();
@@ -24,6 +28,7 @@ const sendReset = () => {
 
     return (
         <CardContent>
+          <div className={classes.offset}/>
           <form className={''}>
             <TextField
               name="email"

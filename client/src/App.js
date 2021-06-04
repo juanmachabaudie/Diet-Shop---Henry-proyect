@@ -14,12 +14,14 @@ import ProductEdit from "./components/ProductEdit.jsx";
 import UserProfile from "./components/UserProfile.jsx";
 import Purchases from "./components/Purchases.jsx";
 import ShippingForm from './components/ShippingForm.jsx';
-import MapSelector from "./components/MapSelector";
+import MapSelector from "./components/StoreSelector";
 import MapLocationAdd from "./components/MapLocationAdd";
 import MapLocationAdmin from "./components/MapLocationAdmin";
 import ForgotPassword from './components/ForgotPassword';
 import PasswordReset from './components/PasswordReset';
-
+import StoreSelector from './components/StoreSelector';
+import Categories from './components/Categories';
+import AboutUs from './components/AboutUs';
 
 const App = () => {
   return (
@@ -43,6 +45,9 @@ const App = () => {
       <Route exact path="/location/admin" component={MapLocationAdmin} />
       <Route exact path="/forgotPassword/:uuid" component={PasswordReset} />
       <Route exact path="/forgotPassword/" component={ForgotPassword} />
+      <Route exact path='/contacto' component={StoreSelector} />
+      <Route exact path='/categories' component={Categories} />
+      <Route exact path='/aboutUs' component={AboutUs} />
     </React.Fragment>
   );
 };

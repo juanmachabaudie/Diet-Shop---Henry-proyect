@@ -6,11 +6,16 @@ async function createReview(req, res, next) {
   try {
 
     const { userMail, text, productUuid, rating} = req.body;
-    console.log(text)
+    console.log('vos: ', userMail)
+
+    if(!userMail){
+      return res.status(400).json({ message: "Por favor inicie sesion para comentar el producto" });
+    }
+
     const comment = text.name;
     const userReviewing = await User.findOne({
       where: {
-        email: userMail,
+        email: userMail.email,
       },
       include: [{ model: Review }],
     });

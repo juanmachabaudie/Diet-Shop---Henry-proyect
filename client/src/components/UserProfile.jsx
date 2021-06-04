@@ -8,7 +8,7 @@ import {
   makeStyles,
   Container,
 } from "@material-ui/core";
-import {decodeToken} from "../helpers/utils.jsx";
+import { decodeToken } from "../helpers/utils.jsx";
 
 const useStyles = makeStyles((theme) => ({
   description: {
@@ -22,29 +22,35 @@ const useStyles = makeStyles((theme) => ({
     height: "20vw",
     margin: "auto",
   },
+  offset: theme.mixins.toolbar,
 }));
 
 const UserProfile = () => {
-  const defaulImg = 'https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png'
+  const defaulImg =
+    "https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png";
   const user = decodeToken();
   const userAdmin = user.isAdmin;
   const classes = useStyles();
 
   return (
     <Container>
+      <div className={classes.offset} />
       <Grid container>
         <Grid Item xs={12} md={12}>
           <CardMedia
             component="img"
             className={classes.media}
             src={user.image || defaulImg}
-
           />
           <Typography variant="h4">Bienvenidx {user.firstName}!</Typography>
         </Grid>
         <Grid Item xs={6} md={4}>
           <Box m={6} display="flex" justifyContent="center">
-            <Button variant="contained" color="primary" href='/user/profile/purchases'>
+            <Button
+              variant="contained"
+              color="primary"
+              href="/user/profile/purchases"
+            >
               Mis Compras
             </Button>
           </Box>
@@ -53,13 +59,6 @@ const UserProfile = () => {
           <Box m={6} display="flex" justifyContent="center">
             <Button color="primary" variant="contained">
               Editar Perfil
-            </Button>
-          </Box>
-        </Grid>
-        <Grid Item xs={6} md={4}>
-          <Box m={6} display="flex" justifyContent="center">
-            <Button color="primary" variant="contained">
-              Eliminar Perfil
             </Button>
           </Box>
         </Grid>
@@ -74,29 +73,34 @@ const UserProfile = () => {
             </Grid>
             <Grid Item xs={6} md={4}>
               <Box m={6} display="flex" justifyContent="center">
-                <Button href="/category/add" color="primary" variant="contained">
+                <Button
+                  href="/category/add"
+                  color="primary"
+                  variant="contained"
+                >
                   Agregar Categorias
                 </Button>
               </Box>
             </Grid>
             <Grid Item xs={6} md={4}>
               <Box m={6} display="flex" justifyContent="center">
-                <Button href="/user/promote" color="primary" variant="contained">
+                <Button
+                  href="/user/promote"
+                  color="primary"
+                  variant="contained"
+                >
                   Asignar Rol
                 </Button>
               </Box>
             </Grid>
             <Grid Item xs={6} md={4}>
               <Box m={6} display="flex" justifyContent="center">
-                <Button href="/product/delete" color="primary" variant="contained">
-                  Eliminar producto
-                </Button>
-              </Box>
-            </Grid>
-            <Grid Item xs={6} md={4}>
-              <Box m={6} display="flex" justifyContent="center">
-                <Button href="/user/promote" color="primary" variant="contained">
-                  Eliminar categoria
+                <Button
+                  href="/location/admin"
+                  color="primary"
+                  variant="contained"
+                >
+                  Agregar Sucursales
                 </Button>
               </Box>
             </Grid>

@@ -1,4 +1,4 @@
-import { sweetAlert } from "../../helpers/utils";
+import { sweetAlert2 } from "../../helpers/utils";
 
 export const getCategories = () => {
   return async (dispatch) => {
@@ -69,7 +69,7 @@ export const addCategory = (category) => {
         type: "ADD_CATEGORY",
         payload: json,
       });
-      sweetAlert(category.name, "AGREGADO", 'ACEPTAR');
+      sweetAlert2(category.name, "AGREGADO", 'ACEPTAR');
     } catch (error) {
       return { error: error };
     }
@@ -92,15 +92,23 @@ export const deleteSuccess = () => {
   };
 };
 
-/* export const byCategory = (name) => {
+
+export const deleteCategory = (uuid) => {
+  console.log(uuid);
   return async (dispatch) => {
     const res = await fetch(
-      `http://localhost:3001/category/search?name=${name}`
-    );
-    const resJson = await res.json();
-    dispatch({
-      type: "PRODUCTS_BY_CATEGORY",
-      payload: resJson,
-    });
+      'http://localhost:3001/category/delete',{
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uuid
+        }),
+        mode: "cors",
+      });
+      dispatch({
+        type: "DELETE_CATEGORY",
+        payload: uuid,
+      });
+      console.log('la puta mddre')
   };
-}; */
+};

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { sweetAlert } from '../../helpers/utils.jsx'
+import { sweetAlert2 } from '../../helpers/utils.jsx'
 
 export const addUser = (datos) => {
   return async (dispatch) => {
@@ -132,14 +132,14 @@ export const logIn = (data) => {
         const userData = jwt.decode(user.data)
         console.log(userData)
         if(userData.blocked){
-          sweetAlert(`${userData.firstName.toUpperCase()}`, 'SIN ACCESO', 'ACEPTAR')
+          sweetAlert2(`${userData.firstName.toUpperCase()}`, 'SIN ACCESO', 'ACEPTAR')
         } else {
-        sweetAlert(`BIENVENIDO ${userData.firstName.toUpperCase()}`, '', 'ACEPTAR')
+        sweetAlert2(`BIENVENIDO ${userData.firstName.toUpperCase()}`, '', 'ACEPTAR')
         window.sessionStorage.setItem('user', JSON.stringify(user.data))
         }
       }else{
         console.log(user.data.message)
-        sweetAlert(user.data.message, "Intente nuevamente")
+        sweetAlert2(user.data.message, "Intente nuevamente")
       }
     } catch (error){
       console.log(error.status)
@@ -157,7 +157,7 @@ export const userLogout = () => {
 
 export const getOrders = (userEmail) => async (dispatch) => {
   console.log(userEmail)
-  const orders = await axios.get(`/user/orders?user=${userEmail}`)
+  const orders = await axios.get(`/user/orders?user=${userEmail.email}`)
   dispatch({ type: "GET_ORDERS", payload: orders.data })
 }
 
@@ -168,7 +168,7 @@ export const userShipping = (userEmail) => async (dispatch) => {
 
 export const uploadShippingData = (userEmail, datos) => async () => {
   console.log(datos)
-  const uploadData = await axios.put(`/user/shipping/update?user=${userEmail}`, datos)
+  const uploadData = await axios.put(`/user/shipping/update?user=${userEmail.email}`, datos)
 }
 
 export const makeReset = (forgotEmail) => async () => {

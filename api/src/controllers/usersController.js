@@ -1,7 +1,6 @@
 const { Review, User, Order, Product } = require("../db");
 const { checkUuid } = require("../helpers/utils");
 const sgMail = require("@sendgrid/mail");
-const SENDGRID_API_KEY = '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'
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer');
 
@@ -172,84 +171,6 @@ async function resetPassword(req, res, next) {
 }
 
 async function sendOrder(req, res, next) {
-  // const { order, userUuid } = req.body;
-  // try {
-
-  //   const user = await User.findOne({
-  //     where: {
-  //       uuid: userUuid
-  //     },
-  //     include: [
-  //       {
-  //         model: Order,
-  //         where: {
-  //           orderState: 'cart',
-  //         },
-  //         attributes: ['uuid']
-  //       }
-  //     ]
-  //   });
-  //   console.log("USER WITH ORDER: ", user.dataValues.orders[0].dataValues.uuid);
-  //   const orderId = user.dataValues.orders[0].dataValues.uuid;
-  //   const html = `
-  //     <div>
-  //         <h1>Orden</h1>
-  //         <table>
-  //             <tr>
-  //                 <th>Producto</th>
-  //                 <th> | </th>
-  //                 <th>Cantidad</th>
-  //                 <th> | </th>
-  //                 <th>Precio</th>
-  //             </tr>
-  //             ${order.map(({ name, order_line, price }) => {
-  //     return (
-  //       `
-  //                     <tr>
-  //                         <td>${name}</td>
-  //                         <td> | </td>
-  //                         <td>${order_line.quantity}</td>
-  //                         <td> | </td>
-  //                         <td>${price}</td>
-  //                     </tr>
-  //                     `
-  //     )
-  //   })}
-  //         </table>
-  //         <hr />
-  //         <table>
-  //             <tr>
-  //                 <td>Total:</td>
-  //                 <td></td>
-  //                 <td></td>
-  //                 <td></td>
-  //                 <td>${order.reduce((acc, { order_line, price }) => acc + (price * order_line.quantity), 0)}</td>
-  //             </tr>
-  //         </table>
-  //         <br />
-  //         <a href=${`http://localhost:3001/user/orders/${orderUuid}`} >Ingrese aquí para ver los detalles de su compra</a>
-  //         <br />
-  //         <h3>¡Gracias por su compra!</h3>
-  //     </div>
-  // `;
-
-  //   const message = {
-  //     to: user.email,
-  //     from: 'dager2115@gmail.com',
-  //     subject: 'Ésta es su orden de compra en Healthy Henry',
-  //     text: 'Ésta es su orden de compra en Healthy Henry',
-  //     html: html
-  //   };
-
-  //   sgMail.send(message)
-  //     .then(response => res.send(response))
-  //     .catch(err => console.log("ERROR ENVIANDO ORDEN: ", err));
-
-  // } catch (error) {
-  //   next(error)
-  // }
-  //}
-
   const { order, userId } = req.body;
   const user = await User.findOne({
     where: {
@@ -265,7 +186,6 @@ async function sendOrder(req, res, next) {
       }
     ]
   });
-  //console.log("USER WITH ORDER: ", user.dataValues.orders[0].dataValues.id);
 
   const orderId = user.dataValues.orders[0].dataValues.uuid;
   const html = `
@@ -441,7 +361,6 @@ async function forgotPassword(req,res,next) {
 }
 
 module.exports = {
-  // createUser,
   getUsers,
   updateUser,
   changeAdmin,

@@ -8,6 +8,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import theme from "./themeConfig.js";
 import dotenv from "dotenv";
 import App from "./App";
+
 dotenv.config();
 
 axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";

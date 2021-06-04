@@ -1,10 +1,8 @@
 import React, {useEffect} from "react";
 import MapSelectorDraw from "./MapSelectorDraw";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import {
   getLocations,
-  addLocations,
   getLocation,
 } from "../redux/actions/locationActions";
 import {
@@ -16,22 +14,27 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  root:{
+    display:"flex",
+    flexDirection:"column",
+    justifyContent:"center",
+    alginItems:"center",
+  },
   button: {
     display: "block",
     marginTop: theme.spacing(2),
   },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+    margin: theme.spacing(5),
+    maxWidth:300,
   },
+  offset: theme.mixins.toolbar,
 }));
 
 export default function StoreSelector() {
   //dispatch and history hooks assignations
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
-  //store data
   const store = useSelector((store) => store);
   const locations = store.locations;
   const location = store.locations.location;
@@ -74,7 +77,8 @@ export default function StoreSelector() {
   }
 
   return (
-    <div>
+    <div className={classes.root}>
+      <div className={classes.offset}/>
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-controlled-open-select-label">SUCURSAL</InputLabel>
 

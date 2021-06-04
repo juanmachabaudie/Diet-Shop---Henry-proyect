@@ -42,12 +42,13 @@ async function createCategory(req, res, next) {
 
 //delete a category
 async function deleteCategory(req, res, next) {
+  console.log('EN EL BACK')
   const { uuid } = req.body; //BODY
   try {
     if (checkUuid(uuid)) {
       const toDestroy = await Category.findOne({
         where: {
-          uuid: uuid,
+          uuid,
         },
       });
       if (toDestroy) {

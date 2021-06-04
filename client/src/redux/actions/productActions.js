@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { sweetAlert } from "../../helpers/utils";
+import { sweetAlert2 } from "../../helpers/utils";
 
 export const getProducts = () => {
   return async function (dispatch) {
@@ -21,7 +21,7 @@ export const createProduct = (datos) => {
       type: "POST_PRODUCT",
       payload: resJson,
     });
-    sweetAlert(datos.name, "AGREGADO", 'ACEPTAR');
+    sweetAlert2(datos.name, "AGREGADO", 'ACEPTAR');
   };
 };
 

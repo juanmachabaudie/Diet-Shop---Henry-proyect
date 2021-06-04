@@ -2,11 +2,16 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MapLocationAdd from "./MapLocationAdd";
 import MapLocationManage from "./MapLocationManage";
-import MapSelector from "./MapSelector";
+import MapSelector from "./StoreSelector";
 import { getLocations } from "../redux/actions/locationActions";
-import { Grid } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  offset: theme.mixins.toolbar,
+}))
 
 export default function MapLocationAdmin() {
+  const classes = useStyles();
   let location = useSelector((store) => store.locations.location);
   console.log(location);
   let locations = useSelector((store) => store.locations.locations);
@@ -24,6 +29,7 @@ export default function MapLocationAdmin() {
 
   return (
     <div>
+      <div className={classes.offset}/>
       <Grid
         container
         direction="column"
@@ -31,6 +37,7 @@ export default function MapLocationAdmin() {
         justify="center"
         style={{ minHeight: "100vh" }}
       >
+      <MapLocationAdd />
         <table>
           <th>
             <MapSelector />
@@ -39,7 +46,6 @@ export default function MapLocationAdmin() {
             <MapLocationManage location={location} />
           </th>
         </table>
-        <MapLocationAdd />
       </Grid>
     </div>
   );

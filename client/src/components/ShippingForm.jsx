@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  offset: theme.mixins.toolbar,
 }));
 
 export default function ShippingForm() {
@@ -27,8 +28,9 @@ export default function ShippingForm() {
 
   const shippingData = useSelector((store) => store.users.shippingData);
 
-  let userEmail = decodeToken()
-  
+  let userEmail = decodeToken().email;
+  console.log(userEmail)
+
   const [datos, setDatos] = useState({
     shippingAddress: "",
     shippingZip: "",
@@ -56,8 +58,6 @@ export default function ShippingForm() {
     dispatch,
   ]);
 
-  console.log(datos);
-
   const handleInputChange = (event) => {
     setDatos({
       ...datos,
@@ -78,6 +78,7 @@ export default function ShippingForm() {
 
   return (
     <div>
+      <div className={classes.offset}/>
       <Grid container>
         <Grid item xs={12}>
           <Box m={1} className={classes.shippingForm}>

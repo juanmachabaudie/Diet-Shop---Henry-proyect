@@ -17,7 +17,6 @@ export const decodeToken = () => {
     let token = sessionStorage.getItem("user");
     if (token[0] === '"') {
       user = jwt.decode(JSON.parse(token));
-      console.log(user);
     } else {
       token = token.split('#')[0]
       user = jwt.decode(token);
@@ -25,3 +24,15 @@ export const decodeToken = () => {
   }
   return user;
 }
+
+export const sweetAlert2 = (
+  title = "Wargning",
+  text,
+  confirmButtonText = "OK",
+) => {
+  Swal.fire({
+    title: title,
+    text: text,
+    confirmButtonText: confirmButtonText,
+  });
+};

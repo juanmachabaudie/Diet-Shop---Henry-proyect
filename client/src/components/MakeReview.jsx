@@ -29,6 +29,7 @@ const MakeReview = ({ productUuid }) => {
       rating,
       text: values,
     }
+    console.log(reviewData)
     dispatch(addReview(reviewData))
   };
 

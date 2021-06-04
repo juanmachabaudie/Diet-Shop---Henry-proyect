@@ -75,6 +75,7 @@ export const goToCheckout = (userEmail) => (dispatch, getState) => {
 };
 
 export const changeOrderStatus = (userEmail) => () => {
+  console.log(userEmail)
   const url = window.location.href.slice(window.location.href.indexOf('?'));
   const status = url.slice(url.indexOf('&status') + 1).split('=')[1].split('&')[0];
   const productsInCart = JSON.parse(localStorage.getItem('cart'));
@@ -83,9 +84,9 @@ export const changeOrderStatus = (userEmail) => () => {
     userEmail,
   }
   if (status === 'approved' || status === 'pending') {
-    const response = axios.put('/checkout', { status, email:userEmail, infoCheckOut })
+    const response = axios.put('/checkout', { status, email:userEmail.email, infoCheckOut })
   } else {
-    const response = axios.put('/checkout', { status:'cancelled', email:userEmail })
+    const response = axios.put('/checkout', { status:'cancelled', email:userEmail.email })
   }
 
 }

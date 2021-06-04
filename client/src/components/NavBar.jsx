@@ -37,7 +37,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../imgs/Healthy.png";
 import { useDispatch, useSelector } from "react-redux";
-import ForgotPassword from "./ForgotPassword";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -97,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     color: "orange",
   },
   media: {
-    width: "2.5vw",
+    width: "4vw",
     borderRadius: "15px",
   },
 }));
@@ -246,18 +245,7 @@ const NavBar = () => {
                 />
               </ListItem>
             </Button>
-            <Button>
-              <ListItem button className={classes.paper}>
-                <ListItemIcon>
-                  <FontAwesomeIcon color="green" icon={faSeedling} />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Categorias"
-                  className={classes.listItemText}
-                />
-              </ListItem>
-            </Button>
-            <Button>
+            <Button href='/contacto'>
               <ListItem button className={classes.paper}>
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
@@ -268,7 +256,7 @@ const NavBar = () => {
                 />
               </ListItem>
             </Button>
-            <Button>
+            <Button href='/aboutUs'>
               <ListItem button className={classes.paper}>
                 <ListItemIcon>
                   <FontAwesomeIcon color="green" icon={faSeedling} />
@@ -344,16 +332,16 @@ const NavBar = () => {
             </CardContent>
             <CardActions>
               <Button size="small" onClick={enviarDatos}>
-                {" "}
-                Iniciar Sesión{" "}
+                
+                Iniciar Sesión
               </Button>
               <Button
                 class="g-signin2"
                 data-onsuccess="onSignIn"
                 href="http://localhost:3001/auth/login/google"
               >
-                {" "}
-                Iniciar sesion con Google{" "}
+                
+                Iniciar sesion con Google
               </Button>
               <Button href="/forgotPassword" size="small">
                 Olvidé Mi Contraseña
@@ -412,7 +400,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className={classes.grow}>
+    <div>
       <AppBar>
         <Toolbar>
           <IconButton
@@ -426,13 +414,11 @@ const NavBar = () => {
           </IconButton>
           <IconButton color="inherit">
             <Button href="/" className={classes.grow}>
-              <Card>
                 <CardMedia
                   component="img"
                   image={logo}
                   className={classes.media}
                 />
-              </Card>
             </Button>
           </IconButton>
           <div className={classes.grow} />

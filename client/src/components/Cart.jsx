@@ -7,7 +7,8 @@ import { Button, Container, makeStyles, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Swal from 'sweetalert2';
 
-const useStyle = makeStyles({
+const useStyle = makeStyles((theme) => ({
+  offset: theme.mixins.toolbar,
   cart: {
     marginLeft: "0px",
   },
@@ -17,8 +18,8 @@ const useStyle = makeStyles({
   container: {
     display: "flex",
   },
-});
-
+}));
+  
 const Cart = () => {
 
   const classes = useStyle();
@@ -43,6 +44,7 @@ const Cart = () => {
 
   return (
     <Container className={classes.cart}>
+      <div className={classes.offset}/>
         <Container>
           <div>
             <h4 className={classes.title}>Mis Productos</h4>

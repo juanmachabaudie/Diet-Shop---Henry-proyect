@@ -4,14 +4,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
 import { makeStyles } from "@material-ui/core/styles";
-import { sweetAlert } from '../helpers/utils.jsx'; 
+import { sweetAlert } from "../helpers/utils.jsx";
 import defaultImg from "../imgs/default.svg";
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Button } from "@material-ui/core";
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Collapse,
+  Avatar,
+  IconButton,
+  Typography,
+  Button,
+} from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { deleteProduct} from "../redux/actions/productActions";
-import { getProducts} from "../redux/actions/productActions";
+import {
+  faCartPlus,
+  faCheck,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import { deleteProduct } from "../redux/actions/productActions";
+import { getProducts } from "../redux/actions/productActions";
+import { decodeToken } from "../helpers/utils.jsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,34 +51,48 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: grey[500],
   },
-  btn:{
-    display:"flex",
-    alignItems:"center",
+  btn: {
+    display: "flex",
+    alignItems: "center",
   },
-  bottomBtn:{
-    display:"flex",
-    justifyContent:"space-around",
-  }
+  bottomBtn: {
+    display: "flex",
+    justifyContent: "space-around",
+  },
 }));
 
-export default function ProductCard({ uuid, name, description, stock, image, price }) {
-
+export default function ProductCard({
+  uuid,
+  name,
+  description,
+  stock,
+  image,
+  price,
+}) {
   const products = useSelector((store) => store.products.products);
- 
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [a, setA] = useState([]);
 
-  useEffect(() => { 
-    setA(products);
-    console.log('en el effect de cards')
-  },[a])
+  const user = decodeToken();
+  let userAdmin
+ if(user){userAdmin = user.isAdmin}
 
-  function clickToAdd(){
-    dispatch(addToCart(uuid, name, description, stock, image, price, 1))
-    sweetAlert({ icon: 'success', title: `${name} Agregado al carrito`, showConfirmButton: false, timer: 1000})
+  // useEffect(() => {
+  //   setA(products);
+  // },[a])
+
+  function clickToAdd() {
+    dispatch(addToCart(uuid, name, description, stock, image, price, 1));
+    sweetAlert({
+      icon: "success",
+      title: `${name} Agregado al carrito`,
+      showConfirmButton: false,
+      timer: 1000,
+    });
   }
 
   function handleClick() {
@@ -71,22 +101,33 @@ export default function ProductCard({ uuid, name, description, stock, image, pri
     window.scrollTo(0, 0);
   }
 
-  function onClose(){
+  function onClose() {
     dispatch(deleteProduct(uuid));
     dispatch(getProducts());
   }
 
   return (
     <Card className={classes.root}>
-      <Button className={classes.btn} onClick={onClose} color="secondary" variant="contained">
-          <FontAwesomeIcon icon={faTimes} size={"2x"}/>
-      </Button>
+      {user? userAdmin? (
+        <Button
+          className={classes.btn}
+          onClick={onClose}
+          color="secondary"
+          variant="contained"
+        >
+          <FontAwesomeIcon icon={faTimes} size={"2x"} />
+        </Button>
+      ) : (
+        <></>
+      ):<></>}
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {
-              stock? <FontAwesomeIcon icon={faCheck} color="lightgreen"/> : <FontAwesomeIcon icon={faTimes} color="red"/>
-            }
+            {stock ? (
+              <FontAwesomeIcon icon={faCheck} color="lightgreen" />
+            ) : (
+              <FontAwesomeIcon icon={faTimes} color="red" />
+            )}
           </Avatar>
         }
         title={name}
@@ -98,7 +139,7 @@ export default function ProductCard({ uuid, name, description, stock, image, pri
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {description} <hr/>${price}
+          {description} <hr />${price}
         </Typography>
       </CardContent>
       <CardActions className={classes.bottomBtn}>

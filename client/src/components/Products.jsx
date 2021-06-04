@@ -1,42 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch, } from "react-redux";
+import { useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
-import ProductsByCategory from "./ProductsByCategory";
 // import { getProducts } from "../redux/actions/productActions";
 import { Box, Grid, Typography, makeStyles} from "@material-ui/core";
+import Categories from "./Categories";
 
 
 const useStyles = makeStyles((theme) => ({
-  productsContainer: theme.mixins.toolbar,
+  offset: theme.mixins.toolbar,
 }))
 
 export default function Products() {
-  const classes = useStyles()
-  const dispatch = useDispatch();
-  const products = useSelector((store) => store.products.products);
 
-  const [a, setA] = useState([]);
+  const classes = useStyles();
+
+
+  const products = useSelector((store) => store.products.products);
+  const change = useSelector(store => store.categories.change)
 
   useEffect(() => { 
-    setA(products);
-    console.log('effect de productos')
-  },[a])
 
-  // useEffect(() => {
-  //   dispatch(getProducts());
-  // }, [dispatch]);
+  },[products,change])
 
-  //const product= products.map(e => e.name
-  //aca tengo que iterar, y mandale a product card por props la data y desde product card
-  // al hacer click al nombre, mandar el /detail para ver en detalle mas la informacion
-  // del producto
+  if(!products[0]){
+    return (
+      <div>SIN PRODUCTOS</div>
+    )
+  }
+
   let renderProducts = [];
-  !products ? (
+  !products? (
     <Typography variant="h4" justifyContent="center">
       No se encontraron Productos en esta Categoria
     </Typography>
   ) : (
-    (renderProducts = products.map((e) => {
+    (renderProducts = products?.map((e) => {
       return (
         <Grid item xs={12} md={6} lg={4}>
           <Box m={2}>
@@ -54,17 +52,14 @@ export default function Products() {
       );
     }))
   );
+
   return (
-    <div className={classes.productsContainer}>
+    <div>
+      <div className={classes.offset}/>
       <Box m={2}>
-        <ProductsByCategory />
+        <Categories/>
       </Box>
-      <Grid
-        container
-        direction="row"
-        justify="space-between"
-        alignItems="center"
-      >
+      <Grid container>
         {renderProducts}
       </Grid>
     </div>

@@ -3,7 +3,7 @@ import Carouselmages from "./Carousel";
 import { useDispatch } from "react-redux";
 import { changeOrderStatus } from "../redux/actions/cartActions.js";
 import {decodeToken} from "../helpers/utils.jsx";
-import StoreSelector from './MapSelector';
+import StoreSelector from './StoreSelector';
 
 export function Home() {
   const dispatch = useDispatch();
@@ -24,8 +24,7 @@ export function Home() {
 
   return (
     <div>
-      <StoreSelector/>
-      {/* <Carouselmages /> */}
+      <Carouselmages />
     </div>
   );
 }
