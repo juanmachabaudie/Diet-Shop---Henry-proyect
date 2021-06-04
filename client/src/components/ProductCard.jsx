@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { findProduct } from "../redux/actions/productActions";
 import { addToCart } from "../redux/actions/cartActions";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,6 +10,8 @@ import { Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar
 import { grey } from "@material-ui/core/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { deleteProduct} from "../redux/actions/productActions";
+import { getProducts} from "../redux/actions/productActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,21 +32,37 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.shortest,
     }),
   },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
   avatar: {
     backgroundColor: grey[500],
   },
+  btn:{
+    display:"flex",
+    alignItems:"center",
+  },
+  bottomBtn:{
+    display:"flex",
+    justifyContent:"space-around",
+  }
 }));
 
 export default function ProductCard({ uuid, name, description, stock, image, price }) {
+
+  const products = useSelector((store) => store.products.products);
+ 
+  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [a, setA] = useState([]);
+
+  useEffect(() => { 
+    setA(products);
+    console.log('en el effect de cards')
+  },[a])
+
   function clickToAdd(){
     dispatch(addToCart(uuid, name, description, stock, image, price, 1))
-    sweetAlert({ icon: 'success', title: `${name} agregado al carrito`, showConfirmButton: false, timer: 1000})
+    sweetAlert({ icon: 'success', title: `${name} Agregado al carrito`, showConfirmButton: false, timer: 1000})
   }
 
   function handleClick() {
@@ -52,9 +70,17 @@ export default function ProductCard({ uuid, name, description, stock, image, pri
     history.push("/product/detail/" + uuid);
     window.scrollTo(0, 0);
   }
-  const classes = useStyles();
+
+  function onClose(){
+    dispatch(deleteProduct(uuid));
+    dispatch(getProducts());
+  }
+
   return (
     <Card className={classes.root}>
+      <Button className={classes.btn} onClick={onClose} color="secondary" variant="contained">
+          <FontAwesomeIcon icon={faTimes} size={"2x"}/>
+      </Button>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -72,14 +98,14 @@ export default function ProductCard({ uuid, name, description, stock, image, pri
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {description} <hr />${price}
+          {description} <hr/>${price}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions className={classes.bottomBtn}>
         <IconButton aria-label="agregar" onClick={clickToAdd}>
           <FontAwesomeIcon icon={faCartPlus} />
         </IconButton>
-        <Button onClick={handleClick} color="primary" variant="outlined">
+        <Button onClick={handleClick} color="primary" variant="contained">
           DETALLE
         </Button>
       </CardActions>

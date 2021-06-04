@@ -126,3 +126,21 @@ export const reviewsProduct = (productUuid) => {
     });
   };
 };
+
+export const deleteProduct = (uuid) => {
+  return async (dispatch) => {
+    const res = await fetch(
+      'http://localhost:3001/product/delete',{
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uuid
+        }),
+        mode: "cors",
+      });
+      dispatch({
+        type: "DELETE_PRODUCT",
+        payload: uuid,
+      });
+  };
+};

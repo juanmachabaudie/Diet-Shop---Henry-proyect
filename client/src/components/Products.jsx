@@ -1,13 +1,26 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch, } from "react-redux";
 import ProductCard from "./ProductCard";
 import ProductsByCategory from "./ProductsByCategory";
 // import { getProducts } from "../redux/actions/productActions";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography, makeStyles} from "@material-ui/core";
+
+
+const useStyles = makeStyles((theme) => ({
+  productsContainer: theme.mixins.toolbar,
+}))
 
 export default function Products() {
+  const classes = useStyles()
   const dispatch = useDispatch();
   const products = useSelector((store) => store.products.products);
+
+  const [a, setA] = useState([]);
+
+  useEffect(() => { 
+    setA(products);
+    console.log('effect de productos')
+  },[a])
 
   // useEffect(() => {
   //   dispatch(getProducts());
@@ -42,7 +55,7 @@ export default function Products() {
     }))
   );
   return (
-    <div>
+    <div className={classes.productsContainer}>
       <Box m={2}>
         <ProductsByCategory />
       </Box>

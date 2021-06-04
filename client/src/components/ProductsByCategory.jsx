@@ -3,8 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux/actions/categoryActions";
 import { useHistory } from "react-router-dom";
 import { getProducts, filterByCategory } from "../redux/actions/productActions";
+import {makeStyles, FormControl, InputLabel, Select} from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+}));
 
 function ProductsByCategory() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -42,16 +51,25 @@ function ProductsByCategory() {
   }
 
   return (
-    <div>
-      <select id="categorias" onChange={handleChange} defaultValue="categorias">
-        <option defaultValue selected>
-          Categorias
-        </option>
+    <FormControl variant="outlined" className={classes.formControl}>
+      <InputLabel>Categorias</InputLabel>
+      <Select
+          native
+          id="categorias"
+          onChange={handleChange}
+          defaultValue="categorias"
+          label="Categorias"
+          inputProps={{
+            name: 'categories',
+          }}
+      >
+        <option aria-label="None" value=""/>
         <option value="Todas">Todas</option>
         {options}
-      </select>
-    </div>
+      </Select>
+    </FormControl>
   );
 }
 
 export default ProductsByCategory;
+

@@ -98,6 +98,7 @@ async function updateProduct(req, res, next) {
 async function deleteProduct(req, res, next) {
   //Borramos producto llamandolo por su id
   const { uuid } = req.body;
+  console.log('producto a limianr ', uuid);
   try {
     if (checkUuid(uuid)) {
       const toDestroy = await Product.findOne({

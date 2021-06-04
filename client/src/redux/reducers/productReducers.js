@@ -49,6 +49,12 @@ export default function productReducers(state = initialState, action) {
         reviews: action.payload
       }
 
+    case "DELETE_PRODUCT":
+      return {
+        ...state,
+        products: state.products.filter(prod => prod.uuid !== action.payload.uuid)
+      } 
+    
     default:
       return state;
   }

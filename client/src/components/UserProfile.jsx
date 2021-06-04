@@ -86,6 +86,20 @@ const UserProfile = () => {
                 </Button>
               </Box>
             </Grid>
+            <Grid Item xs={6} md={4}>
+              <Box m={6} display="flex" justifyContent="center">
+                <Button href="/product/delete" color="primary" variant="contained">
+                  Eliminar producto
+                </Button>
+              </Box>
+            </Grid>
+            <Grid Item xs={6} md={4}>
+              <Box m={6} display="flex" justifyContent="center">
+                <Button href="/user/promote" color="primary" variant="contained">
+                  Eliminar categoria
+                </Button>
+              </Box>
+            </Grid>
           </>
         ) : (
           <> </>

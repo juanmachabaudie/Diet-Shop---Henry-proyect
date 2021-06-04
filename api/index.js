@@ -22,7 +22,7 @@ const { conn, User } = require("./src/db.js");
 
 // Syncing all the models at once.
 
-const force = true;
+const force = false;
 conn.sync({ force }).then(async () => {
   //server.listen(process.env.PORT, () => {
   if(force) {
