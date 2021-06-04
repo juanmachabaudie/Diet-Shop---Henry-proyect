@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import { resetUserPassword } from "../redux/actions/userActions.js";
-
 import {
   Button,
   Grid,
@@ -21,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PasswordReset(props) {
   const {uuid} = props.match.params
-  console.log(uuid)
+
+  const history = useHistory();
+
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -48,6 +50,7 @@ export default function PasswordReset(props) {
       newPassword: "",
       confirmPassword: "",
     });
+    history.push('/')
   };
 
   return (
